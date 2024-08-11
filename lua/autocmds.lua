@@ -1,6 +1,7 @@
 local settings = require "settings"
 
 local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+-- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",

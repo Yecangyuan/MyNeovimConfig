@@ -9,7 +9,7 @@ return {
         typescript = { "biome" },
         lua = { "stylua" },
         json = { "prettier" },
-        java = { "google-java-format" },
+        -- java = { "google-java-format" },
         yaml = { "yamlfmt" },
         sh = { "shfmt" },
         bash = { "shfmt" },

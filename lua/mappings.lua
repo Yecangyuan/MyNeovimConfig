@@ -232,7 +232,8 @@ end, { desc = "Whichkey - query lookup" })
 
 -- toggleterm
 function _G.set_terminal_keymaps()
-  local opts = { buffer = 3 }
+  local opts = { noremap = true }
+
   map("t", "<esc>", [[<C-\><C-n>]], opts)
   map("t", "jk", [[<C-\><C-n>]], opts)
   map("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)

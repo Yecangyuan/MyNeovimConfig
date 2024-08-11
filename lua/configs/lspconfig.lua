@@ -36,7 +36,7 @@ return {
         "gopls",
         "jdtls",
         "emmet_ls",
-        "java-language-server",
+        -- "java-language-server",
         "grammarly",
         "yamlls",
         "jsonls",
@@ -289,6 +289,14 @@ return {
             },
           }
         end,
+
+        -- ["java-language-server"] = function()
+        --   lspconfig["java-language-server"].setup {
+        --     filetypes = { "java" },
+        --     on_attach = on_attach,
+        --     capabilities = capabilities,
+        --   }
+        -- end,
 
         ["jdtls"] = function()
           lspconfig["jdtls"].setup {
