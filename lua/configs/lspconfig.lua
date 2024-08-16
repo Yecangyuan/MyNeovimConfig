@@ -85,7 +85,7 @@ return {
                   version = "LuaJIT",
                 },
                 diagnostics = {
-                  globals = { "use", "vim" },
+                  globals = { "vim", "use" },
                 },
                 hint = {
                   enable = true,

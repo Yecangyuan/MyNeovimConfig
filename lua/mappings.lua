@@ -268,6 +268,13 @@ map("n", "sv", ":vsplit<Return>", opts)
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd "autocmd! TermOpen term://* lua set_terminal_keymaps()"
 
+-- map(
+--   "n",
+--   "<leader>fr",
+--   ':lua require("lua.configs.utility.findreplace").create_input_dialog()<CR>',
+--   { noremap = true, silent = true }
+-- )
+
 nomap("n", "<leader>cc")
 nomap("t", "<ESC>")
 nomap("n", "gr")

@@ -42,6 +42,12 @@ return {
     end,
   },
 
+  {
+    "williamboman/mason.nvim",
+    "mfussenegger/nvim-dap",
+    "jay-babu/mason-nvim-dap.nvim",
+  },
+
   -- file managing , picker etc
   {
     "nvim-tree/nvim-tree.lua",
@@ -71,37 +77,11 @@ return {
     },
   },
 
-  -- dap
-  -- {
-  --   "jay-babu/mason-nvim-dap.nvim",
-  --   optional = true,
-  --   opts = function(_, opts)
-  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "javadbg", "javatest" })
-  --   end,
-  -- },
-
-  -- {
-  --   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  --   optional = true,
-  --   opts = function(_, opts)
-  --     opts.ensure_installed =
-  --       require("astrocore").list_insert_unique(opts.ensure_installed, { "jdtls", "java-debug-adapter", "java-test" })
-  --   end,
-  -- },
-
   {
     "mfussenegger/nvim-jdtls",
     config = function()
       require "nvchad.configs.java"
     end,
-    -- filetypes = { "java" },
-    -- dependencies = {
-    --   "williamboman/mason-lspconfig.nvim",
-    -- },
-    -- opts = function()
-    -- local jdtls = require "jdtls"
-
-    -- end,
   },
 
   -- git stuff
