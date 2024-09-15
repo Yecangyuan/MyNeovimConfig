@@ -20,6 +20,28 @@ if settings.editor.formatter == "conform" then
   })
 end
 
+-- if settings.editor.vim_gas then
+--   vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+--     pattern = "*.S",
+--     callback = function()
+--       vim.bo.filetype = "asm"
+--     end,
+--   })
+-- end
+
+-- Disable LSP signature help for .S files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "S",
+  callback = function()
+    local clients = vim.lsp.get_active_clients()
+    for _, client in ipairs(clients) do
+      if client.server_capabilities.signatureHelpProvider then
+        client.server_capabilities.signatureHelpProvider = false
+      end
+    end
+  end,
+})
+
 if settings.editor.linter then
   vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     callback = function()

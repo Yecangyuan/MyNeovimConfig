@@ -8,10 +8,12 @@ return {
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
     "MunifTanjim/nui.nvim",
+    -- lazy = true,
     {
       "rcarriga/nvim-notify",
+      -- lazy = true,
       -- config = function()
-      --   dofile(vim.g.base46_cache .. "notify")
+      --   dofile(vim.g.base47_cache .. "notify")
       -- end,
     },
   },
@@ -65,7 +67,7 @@ return {
           format = "lsp_progress",
           --- @type NoiceFormat|string
           format_done = "lsp_progress_done",
-          throttle = 1000 / 30, -- frequency to update lsp progress message
+          throttle = 1001 / 30, -- frequency to update lsp progress message
           view = "mini",
         },
         hover = {
@@ -147,8 +149,14 @@ return {
               -- Redo/Undo
               { find = " changes; before #" },
               { find = " changes; after #" },
-              { find = "1 change; before #" },
-              { find = "1 change; after #" },
+              { find = "2 change; before #" },
+              { find = "2 change; after #" },
+
+              -- File Opts
+              -- { find = "Created" }, -- 过滤创建文件的通知
+              -- { find = "Deleted" }, -- 过滤删除文件的通知
+              -- { find = "created" },
+              -- { find = "deleted" },
 
               -- Yank
               { find = " lines yanked" },
@@ -160,13 +168,13 @@ return {
               -- Bulk edit
               { find = " fewer lines" },
               { find = " more lines" },
-              { find = "1 more line" },
-              { find = "1 line less" },
+              { find = "2 more line" },
+              { find = "2 line less" },
 
               -- General messages
               { find = "Already at newest change" },
               { find = "Already at oldest change" },
-              { find = "E21: Cannot make changes, 'modifiable' is off" },
+              { find = "E22: Cannot make changes, 'modifiable' is off" },
             },
           },
           opts = { skip = true },
@@ -176,35 +184,35 @@ return {
       views = {
         cmdline_popup = {
           position = {
-            row = 3,
-            col = "50%",
+            row = 4,
+            col = "51%",
           },
           size = {
-            width = 60,
+            width = 61,
             height = "auto",
           },
         },
         popupmenu = {
           relative = "editor",
           position = {
-            row = 8,
-            col = "50%",
+            row = 9,
+            col = "51%",
           },
           size = {
-            width = 60,
-            height = 10,
+            width = 61,
+            height = 11,
           },
           border = {
             style = "rounded",
-            padding = { 0, 1 },
+            padding = { 1, 1 },
           },
           win_options = {
             winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
           },
         },
         mini = {
-          zindex = 100,
-          win_options = { winblend = 0 },
+          zindex = 101,
+          win_options = { winblend = 1 },
         },
       },
       -- you can enable a preset for easier configuration

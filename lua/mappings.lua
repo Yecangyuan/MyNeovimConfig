@@ -164,8 +164,12 @@ map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
 map("n", "<leader>n", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<leader>p", ":bprev<CR>", { desc = "Previous buffer" })
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "List buffers" })
-map("n", "<leader>o", "<C-o>", { desc = "Go to previous jump" })
-map("n", "<leader>i", "<C-i>", { desc = "Go to next jump" })
+
+-- map("n", "<leader>o", "<C-o>", { desc = "Go to previous jump" })
+-- map("n", "<leader>i", "<C-i>", { desc = "Go to next jump" })
+-- 使用 Neovim 原生命令
+-- map("n", "<leader>o", "g;", { desc = "Go to older position" })
+-- map("n", "<leader>i", "g,", { desc = "Go to newer position" })
 
 -- ── Toggle ────────────────────────────────────────────────────
 local toggled = false
@@ -258,8 +262,8 @@ map("n", "-", "<C-x>")
 -- Delete a word backwards
 map("n", "dw", 'vb"_d')
 
--- Select all
-map("n", "<C-a>", "gg<S-v>G")
+-- Select all, comment this, becuase of keymap conflict
+map("n", "<leader>all", "gg<S-v>G")
 
 -- Split window
 map("n", "ss", ":split<Return>", opts)

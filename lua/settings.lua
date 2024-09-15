@@ -25,6 +25,7 @@ M.editor = {
   formatter = "confrom", -- "null-ls" or "confrom"
   linter = true,
   copilot = true,
+  vim_gas = true,
   copilot_chat = true,
   dap = true,
   compiler = true,

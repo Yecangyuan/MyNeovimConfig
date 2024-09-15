@@ -51,7 +51,7 @@ return {
           auto_trigger = true, -- Automatically trigger suggestions.
           debounce = 75, -- Set debounce time for suggestions.
           keymap = {
-            accept = "<Tab>", -- Key mapping to accept the suggestion.
+            -- accept = "<Tab>", -- Key mapping to accept the suggestion.
             accept_word = false, -- Disable accepting a single word.
             accept_line = false, -- Disable accepting a single line.
             next = "<M-]>", -- Key mapping to navigate to the next suggestion.

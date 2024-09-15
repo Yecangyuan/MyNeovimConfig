@@ -43,8 +43,6 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "nvchad.autocmds"
 
--- require("lua.configs.utility.findreplace").setup()
-
 vim.schedule(function()
   require "mappings"
 end)
