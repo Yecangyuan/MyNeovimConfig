@@ -51,35 +51,47 @@ return {
         "eslint",
       }
       -- "rust_analyzer", "tsserver"
-      dap.configurations.java = {
-        {
-          type = "java",
-          request = "attach",
-          name = "Debug (Attach) - Remote",
-          hostName = "127.0.0.1",
-          port = 5005,
-        },
+      -- dap.configurations.java = {
+      --   {
+      --     type = "java",
+      --     request = "attach",
+      --     name = "Debug (Attach) - Remote",
+      --     hostName = "127.0.0.1",
+      --     port = 5005,
+      --   },
+      -- }
+      dap.adapters.java = function(callback, config)
+        M.execute_command({ command = "vscode.java.startDebugSession" }, function(err0, port)
+          assert(not err0, vim.inspect(err0))
+          callback { type = "server", host = "127.0.0.1", port = port }
+        end)
+      end
+
+      dap.adapters.python = {
+        type = "executable",
+        command = os.getenv "HOME" .. "/.virtualenvs/tools/bin/python",
+        args = { "-m", "debugpy.adapter" },
       }
 
       dapui.setup()
       dapgo.setup()
 
-      require("nvim-dap-virtual-text").setup {
-        -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
-        display_callback = function(variable)
-          local name = string.lower(variable.name)
-          local value = string.lower(variable.value)
-          if name:match "secret" or name:match "api" or value:match "secret" or value:match "api" then
-            return "*****"
-          end
+      -- require("nvim-dap-virtual-text").setup {
+      --   -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
+      --   display_callback = function(variable)
+      --     local name = string.lower(variable.name)
+      --     local value = string.lower(variable.value)
+      --     if name:match "secret" or name:match "api" or value:match "secret" or value:match "api" then
+      --       return "*****"
+      --     end
 
-          if #variable.value > 15 then
-            return " " .. string.sub(variable.value, 1, 15) .. "... "
-          end
+      --     if #variable.value > 15 then
+      --       return " " .. string.sub(variable.value, 1, 15) .. "... "
+      --     end
 
-          return " " .. variable.value
-        end,
-      }
+      --     return " " .. variable.value
+      --   end,
+      -- }
 
       local elixir_ls_debugger = vim.fn.exepath "elixir-ls-debugger"
       if elixir_ls_debugger ~= "" then
@@ -144,7 +156,7 @@ return {
         end,
 
         --disabled
-        ["tsserver"] = function() end,
+        -- ["tsserver"] = function() end,
 
         ["lua_ls"] = function()
           lspconfig["lua_ls"].setup {

@@ -31,14 +31,17 @@ end
 
 -- Disable LSP signature help for .S files
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "S",
+  pattern = "*",
   callback = function()
-    local clients = vim.lsp.get_active_clients()
-    for _, client in ipairs(clients) do
-      if client.server_capabilities.signatureHelpProvider then
-        client.server_capabilities.signatureHelpProvider = false
+    if vim.bo.filetype == "S" then
+      local clients = vim.lsp.get_active_clients()
+      for _, client in ipairs(clients) do
+        if client.server_capabilities.signatureHelpProvider then
+          client.server_capabilities.signatureHelpProvider = false
+        end
       end
     end
+    vim.opt_local.formatoptions:remove { "c", "r", "o" }
   end,
 })
 

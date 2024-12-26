@@ -40,8 +40,13 @@ opt.shortmess:append "sI"
 o.signcolumn = "yes"
 o.splitbelow = true
 o.splitright = true
-o.timeoutlen = 400
+o.timeoutlen = 100
 o.undofile = true
+
+-- 设置映射按键等待时间为 300 毫秒
+opt.timeoutlen = 100
+-- 设置键盘输入序列等待时间为 1 毫秒（用于组合键，如 Esc 等）
+opt.ttimeoutlen = 1
 
 -- interval for writing swap file to disk, also used by gitsigns
 o.updatetime = 250

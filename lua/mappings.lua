@@ -2,6 +2,7 @@ require "nvchad.mappings"
 local settings = require "settings"
 local map = vim.keymap.set
 local nomap = vim.keymap.del
+local o = vim.opt
 
 -- ── unmap ─────────────────────────────────────────────────────
 -- nomap("t", "<A-h>")
@@ -165,8 +166,8 @@ map("n", "<leader>n", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<leader>p", ":bprev<CR>", { desc = "Previous buffer" })
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "List buffers" })
 
--- map("n", "<leader>o", "<C-o>", { desc = "Go to previous jump" })
--- map("n", "<leader>i", "<C-i>", { desc = "Go to next jump" })
+-- map("n", "<C-o>", "<C-o>", { desc = "Go to previous jump" })
+-- map("n", "<C-i>", "<C-i>", { desc = "Go to next jump" })
 -- 使用 Neovim 原生命令
 -- map("n", "<leader>o", "g;", { desc = "Go to older position" })
 -- map("n", "<leader>i", "g,", { desc = "Go to newer position" })
@@ -282,3 +283,19 @@ vim.cmd "autocmd! TermOpen term://* lua set_terminal_keymaps()"
 nomap("n", "<leader>cc")
 nomap("t", "<ESC>")
 nomap("n", "gr")
+
+o.jumpoptions = "stack"
+
+-- vim.cmd [[
+--   set tagfunc=v:lua.vim.lsp.tagfunc
+--   set jumpoptions+=stack
+-- ]]
+
+-- nomap("n", "<C-j>", "<Cmd>normal! <C-o><CR>", { desc = "Jumplist 向后跳转" })
+-- nomap("n", "<C-k>", "<Cmd>normal! <C-i><CR>", { desc = "Jumplist 向前跳转" })
+-- 删除已有的 <C-j> 和 <C-k> 映射，确保按键可用
+-- nomap("n", "<C-j>", { silent = true })
+-- nomap("n", "<C-k>", { silent = true })
+--
+-- map("n", "<C-j>", "<Cmd>normal! <C-o><CR>", { desc = "Jumplist 向后跳转" })
+-- map("n", "<C-k>", "<Cmd>normal! <C-i><CR>", { desc = "Jumplist 向前跳转" })

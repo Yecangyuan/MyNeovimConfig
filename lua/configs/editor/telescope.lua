@@ -28,7 +28,7 @@ return {
             show_icon = true,
             -- Mappings for the actions
             mappings = {
-              open_in_browser = "<C-o>",
+              -- open_in_browser = "<C-o>",
               open_in_file_browser = "<M-b>",
               open_in_find_files = "<C-f>",
               open_in_live_grep = "<C-g>",

@@ -56,7 +56,10 @@ return {
         -- The default routes will forward notifications to nvim-notify
         -- Benefit of using Noice for this is the routing and consistent history view
         enabled = settings.ui.notify,
+        -- enabled = false,
         view = "notify",
+        max_width = 30, -- 设置通知最大宽度
+        max_height = 5, -- 设置通知最大高度
       },
       lsp = {
         progress = {
@@ -75,6 +78,14 @@ return {
         },
         signature = {
           enabled = true,
+          -- if there is not signature of the method, then do not open notify popupmenu
+          ---@param signature_table table
+          on_open = function(signature_table)
+            -- 如果没有签名，直接返回，避免显示通知
+            if not signature_table or vim.tbl_isempty(signature_table.signatures or {}) then
+              return false
+            end
+          end,
         },
         message = {
           -- Messages shown by lsp servers
@@ -90,23 +101,28 @@ return {
       health = {
         checker = false, -- Disable if you don't want health checks to run
       },
+
       routes = {
-        -- {
-        --   filter = {
-        --     event = "lsp",
-        --     any = {
-        --       { find = "formatting" },
-        --       { find = "Diagnosing" },
-        --       { find = "Diagnostics" },
-        --       { find = "diagnostics" },
-        --       { find = "code_action" },
-        --       { find = "Processing full semantic tokens" },
-        --       { find = "symbols" },
-        --       { find = "completion" },
-        --     },
-        --   },
-        --   opts = { skip = true },
-        -- },
+        {
+          filter = {
+            event = "msg_show",
+            kind = "",
+            any = {
+              { find = "formatting" },
+              { find = "Diagnosing" },
+              { find = "Diagnostics" },
+              { find = "diagnostics" },
+              { find = "code_action" },
+              { find = "Processing full semantic tokens" },
+              { find = "symbols" },
+              { find = "completion" },
+              { find = "Created" },
+              { find = "Deleted" },
+              { find = "Removed" },
+            },
+          },
+          opts = { skip = true },
+        },
         {
           filter = {
             event = "notify",
@@ -188,7 +204,7 @@ return {
             col = "51%",
           },
           size = {
-            width = 61,
+            width = 50,
             height = "auto",
           },
         },
@@ -199,7 +215,7 @@ return {
             col = "51%",
           },
           size = {
-            width = 61,
+            width = 50,
             height = 11,
           },
           border = {

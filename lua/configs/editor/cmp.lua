@@ -2,6 +2,7 @@ return {
 
   "hrsh7th/nvim-cmp",
   dependencies = {
+    -- Auto-pairing plugin configuration
     {
       "windwp/nvim-autopairs",
       opts = {
@@ -10,32 +11,15 @@ return {
       },
       config = function(_, opts)
         require("nvim-autopairs").setup(opts)
-
-        -- setup cmp for autopairs
         local cmp_autopairs = require "nvim-autopairs.completion.cmp"
         require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
       end,
     },
 
-    {
-      "zbirenbaum/copilot-cmp",
-      dependencies = "copilot.lua",
-      opts = {},
-      config = function(_, opts)
-        local copilot_cmp = require "copilot_cmp"
-        copilot_cmp.setup(opts)
-        -- attach cmp source whenever copilot attaches
-        -- fixes lazy-loading issues with the copilot cmp source
-        LazyVim.lsp.on_attach(function(client)
-          copilot_cmp._on_insert_enter {}
-        end, "copilot")
-      end,
-    },
-
+    -- Tailwind CSS colorizer for specific file types
     {
       "roobert/tailwindcss-colorizer-cmp.nvim",
       ft = { "vue", "typescript", "typescriptreact", "javascript", "javascriptreact", "astro", "svelte" },
-      -- event = "VeryLazy",
       config = function()
         require("tailwindcss-colorizer-cmp").setup {
           color_square_width = 2,
@@ -43,15 +27,14 @@ return {
       end,
     },
 
+    -- LuaSnip integration with friendly snippets
     {
-      -- snippet plugin
       "L3MON4D3/LuaSnip",
       dependencies = "rafamadriz/friendly-snippets",
       opts = {
         history = true,
         updateevents = "TextChanged,TextChangedI",
       },
-
       keys = {
         {
           "<C-s>",
@@ -61,24 +44,19 @@ return {
               ls.change_choice(1)
             end
           end,
-
           mode = { "i", "s" },
           silent = true,
         },
       },
-      -- config = function(_, opts)
-      --   require("nvchad.configs.others").luasnip(opts)
-      --   local ls = require "luasnip"
-      -- end,
     },
 
-    -- cmp sources plugins
+    -- Additional completion sources
     "saadparwaiz1/cmp_luasnip",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
-    "ray-x/lsp_signature.nvim", -- lsp signature help when typing
+    "ray-x/lsp_signature.nvim",
     "ray-x/cmp-treesitter",
     "delphinus/cmp-ctags",
     "hrsh7th/cmp-nvim-lsp-document-symbol",
@@ -109,24 +87,14 @@ return {
     },
 
     sources = {
-      -- -- AI
       { name = "codeium" },
       { name = "copilot" },
-      -- { name = "cmp_tabnine" },
-
-      -- Other Sources
       { name = "nvim_lsp" },
       { name = "nvim_lua" },
       { name = "path" },
       { name = "luasnip" },
       { name = "buffer" },
-
-      -- Cargo.toml
       { name = "crates" },
-
-      -- Other
-      -- { name = "orgmode" },
-      -- { name = "calc" },
     },
   },
 }

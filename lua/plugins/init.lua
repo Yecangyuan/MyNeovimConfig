@@ -15,9 +15,9 @@ return {
   { import = "configs.editor.conform", enabled = true }, -- 代码格式化工具
   { import = "configs.editor.lint", enabled = s.editor.linter }, -- 代码静态分析工具
   { import = "configs.editor.aerial", enabled = s.editor.aerial }, -- 代码结构大纲
-  { import = "configs.editor.copilot", enabled = s.editor.copilot }, -- GitHub Copilot 插件，AI 代码补全
+  -- { import = "configs.editor.copilot", enabled = s.editor.copilot }, -- GitHub Copilot 插件，AI 代码补全
   { import = "configs.editor.vim_gas", enabled = s.editor.vim_gas }, -- GAS 汇编语言支持
-  { import = "configs.editor.copilot_chat", enabled = s.editor.copilot_chat }, -- Copilot 对话插件
+  -- { import = "configs.editor.copilot_chat", enabled = s.editor.copilot_chat }, -- Copilot 对话插件
   { import = "configs.editor.inc_rename", enabled = s.editor.inc_rename }, -- 增强的重命名工具
   { import = "configs.editor.oil", enabled = s.editor.oil }, -- 类似 Finder 的文件管理插件
   { import = "configs.editor.smart_splits", enabled = s.editor.smart_splits }, -- 智能窗口分割工具

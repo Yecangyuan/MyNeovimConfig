@@ -31,6 +31,10 @@ local options = {
       },
     },
   },
+  -- 新增的通知配置
+  notify = {
+    threshold = vim.log.levels.WARN, -- 只显示 WARN 级别以上的通知，过滤掉创建、删除文件的通知
+  },
 }
 
 return options
