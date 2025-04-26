@@ -15,6 +15,7 @@ return {
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
       "nvim-telescope/telescope.nvim",
+      "saghen/blink.cmp",
     },
     config = function()
       local telescope = require "telescope"

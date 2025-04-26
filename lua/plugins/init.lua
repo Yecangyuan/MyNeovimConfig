@@ -11,6 +11,7 @@ return {
   { import = "configs.editor.telescope", enabled = true }, -- 强大的模糊搜索工具
   { import = "configs.editor.neotree", enabled = true }, -- 文件树插件，文件浏览和管理
   { import = "configs.editor.cmp", enabled = true }, -- 代码补全插件
+  -- { import = "configs.editor.blink_cmp", enabled = true }, -- 代码补全插件
   { import = "configs.editor.mini", enabled = true }, -- 一系列微小的编辑器增强功能
   { import = "configs.editor.conform", enabled = true }, -- 代码格式化工具
   { import = "configs.editor.lint", enabled = s.editor.linter }, -- 代码静态分析工具
@@ -54,7 +55,9 @@ return {
   { import = "configs.utility.numb", enabled = true }, -- 行号提示插件
   { import = "configs.utility.zoxide", enabled = true }, -- 目录跳转工具
   { import = "configs.utility.hawtkey", enabled = true }, -- 热键增强工具
+  { import = "configs.utility.avante", enabled = true }, -- AI插件，模型使用deepseek
   { import = "configs.utility.toggler", enabled = true }, -- 布尔值切换工具
+  { import = "configs.utility.leetcode", enabled = true }, -- leetcode刷题
   { import = "configs.utility.better_escape", enabled = true }, -- 优化 Esc 键行为
   { import = "configs.utility.comment_box", enabled = s.utility.comment_box }, -- 注释框插件
   { import = "configs.utility.lsplines", enabled = s.utility.lsplines }, -- LSP 报告的诊断信息可视化

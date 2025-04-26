@@ -78,13 +78,11 @@ return {
         },
         signature = {
           enabled = true,
-          -- if there is not signature of the method, then do not open notify popupmenu
-          ---@param signature_table table
           on_open = function(signature_table)
-            -- 如果没有签名，直接返回，避免显示通知
-            if not signature_table or vim.tbl_isempty(signature_table.signatures or {}) then
+            if not signature_table or not signature_table.signatures or vim.tbl_isempty(signature_table.signatures) then
               return false
             end
+            return true
           end,
         },
         message = {
@@ -108,6 +106,7 @@ return {
             event = "msg_show",
             kind = "",
             any = {
+              { find = "No signature help available" },
               { find = "formatting" },
               { find = "Diagnosing" },
               { find = "Diagnostics" },
