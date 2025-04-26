@@ -25,6 +25,7 @@ return {
   { import = "configs.editor.session", enabled = s.editor.sessions }, -- 会话管理插件
   { import = "configs.editor.workspaces", enabled = s.editor.sessions }, -- 工作空间管理
   { import = "configs.editor.goto_preview", enabled = s.editor.lsp_preview }, -- LSP 定义、引用的预览
+  { import = "configs.editor.flash", enabled = true }, -- 新增: 增强的搜索和导航工具
 
   -- 语言支持 (Languages)
   { import = "configs.lang.typescript", enabled = s.lang.typescript }, -- TypeScript 语言支持
@@ -36,14 +37,16 @@ return {
   { import = "configs.motions.hop", enabled = s.motions.hop }, -- 快速跳转工具
   { import = "configs.motions.marks", enabled = s.motions.marks }, -- 标记管理和跳转
   { import = "configs.motions.harpoon", enabled = s.motions.harpoon }, -- 项目导航工具
+  { import = "configs.motions.smoothcursor", enabled = true }, -- 新增: 平滑光标动画
 
   -- 界面优化 (UI)
+  { import = "configs.ui.mini_animate", enabled = false }, -- 新增: 窗口/滚动动画效果
   { import = "configs.ui.dressing", enabled = true }, -- 优化输入框和选择菜单样式
   { import = "configs.ui.toggleterm", enabled = true }, -- 内置终端管理工具
   { import = "configs.ui.bqf", enabled = true }, -- 增强 quickfix 列表的显示
   { import = "configs.ui.edgy", enabled = true }, -- 自定义侧边栏管理
   { import = "configs.ui.illuminate", enabled = s.ui.illuminate }, -- 高亮光标下的符号
-  { import = "configs.ui.neoscroll", enabled = s.ui.smooth_scroll }, -- 平滑滚动效果
+  { import = "configs.ui.neoscroll", enabled = false }, -- 禁用: 与mini.animate重叠
   { import = "configs.ui.noice", enabled = s.ui.noice }, -- 优化消息提示 UI
   { import = "configs.ui.trouble", enabled = s.ui.trouble }, -- 诊断和错误提示的列表
   -- { import = "configs.ui.ufo", enabled = s.ui.ufo }, -- 折叠代码的插件（目前禁用）
@@ -61,9 +64,9 @@ return {
   { import = "configs.utility.better_escape", enabled = true }, -- 优化 Esc 键行为
   { import = "configs.utility.comment_box", enabled = s.utility.comment_box }, -- 注释框插件
   { import = "configs.utility.lsplines", enabled = s.utility.lsplines }, -- LSP 报告的诊断信息可视化
-  { import = "configs.utility.nerdy", enabled = s.utility.nerdy }, -- nerd 表情符号支持
-  { import = "configs.utility.pomo", enabled = s.utility.pomodoro }, -- 番茄工作法插件
+  { import = "configs.utility.nerdy", enabled = false }, -- nerd 表情符号支持
+  { import = "configs.utility.pomo", enabled = false }, -- 番茄工作法插件
   { import = "configs.utility.todo_comments", enabled = s.utility.todo_comments }, -- 高亮 TODO 注释
-  { import = "configs.utility.flote", enabled = s.utility.notes }, -- 笔记管理插件
+  { import = "configs.utility.flote", enabled = false }, -- 笔记管理插件
   { import = "configs.utility.undotree", enabled = s.utility.undotree }, -- 撤销树插件
 }
