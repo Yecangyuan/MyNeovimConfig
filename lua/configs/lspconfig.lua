@@ -142,331 +142,145 @@ return {
         ui.close()
       end
 
-      -- dap.require("mason-lspconfig").setup {
-      --   ensure_installed = servers,
-      --   automatic_installation = true,
-      -- }
+      require("mason-lspconfig").setup {
+        ensure_installed = servers,
+        automatic_installation = true,
+        handlers = {
+          function(server_name)
+            lspconfig[server_name].setup {
+              on_attach = on_attach,
+              capabilities = capabilities,
+            }
+          end,
 
-      require("mason-lspconfig").setup_handlers {
+          --disabled
+          -- ["tsserver"] = function() end,
 
-        function(server_name)
-          lspconfig[server_name].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-          }
-        end,
-
-        --disabled
-        -- ["tsserver"] = function() end,
-
-        ["lua_ls"] = function()
-          lspconfig["lua_ls"].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                runtime = {
-                  version = "LuaJIT",
-                },
-                diagnostics = {
-                  globals = { "vim", "use" },
-                },
-                hint = {
-                  enable = true,
-                  setType = true,
-                },
-                telemetry = {
-                  enable = false,
-                },
-                workspace = {
-                  library = {
-                    [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-                    [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-                    [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
-                    [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+          ["lua_ls"] = function()
+            lspconfig["lua_ls"].setup {
+              on_attach = on_attach,
+              capabilities = capabilities,
+              settings = {
+                Lua = {
+                  runtime = {
+                    version = "LuaJIT",
                   },
-                  maxPreload = 100000,
-                  preloadFileSize = 10000,
+                  diagnostics = {
+                    globals = { "vim", "use" },
+                  },
+                  hint = {
+                    enable = true,
+                    setType = true,
+                  },
+                  telemetry = {
+                    enable = false,
+                  },
+                  workspace = {
+                    library = {
+                      [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+                      [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+                      [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
+                      [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+                    },
+                    maxPreload = 100000,
+                    preloadFileSize = 10000,
+                  },
                 },
               },
-            },
-          }
-        end,
+            }
+          end,
 
-        ["gopls"] = function()
-          lspconfig["gopls"].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            filetypes = { "go", "gomod", "gowork", "gosum", "goimpl" },
-            settings = {
-              gopls = {
-                buildFlags = { "-tags=wireinject" },
-                usePlaceholders = true,
-                completeUnimported = true,
-                vulncheck = "Imports",
-                gofumpt = true,
-                staticcheck = true,
-                analyses = {
-                  nilness = true,
-                  shadow = true,
-                  unusedparams = true,
-                  unusewrites = true,
-                  fieldalignment = true,
-                  useany = true,
-                },
-                codelenses = {
-                  references = true,
-                  test = true,
-                  tidy = true,
-                  upgrade_dependency = true,
-                  regenerate_cgo = true,
-                  generate = true,
-                  gc_details = false,
-                  run_govulncheck = true,
-                  vendor = true,
-                },
-                hints = {
-                  assignVariableTypes = true,
-                  compositeLiteralFields = true,
-                  compositeLiteralTypes = true,
-                  constantValues = true,
-                  functionTypeParameters = true,
-                  parameterNames = true,
-                  rangeVariableTypes = true,
-                },
-              },
-            },
-          }
-        end,
-
-        ["eslint"] = function()
-          lspconfig["eslint"].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            filetypes = {
-              "javascript",
-              "javascriptreact",
-              "javascript.jsx",
-              "typescript",
-              "typescriptreact",
-              "typescript.tsx",
-              "vue",
-              "astro",
-            },
-            cmd = { "vscode-eslint-language-server", "--stdio" },
-            handlers = {
-              ["eslint/confirmESLintExecution"] = function(_, result)
-                if not result then
-                  return
-                end
-                return 4 -- approved
-              end,
-              ["eslint/noLibrary"] = function()
-                vim.notify("[lspconfig] Unable to find ESLint library.", vim.log.levels.WARN)
-                return {}
-              end,
-              ["eslint/openDoc"] = function(_, result)
-                if not result then
-                  return
-                end
-                local sysname = vim.loop.os_uname().sysname
-                if sysname:match "Windows_NT" then
-                  os.execute(string.format("start %q", result.url))
-                elseif sysname:match "Linux" then
-                  os.execute(string.format("xdg-open %q", result.url))
-                else
-                  os.execute(string.format("open %q", result.url))
-                end
-                return {}
-              end,
-              ["eslint/probeFailed"] = function()
-                vim.notify("[lspconfig] ESLint probe failed.", vim.log.levels.WARN)
-                return {}
-              end,
-            },
-            root_dir = require("lspconfig").util.root_pattern(
-              ".eslintrc",
-              ".eslintrc.js",
-              ".eslintrc.cjs",
-              ".eslintrc.yaml",
-              ".eslintrc.yml",
-              ".eslintrc.json",
-              "package.json"
-            ),
-            settings = {
-              codeAction = {
-                disableRuleComment = {
-                  enable = true,
-                  location = "separateLine",
-                },
-                showDocumentation = {
-                  enable = true,
+          ["gopls"] = function()
+            lspconfig["gopls"].setup {
+              on_attach = on_attach,
+              capabilities = capabilities,
+              filetypes = { "go", "gomod", "gowork", "gosum", "goimpl" },
+              settings = {
+                gopls = {
+                  buildFlags = { "-tags=wireinject" },
+                  usePlaceholders = true,
+                  completeUnimported = true,
+                  vulncheck = "Imports",
+                  gofumpt = true,
+                  staticcheck = true,
+                  analyses = {
+                    nilness = true,
+                    shadow = true,
+                    unusedparams = true,
+                    unusewrites = true,
+                    fieldalignment = true,
+                    useany = true,
+                  },
+                  codelenses = {
+                    references = true,
+                    test = true,
+                    tidy = true,
+                    upgrade_dependency = true,
+                    regenerate_cgo = true,
+                    generate = true,
+                    gc_details = false,
+                    run_govulncheck = true,
+                    vendor = true,
+                  },
+                  hints = {
+                    assignVariableTypes = true,
+                    compositeLiteralFields = true,
+                    compositeLiteralTypes = true,
+                    constantValues = true,
+                    functionTypeParameters = true,
+                    parameterNames = true,
+                    rangeVariableTypes = true,
+                  },
                 },
               },
-              codeActionOnSave = {
-                enable = false,
-                mode = "all",
+            }
+          end,
+
+          ["volar"] = function()
+            lspconfig["volar"].setup {
+              capabilities = capabilities,
+              on_attach = on_attach,
+              filetypes = {
+                "vue",
+                "javascript",
+                "typescript",
+                "javascriptreact",
+                "typescriptreact",
+                "json",
+                "jsonc",
+                "html",
+                "css",
+                "scss",
+                "less",
+                "sass",
+                "stylus",
+                "postcss",
+                "markdown",
+                "mdx",
+                "mustache",
+                "njk",
+                "nunjucks",
+                "php",
+                "razor",
+                "slim",
+                "twig",
+                "css",
+                "less",
+                "postcss",
+                "sass",
+                "scss",
+                "stylus",
+                "sugarss",
+                "javascriptreact",
+                "reason",
+                "rescript",
+                "typescriptreact",
+                "vue",
+                "svelte",
               },
-              format = true,
-              nodePath = "",
-              onIgnoredFiles = "off",
-              packageManager = "npm",
-              quiet = false,
-              rulesCustomizations = {},
-              run = "onType",
-              useESLintClass = false,
-              validate = "on",
-              workingDirectory = {
-                mode = "location",
-              },
-            },
-          }
-        end,
-
-        ["clangd"] = function()
-          lspconfig["clangd"].setup {
-            filetypes = { "c", "cc", "cpp", "objc", "objcpp", "cuda", "proto" },
-            cmd = { "clangd" },
-            on_attach = on_attach,
-            capabilities = capabilities,
-            root_dir = function(fname)
-              return lspconfig.util.root_pattern(
-                ".clangd",
-                ".clang-tidy",
-                ".clang-format",
-                "compile_commands.json",
-                "compile_flags.txt",
-                "configure.ac",
-                ".git"
-              )(fname) or lspconfig.util.path.dirname(fname)
-            end,
-          }
-        end,
-
-        ["vimls"] = function()
-          lspconfig["vimls"].setup {
-            filetypes = { "vim" },
-            cmd = { "vim-language-server", "--stdio" },
-            on_attach = on_attach,
-            flags = {
-              debounce_text_changes = 500,
-            },
-            capabilities = capabilities,
-            init_options = {
-              diagnostic = {
-                enable = true,
-              },
-              indexes = {
-                count = 3,
-                gap = 100,
-                projectRootPatterns = { "runtime", "nvim", ".git", "autoload", "plugin" },
-                runtimepath = true,
-              },
-              isNeovim = true,
-              iskeyword = "@,48-57,_,192-255,-#",
-              runtimepath = "",
-              suggest = {
-                fromRuntimepath = true,
-                fromVimruntime = true,
-              },
-              vimruntime = "",
-            },
-          }
-        end,
-
-        -- ["java-language-server"] = function()
-        --   lspconfig["java-language-server"].setup {
-        --     filetypes = { "java" },
-        --     on_attach = on_attach,
-        --     capabilities = capabilities,
-        --   }
-        -- end,
-
-        ["jdtls"] = function()
-          lspconfig["jdtls"].setup {
-            cmd = { "jdtls" },
-            root_dir = function(fname)
-              return lspconfig.util.root_pattern("gradlew", ".git", "mvnw")(fname) or vim.fn.getcwd()
-            end,
-            filetypes = { "java" },
-            on_attach = on_attach,
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
-            -- capabilities = capabilities,
-          }
-        end,
-
-        -- ["bashls"] = function()
-        --   lspconfig["bashls"].setup {
-        --     cmd = { "bash-language-server", "start" },
-        --     settings = {
-        --       bashIde = {
-        --         globPattern = "*@(.sh|.inc|.bash|.command)",
-        --       },
-        --     },
-        --     filetypes = { "sh" },
-        --     on_attach = on_attach,
-        --     capabilities = capabilities,
-        --   }
-        -- end,
-
-        ["tailwindcss"] = function()
-          lspconfig["tailwindcss"].setup {
-            filetypes = {
-              "aspnetcorerazor",
-              "astro",
-              "astro-markdown",
-              "blade",
-              "clojure",
-              "django-html",
-              "htmldjango",
-              "edge",
-              "eelixir",
-              "elixir",
-              "ejs",
-              "erb",
-              "eruby",
-              "gohtml",
-              "gohtmltmpl",
-              "haml",
-              "handlebars",
-              "hbs",
-              "html",
-              "html-eex",
-              "heex",
-              "jade",
-              "leaf",
-              "liquid",
-              "markdown",
-              "mdx",
-              "mustache",
-              "njk",
-              "nunjucks",
-              "php",
-              "razor",
-              "slim",
-              "twig",
-              "css",
-              "less",
-              "postcss",
-              "sass",
-              "scss",
-              "stylus",
-              "sugarss",
-              "javascriptreact",
-              "reason",
-              "rescript",
-              "typescriptreact",
-              "vue",
-              "svelte",
-            },
-          }
-        end,
-        ["volar"] = function()
-          lspconfig["volar"].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-          }
-        end,
+            }
+          end,
+        },
       }
 
       for _, lsp in ipairs(servers) do
