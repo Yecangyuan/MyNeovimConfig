@@ -1,6 +1,9 @@
 local s = require "settings"
 
 return {
+  -- NvChad 核心插件
+  { import = "nvchad.plugins" }, -- NvChad 核心插件（包括 UI 和 tabufline）
+
   -- LSP 配置
   { import = "configs.lspconfig" }, -- 基础 LSP 配置
   { import = "configs.whichkey" }, -- 快捷键绑定配置

@@ -41,10 +41,19 @@ return {
         rename = {},
         open_pre = {},
         open = function()
-          local tabufline = require "nvchad.tabufline"
-          tabufline.close_buffer()
-          tabufline.closeOtherBufs()
-          require("session_manager").load_current_dir_session()
+          local ok, tabufline = pcall(require, "nvchad.tabufline")
+          if ok and tabufline then
+            if tabufline.close_buffer then
+              tabufline.close_buffer()
+            end
+            if tabufline.closeOtherBufs then
+              tabufline.closeOtherBufs()
+            end
+          end
+          local ok2, session_manager = pcall(require, "session_manager")
+          if ok2 and session_manager then
+            session_manager.load_current_dir_session()
+          end
         end,
       },
     }

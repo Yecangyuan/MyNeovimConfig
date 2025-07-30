@@ -280,6 +280,30 @@ return {
               },
             }
           end,
+
+          ["jdtls"] = function()
+            lspconfig["jdtls"].setup {
+              cmd = { "jdtls" },
+              root_dir = function(fname)
+                return lspconfig.util.root_pattern("gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml")(fname) or vim.fn.getcwd()
+              end,
+              filetypes = { "java", "kotlin" },
+              on_attach = on_attach,
+              capabilities = require("cmp_nvim_lsp").default_capabilities(),
+              settings = {
+                java = {
+                  configuration = {
+                    runtimes = {
+                      {
+                        name = "JavaSE-21",
+                        path = "/Users/simley/Library/Java/JavaVirtualMachines/azul-21.0.3/Contents/Home",
+                      },
+                    },
+                  },
+                },
+              },
+            }
+          end,
         },
       }
 

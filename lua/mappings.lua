@@ -43,27 +43,48 @@ map("n", "<leader>nb", "<cmd> new <CR>", { desc = "Buffer - New" })
 map("n", "<leader>bd", "<cmd> q <CR>", { desc = "Buffer - Close" })
 
 map("n", "<leader>bk", function()
-  require("nvchad.tabufline").close_buffer()
+  local ok, tabufline = pcall(require, "nvchad.tabufline")
+  if ok and tabufline and tabufline.close_buffer then
+    tabufline.close_buffer()
+  end
 end, { desc = "Buffer - Close" })
 
 map("n", "<leader>bo", function()
-  require("nvchad.tabufline").closeOtherBufs()
+  local ok, tabufline = pcall(require, "nvchad.tabufline")
+  if ok and tabufline and tabufline.closeOtherBufs then
+    tabufline.closeOtherBufs()
+  end
 end, { desc = "Buffer - Close others" })
 
 map("n", "<leader>bh", function()
-  require("nvchad.tabufline").move_buf(2)
+  local ok, tabufline = pcall(require, "nvchad.tabufline")
+  if ok and tabufline and tabufline.move_buf then
+    tabufline.move_buf(2)
+  end
 end, { desc = "Buffer - Move left" })
 
 map("n", "<leader>bl", function()
-  require("nvchad.tabufline").move_buf(4)
+  local ok, tabufline = pcall(require, "nvchad.tabufline")
+  if ok and tabufline and tabufline.move_buf then
+    tabufline.move_buf(4)
+  end
 end, { desc = "Buffer - Move right" })
 
 map("n", "<S-L>", function()
-  require("nvchad.tabufline").next()
+  -- 确保 vim.t.bufs 存在并且不为空
+  if vim.t.bufs and #vim.t.bufs > 0 then
+    require("nvchad.tabufline").next()
+  else
+    -- 如果没有缓冲区列表，使用原生的 :bnext
+    vim.cmd("bnext")
+  end
 end, { desc = "Buffer - Goto next" })
 
 map("n", "<S-H>", function()
-  require("nvchad.tabufline").prev()
+  local ok, tabufline = pcall(require, "nvchad.tabufline")
+  if ok and tabufline and tabufline.prev then
+    tabufline.prev()
+  end
 end, { desc = "Buffer - Goto previous" })
 
 -- ── Code ──────────────────────────────────────────────────────
@@ -166,8 +187,23 @@ map("n", "<leader>n", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<leader>p", ":bprev<CR>", { desc = "Previous buffer" })
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "List buffers" })
 
--- map("n", "<C-o>", "<C-o>", { desc = "Go to previous jump" })
--- map("n", "<C-i>", "<C-i>", { desc = "Go to next jump" })
+-- Jumplist navigation - 删除可能的冲突映射并重新设置
+pcall(vim.keymap.del, "n", "<Tab>")
+pcall(vim.keymap.del, "n", "<C-i>")
+
+-- 重新设置正确的 jumplist 映射
+map("n", "<C-o>", "<C-o>", { desc = "Go to previous jump" })
+map("n", "<C-i>", "<C-i>", { desc = "Go to next jump" })
+
+-- 为 buffer 切换使用不同的按键组合
+map("n", "<leader>bn", function()
+  require("nvchad.tabufline").next()
+end, { desc = "Buffer goto next" })
+
+map("n", "<leader>bp", function()
+  require("nvchad.tabufline").prev()
+end, { desc = "Buffer goto prev" })
+
 -- 使用 Neovim 原生命令
 -- map("n", "<leader>o", "g;", { desc = "Go to older position" })
 -- map("n", "<leader>i", "g,", { desc = "Go to newer position" })
@@ -284,6 +320,11 @@ nomap("n", "<leader>cc")
 nomap("t", "<ESC>")
 nomap("n", "gr")
 
+-- 确保删除可能干扰 jumplist 的映射
+pcall(nomap, "n", "<Tab>")
+pcall(nomap, "n", "<C-i>")
+
+-- 配置 jumplist 行为
 o.jumpoptions = "stack"
 
 -- vim.cmd [[
