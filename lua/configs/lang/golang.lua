@@ -60,16 +60,6 @@ return {
       luasnip = true, -- enable included luasnip snippets
     }
 
-    -- Run gofmt on save
-    local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*.go",
-      callback = function()
-        require("go.format").gofmt()
-      end,
-      group = format_sync_grp,
-    })
-
     local map = vim.keymap.set
     map("n", "<leader>lst", "<CMD>GoFillStruct<CR>", { desc = "Go - FillStruct", noremap = true, silent = true })
     map("n", "<leader>lsw", "<CMD>GoFillSwitch<CR>", { desc = "Go - FillSwitch", noremap = true, silent = true })

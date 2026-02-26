@@ -136,50 +136,14 @@ map({ "n", "t" }, "<A-i>", function()
   require("nvchad.term").toggle { pos = "float", id = "floatTerm" }
 end)
 
--- ── Telescope ─────────────────────────────────────────────────
-map(
-  "n",
-  "<leader>f",
-  "<cmd> Telescope find_files follow=true theme=dropdown previewer=false <CR>",
-  { desc = "Telescope - Find File" }
-)
-map(
-  "n",
-  "<leader>sf",
-  "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>",
-  { desc = "Telescope - Find File" }
-)
-map("n", "<leader>sc", ":Telescope builtin<CR>", { desc = "Telescope - Editor Commands" })
-map("n", "<leader>so", "<cmd> Telescope oldfiles<CR>", { desc = "Telescop - Old Files" })
-map("n", "<leader>/", "<cmd> Telescope live_grep <CR>", { desc = "Telescop - Grep" })
-map("n", "<leader>sg", "<cmd> Telescope live_grep <CR>", { desc = "Telescop - Grep" })
-map(
-  "n",
-  "<leader>sF",
-  "<cmd> Telescope current_buffer_fuzzy_find <CR>",
-  { desc = "Telescope - Find in current buffer" }
-)
-map("n", "<leader>sm", "<cmd> Telescope marks <CR>", { desc = "Telescope - Bookmarks" })
-map("n", "<leader>sz", "<CMD>Telescope zoxide list<CR>", { desc = "Telescope - Zoxide" })
-map("n", "<leader>zx", "<CMD>Telescope zoxide list<CR>", { desc = "Telescope - Zoxide" })
-map("n", "<leader>ss", "<cmd> Telescope lsp_document_symbols <CR>", { desc = "Telescope - Symbols" })
-map("n", "<leader>sb", "<cmd> Telescope buffers <CR>", { desc = "Telescope - Buffers" })
-map("n", "<leader>sl", "<cmd>Telescope resume<cr>", { desc = "Telescope - Resume last search" })
+-- ── FzfLua ─────────────────────────────────────────────────
+-- 所有 fzf-lua 快捷键已在 lua/configs/editor/fzf.lua 中定义
+-- 以下是额外或覆盖的映射
 
-map("n", "gr", "<cmd>Telescope lsp_references<CR>", { desc = "Telescope - LSP References" })
-map("n", "<leader>gr", "<cmd>Telescope lsp_references<CR>", { desc = "Telescope - LSP references" })
-map("n", "<leader>sr", "<cmd>Telescope oldfiles<CR>", { desc = "Telescope - recent files" })
-
-map("n", "<leader>sk", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Telescope - Find in current buffer" })
-map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "Telescope - Git Commits" })
-map("n", "<leader>st", "<cmd>Telescope terms<CR>", { desc = "Telescope - Pick Hidden Term" })
-
-map(
-  "n",
-  "<leader>sa",
-  "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-  { desc = "Telescope - Find all files" }
-)
+-- 使用 FzfLua 替代 Telescope 的命令
+map("n", "<leader>sc", ":FzfLua builtin<CR>", { desc = "Fzf - Editor Commands" })
+map("n", "<leader>st", ":FzfLua<CR>", { desc = "Fzf - All Commands" })
+map("n", "<leader>sa", "<cmd>FzfLua files follow=true no_ignore=true hidden=true<CR>", { desc = "Fzf - Find all files" })
 
 map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save file" })

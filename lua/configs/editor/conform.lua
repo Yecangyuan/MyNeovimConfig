@@ -16,13 +16,12 @@ return {
         fish = { "fish_indent" },
         cpp = { "clang_format" },
         c = { "clang_format" },
-        vue = { { "prettierd", "prettier" } },
+        vue = { "prettierd", "prettier", stop_after_first = true },
         ["_"] = { "trim_whitespace" },
       },
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
+      -- Disable automatic formatting on save; use the keymap below when you
+      -- want to format manually.
+      format_on_save = false,
     }
 
     local map = vim.keymap.set

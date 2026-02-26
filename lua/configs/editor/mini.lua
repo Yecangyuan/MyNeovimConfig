@@ -5,9 +5,9 @@ return {
   config = function()
     require("mini.indentscope").setup {
       draw = {
-        delay = 50,
+        delay = 100,  -- 增加延迟，减少光标移动时的计算
+        animation = require("mini.indentscope").gen_animation.none(),  -- 禁用动画
       },
-
       mappings = {
         -- Textobjects
         object_scope = "ii",
@@ -18,6 +18,10 @@ return {
       },
       -- Which character to use for drawing scope indicator
       symbol = "│",
+      -- 禁用在某些文件类型上
+      options = {
+        try_as_border = true,
+      },
     }
     require("mini.surround").setup {
       -- Module mappings. Use `''` (empty string) to disable one.
@@ -53,6 +57,10 @@ return {
         pre_merge = {},
         merge = nil,
       },
+    }
+    -- 替代 illuminate.nvim：高亮当前光标下的单词
+    require("mini.cursorword").setup {
+      delay = 200,  -- 增加延迟，避免频繁重绘
     }
   end,
 }

@@ -1,75 +1,150 @@
 local s = require "settings"
 
+-- 检测是否启用极速模式
+local is_turbo = vim.g.turbo_mode
+
+-- 根据模式返回不同的插件列表
+if is_turbo then
+  -- =============================================
+  -- 🏎️ 极速模式 - 最小插件集
+  -- =============================================
+  return {
+    -- 核心
+    { import = "nvchad.plugins" },
+    { import = "configs.lspconfig" },
+    { import = "configs.whichkey" },
+    { "williamboman/mason-lspconfig.nvim" },
+
+    -- 编辑核心
+    { import = "configs.editor.blink_cmp", enabled = true },
+    { import = "configs.editor.fzf", enabled = true },
+    { import = "configs.editor.neotree", enabled = true },
+    { import = "configs.editor.flash", enabled = true },
+
+    -- 全部禁用或按需
+    { import = "configs.editor.mini", enabled = false },
+    { import = "configs.editor.garbage_day", enabled = false },
+    { import = "configs.editor.lint", enabled = false },
+    { import = "configs.editor.aerial", enabled = false },
+    { import = "configs.editor.vim_gas", enabled = false },
+    { import = "configs.editor.inc_rename", enabled = false },
+    { import = "configs.editor.smart_splits", enabled = false },
+    { import = "configs.editor.session", enabled = false },
+    { import = "configs.editor.workspaces", enabled = false },
+    { import = "configs.editor.goto_preview", enabled = false },
+
+    -- 语言（仅保留最常用的）
+    { import = "configs.lang.typescript", enabled = s.lang.typescript },
+    { import = "configs.lang.golang", enabled = s.lang.go },
+    { import = "configs.lang.hyprlang", enabled = false },
+    { import = "configs.lang.markdown", enabled = false },
+
+    -- 动作（极简）
+    { import = "configs.motions.hop", enabled = false },
+    { import = "configs.motions.marks", enabled = false },
+    { import = "configs.motions.harpoon", enabled = s.motions.harpoon },
+    { import = "configs.motions.smoothcursor", enabled = false },
+
+    -- UI（几乎全部禁用）
+    { import = "configs.ui.mini_animate", enabled = false },
+    { import = "configs.ui.dressing", enabled = false },
+    { import = "configs.ui.toggleterm", enabled = false },
+    { import = "configs.ui.bqf", enabled = false },
+    { import = "configs.ui.edgy", enabled = false },
+    { import = "configs.ui.illuminate", enabled = false },
+    { import = "configs.ui.neoscroll", enabled = false },
+    { import = "configs.ui.noice", enabled = false },
+    { import = "configs.ui.trouble", enabled = false },
+    { import = "configs.ui.windows", enabled = false },
+    { import = "configs.ui.hlslens", enabled = false },
+
+    -- 工具（几乎全部禁用）
+    { import = "configs.utility.lazygit", enabled = false },
+    { import = "configs.utility.numb", enabled = false },
+    { import = "configs.utility.zoxide", enabled = false },
+    { import = "configs.utility.hawtkey", enabled = false },
+    { import = "configs.utility.avante", enabled = false },
+    { import = "configs.utility.toggler", enabled = false },
+    { import = "configs.utility.leetcode", enabled = false },
+    { import = "configs.utility.better_escape", enabled = true },
+    { import = "configs.utility.comment_box", enabled = false },
+    { import = "configs.utility.lsplines", enabled = false },
+    { import = "configs.utility.nerdy", enabled = false },
+    { import = "configs.utility.pomo", enabled = false },
+    { import = "configs.utility.todo_comments", enabled = false },
+    { import = "configs.utility.flote", enabled = false },
+    { import = "configs.utility.undotree", enabled = false },
+  }
+end
+
+-- =============================================
+-- 正常模式 - 完整插件集
+-- =============================================
 return {
   -- NvChad 核心插件
-  { import = "nvchad.plugins" }, -- NvChad 核心插件（包括 UI 和 tabufline）
+  { import = "nvchad.plugins" },
 
   -- LSP 配置
-  { import = "configs.lspconfig" }, -- 基础 LSP 配置
-  { import = "configs.whichkey" }, -- 快捷键绑定配置
-  { "williamboman/mason-lspconfig.nvim" }, -- 自动安装和配置 LSP 服务器
+  { import = "configs.lspconfig" },
+  { import = "configs.whichkey" },
+  { "williamboman/mason-lspconfig.nvim" },
 
-  -- 编辑器增强 (Editor)
-  { import = "configs.editor.garbage_day", enabled = true }, -- 自动清理旧文件和缓存
-  { import = "configs.editor.telescope", enabled = true }, -- 强大的模糊搜索工具
-  { import = "configs.editor.neotree", enabled = true }, -- 文件树插件，文件浏览和管理
-  { import = "configs.editor.cmp", enabled = true }, -- 代码补全插件
-  -- { import = "configs.editor.blink_cmp", enabled = true }, -- 代码补全插件
-  { import = "configs.editor.mini", enabled = true }, -- 一系列微小的编辑器增强功能
-  { import = "configs.editor.conform", enabled = true }, -- 代码格式化工具
-  { import = "configs.editor.lint", enabled = s.editor.linter }, -- 代码静态分析工具
-  { import = "configs.editor.aerial", enabled = s.editor.aerial }, -- 代码结构大纲
-  -- { import = "configs.editor.copilot", enabled = s.editor.copilot }, -- GitHub Copilot 插件，AI 代码补全
-  { import = "configs.editor.vim_gas", enabled = s.editor.vim_gas }, -- GAS 汇编语言支持
-  -- { import = "configs.editor.copilot_chat", enabled = s.editor.copilot_chat }, -- Copilot 对话插件
-  { import = "configs.editor.inc_rename", enabled = s.editor.inc_rename }, -- 增强的重命名工具
-  { import = "configs.editor.oil", enabled = s.editor.oil }, -- 类似 Finder 的文件管理插件
-  { import = "configs.editor.smart_splits", enabled = s.editor.smart_splits }, -- 智能窗口分割工具
-  { import = "configs.editor.session", enabled = s.editor.sessions }, -- 会话管理插件
-  { import = "configs.editor.workspaces", enabled = s.editor.sessions }, -- 工作空间管理
-  { import = "configs.editor.goto_preview", enabled = s.editor.lsp_preview }, -- LSP 定义、引用的预览
-  { import = "configs.editor.flash", enabled = true }, -- 新增: 增强的搜索和导航工具
+  -- 编辑器增强
+  { import = "configs.editor.garbage_day", enabled = true },
+  { import = "configs.editor.fzf", enabled = true },
+  { import = "configs.editor.neotree", enabled = true },
+  { import = "configs.editor.blink_cmp", enabled = true },
+  { import = "configs.editor.mini", enabled = true },
+  { import = "configs.editor.conform", enabled = false },
+  { import = "configs.editor.lint", enabled = s.editor.linter },
+  { import = "configs.editor.aerial", enabled = s.editor.aerial },
+  { import = "configs.editor.vim_gas", enabled = s.editor.vim_gas },
+  { import = "configs.editor.inc_rename", enabled = s.editor.inc_rename },
+  { import = "configs.editor.smart_splits", enabled = s.editor.smart_splits },
+  { import = "configs.editor.session", enabled = s.editor.sessions },
+  { import = "configs.editor.workspaces", enabled = s.editor.sessions },
+  { import = "configs.editor.goto_preview", enabled = s.editor.lsp_preview },
+  { import = "configs.editor.flash", enabled = true },
 
-  -- 语言支持 (Languages)
-  { import = "configs.lang.typescript", enabled = s.lang.typescript }, -- TypeScript 语言支持
-  { import = "configs.lang.hyprlang", enabled = s.lang.hyprlang }, -- Hyprland 配置语言支持
-  { import = "configs.lang.markdown", enabled = s.lang.markdown }, -- Markdown 编辑支持
-  { import = "configs.lang.golang", enabled = s.lang.go }, -- Go 语言支持
+  -- 语言支持
+  { import = "configs.lang.typescript", enabled = s.lang.typescript },
+  { import = "configs.lang.hyprlang", enabled = s.lang.hyprlang },
+  { import = "configs.lang.markdown", enabled = s.lang.markdown },
+  { import = "configs.lang.golang", enabled = s.lang.go },
 
-  -- 动作增强 (Motions)
-  { import = "configs.motions.hop", enabled = s.motions.hop }, -- 快速跳转工具
-  { import = "configs.motions.marks", enabled = s.motions.marks }, -- 标记管理和跳转
-  { import = "configs.motions.harpoon", enabled = s.motions.harpoon }, -- 项目导航工具
-  { import = "configs.motions.smoothcursor", enabled = true }, -- 新增: 平滑光标动画
+  -- 动作增强
+  { import = "configs.motions.hop", enabled = false },
+  { import = "configs.motions.marks", enabled = s.motions.marks },
+  { import = "configs.motions.harpoon", enabled = s.motions.harpoon },
+  { import = "configs.motions.smoothcursor", enabled = false },
 
-  -- 界面优化 (UI)
-  { import = "configs.ui.mini_animate", enabled = false }, -- 新增: 窗口/滚动动画效果
-  { import = "configs.ui.dressing", enabled = true }, -- 优化输入框和选择菜单样式
-  { import = "configs.ui.toggleterm", enabled = true }, -- 内置终端管理工具
-  { import = "configs.ui.bqf", enabled = true }, -- 增强 quickfix 列表的显示
-  { import = "configs.ui.edgy", enabled = true }, -- 自定义侧边栏管理
-  { import = "configs.ui.illuminate", enabled = s.ui.illuminate }, -- 高亮光标下的符号
-  { import = "configs.ui.neoscroll", enabled = false }, -- 禁用: 与mini.animate重叠
-  { import = "configs.ui.noice", enabled = s.ui.noice }, -- 优化消息提示 UI
-  { import = "configs.ui.trouble", enabled = s.ui.trouble }, -- 诊断和错误提示的列表
-  -- { import = "configs.ui.ufo", enabled = s.ui.ufo }, -- 折叠代码的插件（目前禁用）
-  { import = "configs.ui.windows", enabled = s.ui.windows }, -- 智能窗口管理工具
-  { import = "configs.ui.hlslens", enabled = s.ui.hlslens }, -- 增强搜索高亮显示
+  -- 界面优化
+  { import = "configs.ui.mini_animate", enabled = false },
+  { import = "configs.ui.dressing", enabled = true },
+  { import = "configs.ui.toggleterm", enabled = true },
+  { import = "configs.ui.bqf", enabled = true },
+  { import = "configs.ui.edgy", enabled = true },
+  { import = "configs.ui.illuminate", enabled = false },
+  { import = "configs.ui.neoscroll", enabled = false },
+  { import = "configs.ui.noice", enabled = s.ui.noice },
+  { import = "configs.ui.trouble", enabled = s.ui.trouble },
+  { import = "configs.ui.windows", enabled = s.ui.windows },
+  { import = "configs.ui.hlslens", enabled = s.ui.hlslens },
 
-  -- 实用工具 (Utility)
-  { import = "configs.utility.lazygit", enabled = true }, -- 内置 Git 客户端
-  { import = "configs.utility.numb", enabled = true }, -- 行号提示插件
-  { import = "configs.utility.zoxide", enabled = true }, -- 目录跳转工具
-  { import = "configs.utility.hawtkey", enabled = true }, -- 热键增强工具
-  { import = "configs.utility.avante", enabled = true }, -- AI插件，模型使用deepseek
-  { import = "configs.utility.toggler", enabled = true }, -- 布尔值切换工具
-  { import = "configs.utility.leetcode", enabled = true }, -- leetcode刷题
-  { import = "configs.utility.better_escape", enabled = true }, -- 优化 Esc 键行为
-  { import = "configs.utility.comment_box", enabled = s.utility.comment_box }, -- 注释框插件
-  { import = "configs.utility.lsplines", enabled = s.utility.lsplines }, -- LSP 报告的诊断信息可视化
-  { import = "configs.utility.nerdy", enabled = false }, -- nerd 表情符号支持
-  { import = "configs.utility.pomo", enabled = false }, -- 番茄工作法插件
-  { import = "configs.utility.todo_comments", enabled = s.utility.todo_comments }, -- 高亮 TODO 注释
-  { import = "configs.utility.flote", enabled = false }, -- 笔记管理插件
-  { import = "configs.utility.undotree", enabled = s.utility.undotree }, -- 撤销树插件
+  -- 实用工具
+  { import = "configs.utility.lazygit", enabled = false },
+  { import = "configs.utility.numb", enabled = true },
+  { import = "configs.utility.zoxide", enabled = true },
+  { import = "configs.utility.hawtkey", enabled = true },
+  { import = "configs.utility.avante", enabled = false },
+  { import = "configs.utility.toggler", enabled = true },
+  { import = "configs.utility.leetcode", enabled = true },
+  { import = "configs.utility.better_escape", enabled = true },
+  { import = "configs.utility.comment_box", enabled = s.utility.comment_box },
+  { import = "configs.utility.lsplines", enabled = s.utility.lsplines },
+  { import = "configs.utility.nerdy", enabled = false },
+  { import = "configs.utility.pomo", enabled = false },
+  { import = "configs.utility.todo_comments", enabled = s.utility.todo_comments },
+  { import = "configs.utility.flote", enabled = false },
+  { import = "configs.utility.undotree", enabled = s.utility.undotree },
 }

@@ -24,9 +24,11 @@ return {
     end,
   },
 
+  -- indent-blankline（极速模式下禁用）
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "User FilePost",
+    enabled = not vim.g.turbo_mode,  -- 极速模式下禁用
     opts = {
       indent = { char = "│", highlight = "IblChar" },
       scope = { char = "│", highlight = "IblScopeChar" },
@@ -84,10 +86,11 @@ return {
     end,
   },
 
-  -- git stuff
+  -- git stuff（极速模式下禁用实时标记）
   {
     "lewis6991/gitsigns.nvim",
     event = "User FilePost",
+    enabled = not vim.g.turbo_mode,
     opts = function()
       return require "nvchad.configs.gitsigns"
     end,
@@ -145,9 +148,9 @@ return {
         config = function()
           local capabilities = require("cmp_nvim_lsp").default_capabilities()
           -- Replace <YOUR_LSP_SERVER> with each LSP server you have enabled.
-          require("lspconfig")["<YOUR_LSP_SERVER>"].setup {
+          vim.lsp.config("<YOUR_LSP_SERVER>", {
             capabilities = capabilities,
-          }
+          })
         end,
       },
       {

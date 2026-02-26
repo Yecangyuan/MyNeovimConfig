@@ -31,7 +31,7 @@ M.on_attach = function(client, bufnr)
 
   map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Lsp Code action")
   -- map("n", "gr", vim.lsp.buf.references, opts("Lsp Show references"))
-  map("n", "gr", "<cmd>Telescope lsp_references<CR>", { desc = "Telescope - LSP References" })
+  map("n", "gr", "<cmd>FzfLua lsp_references<CR>", { desc = "Fzf - LSP References" })
 
   -- setup signature popup
   if conf.signature and client.server_capabilities.signatureHelpProvider then
@@ -48,8 +48,10 @@ M.on_init = function(client, _)
   end
 end
 
-M.capabilities = vim.lsp.protocol.make_client_capabilities()
---M.capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- 使用 blink.cmp 的 capabilities（比 nvim-cmp 更快）
+M.capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- 旧版 nvim-cmp 的 capabilities（已弃用）
+-- M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
 M.capabilities.textDocument.completion.completionItem = {
   documentationFormat = { "markdown", "plaintext" },
@@ -73,7 +75,7 @@ M.defaults = function()
   dofile(vim.g.base46_cache .. "lsp")
   require "nvchad.lsp"
 
-  require("lspconfig").lua_ls.setup {
+  vim.lsp.config("lua_ls", {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
     on_init = M.on_init,
@@ -95,6 +97,6 @@ M.defaults = function()
         },
       },
     },
-  }
+  })
 end
 return M

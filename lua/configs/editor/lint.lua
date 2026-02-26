@@ -6,7 +6,10 @@ return {
     "BufNewFile",
   },
   config = function()
-    require("lint").linters_by_ft = {
+    local lint = require "lint"
+    local has_cpplint = vim.fn.executable "cpplint" == 1
+
+    lint.linters_by_ft = {
       typescript = { "eslint_d" },
       javascript = { "eslint_d" },
       javascriptreact = { "eslint_d" },
@@ -20,8 +23,8 @@ return {
       sh = { "shellcheck" },
       bash = { "shellcheck" },
       fish = { "fish" },
-      cpp = { "cpplint" },
-      c = { "cpplint" },
+      cpp = has_cpplint and { "cpplint" } or {},
+      c = has_cpplint and { "cpplint" } or {},
       vue = { "eslint_d" },
       -- typos
     }

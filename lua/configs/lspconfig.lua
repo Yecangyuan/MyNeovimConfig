@@ -10,11 +10,9 @@ return {
       "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio",
       "rcarriga/nvim-dap-ui",
-      "hrsh7th/nvim-cmp",
-      "hrsh7th/cmp-nvim-lsp",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "nvim-telescope/telescope.nvim",
+      -- 补全和搜索工具已由 blink.cmp 和 fzf-lua 替代
+      "saghen/blink.cmp",
+      "rafamadriz/friendly-snippets",
       "saghen/blink.cmp",
     },
     config = function()
@@ -30,19 +28,19 @@ return {
       local dapgo = require "dap-go"
       -- local cmp = require "cmp"
 
-      local lspconfig = require "lspconfig"
+      -- Using new vim.lsp.config API instead of deprecated require('lspconfig')
 
       local servers = {
         "vimls",
         "cssls",
         "clangd",
-        "volar",
+        -- "vls", -- Vue Language Server (已弃用，使用 volar)
         "prismals",
         "gopls",
         "jdtls",
         "emmet_ls",
         -- "java-language-server",
-        "grammarly",
+        -- "grammarly", -- 已禁用：grammarly-languageserver 存在 tree-sitter.wasm 加载问题
         "yamlls",
         "jsonls",
         "dockerls",
@@ -147,17 +145,35 @@ return {
         automatic_installation = true,
         handlers = {
           function(server_name)
-            lspconfig[server_name].setup {
+            vim.lsp.config(server_name, {
               on_attach = on_attach,
               capabilities = capabilities,
-            }
+            })
           end,
 
           --disabled
           -- ["tsserver"] = function() end,
 
+          -- 配置 clangd 减少 stderr 日志输出
+          ["clangd"] = function()
+            vim.lsp.config("clangd", {
+              on_attach = on_attach,
+              capabilities = capabilities,
+              cmd = {
+                "clangd",
+                "--log=error",  -- 只记录错误级别日志，减少 stderr 输出
+                "--background-index",
+                "--clang-tidy",
+                "--header-insertion=iwyu",
+                "--completion-style=detailed",
+                "--function-arg-placeholders",
+                "--fallback-style=llvm",
+              },
+            })
+          end,
+
           ["lua_ls"] = function()
-            lspconfig["lua_ls"].setup {
+            vim.lsp.config("lua_ls", {
               on_attach = on_attach,
               capabilities = capabilities,
               settings = {
@@ -187,11 +203,11 @@ return {
                   },
                 },
               },
-            }
+            })
           end,
 
           ["gopls"] = function()
-            lspconfig["gopls"].setup {
+            vim.lsp.config("gopls", {
               on_attach = on_attach,
               capabilities = capabilities,
               filetypes = { "go", "gomod", "gowork", "gosum", "goimpl" },
@@ -233,59 +249,23 @@ return {
                   },
                 },
               },
-            }
+            })
           end,
 
-          ["volar"] = function()
-            lspconfig["volar"].setup {
-              capabilities = capabilities,
-              on_attach = on_attach,
-              filetypes = {
-                "vue",
-                "javascript",
-                "typescript",
-                "javascriptreact",
-                "typescriptreact",
-                "json",
-                "jsonc",
-                "html",
-                "css",
-                "scss",
-                "less",
-                "sass",
-                "stylus",
-                "postcss",
-                "markdown",
-                "mdx",
-                "mustache",
-                "njk",
-                "nunjucks",
-                "php",
-                "razor",
-                "slim",
-                "twig",
-                "css",
-                "less",
-                "postcss",
-                "sass",
-                "scss",
-                "stylus",
-                "sugarss",
-                "javascriptreact",
-                "reason",
-                "rescript",
-                "typescriptreact",
-                "vue",
-                "svelte",
-              },
-            }
-          end,
+          -- Vue LSP 配置已移除，建议手动安装和配置 @vue/language-server
+          -- 或使用 typescript-tools.nvim 插件来支持 Vue 文件
 
           ["jdtls"] = function()
-            lspconfig["jdtls"].setup {
+            vim.lsp.config("jdtls", {
               cmd = { "jdtls" },
               root_dir = function(fname)
-                return lspconfig.util.root_pattern("gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml")(fname) or vim.fn.getcwd()
+                return vim.fs.find({"gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml"}, {
+                  path = fname,
+                  upward = true
+                })[1] and vim.fn.fnamemodify(vim.fs.find({"gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml"}, {
+                  path = fname,
+                  upward = true
+                })[1], ":h") or vim.fn.getcwd()
               end,
               filetypes = { "java", "kotlin" },
               on_attach = on_attach,
@@ -302,16 +282,16 @@ return {
                   },
                 },
               },
-            }
+            })
           end,
         },
       }
 
       for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup {
+        vim.lsp.config(lsp, {
           on_attach = on_attach,
           capabilities = capabilities,
-        }
+        })
       end
 
       -- vim.lsp.handlers["textDocument/hover"] = require("noice").hover

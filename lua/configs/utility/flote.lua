@@ -11,8 +11,11 @@ return {
         global = "flote-global.md",
         cwd = function()
           local bufPath = vim.api.nvim_buf_get_name(0)
-          local cwd = require("lspconfig").util.root_pattern ".git"(bufPath)
-          return cwd
+          local cwd = vim.fs.find({".git"}, {
+            path = bufPath,
+            upward = true
+          })[1]
+          return cwd and vim.fn.fnamemodify(cwd, ":h") or vim.fn.getcwd()
         end,
         file_name = function(cwd)
           local base_name = vim.fs.basename(cwd)

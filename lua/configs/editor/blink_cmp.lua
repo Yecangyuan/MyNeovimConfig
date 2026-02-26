@@ -1,46 +1,123 @@
--- LSP servers and clients communicate which features they support through "capabilities".
---  By default, Neovim supports a subset of the LSP specification.
---  With blink.cmp, Neovim has *more* capabilities which are communicated to the LSP servers.
---  Explanation from TJ: https://youtu.be/m8C0Cq9Uv9o?t=1275
---
--- This can vary by config, but in general for nvim-lspconfig:
+-- blink.cmp: 超快速的代码补全插件（Rust 编写）
+-- 替代 nvim-cmp，性能更好，启动更快
 return {
   "saghen/blink.cmp",
-  -- optional: provides snippets for the snippet source
-  dependencies = "rafamadriz/friendly-snippets",
+  dependencies = {
+    "rafamadriz/friendly-snippets",
+    -- 可选：如果你想用 copilot 补全
+    -- "giuxtaposition/blink-cmp-copilot",
+  },
   lazy = false,
-
-  -- use a release tag to download pre-built binaries
   version = "*",
-  -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-  -- build = 'cargo build --release',
-  -- If you use nix, you can build from source using latest nightly rust with:
-  -- build = 'nix run .#build-plugin',
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
-    -- 'default' for mappings similar to built-in completion
-    -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
-    -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
-    -- See the full "keymap" documentation for information on defining your own keymap.
-    keymap = { preset = "default" },
+    -- 按键映射: 'default' | 'super-tab' | 'enter'
+    keymap = {
+      preset = "default",
+      -- 自定义按键
+      ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-e>"] = { "hide", "fallback" },
+      ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+      ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+    },
 
     appearance = {
-      -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-      -- Useful for when your theme doesn't support blink.cmp
-      -- Will be removed in a future release
       use_nvim_cmp_as_default = true,
-      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = "mono",
+      kind_icons = {
+        Text = "󰉿",
+        Method = "󰆧",
+        Function = "󰊕",
+        Constructor = "󰒓",
+        Field = "󰜢",
+        Variable = "󰀫",
+        Property = "󰖷",
+        Class = "󰠱",
+        Interface = "󰕘",
+        Struct = "󰠱",
+        Module = "󰏗",
+        Unit = "󰑭",
+        Value = "󰎠",
+        Enum = "󰕘",
+        EnumMember = "󰕘",
+        Keyword = "󰌋",
+        Constant = "󰏿",
+        Snippet = "󰩫",
+        Color = "󰏘",
+        File = "󰈙",
+        Reference = "󰈇",
+        Folder = "󰉋",
+        Event = "󰉒",
+        Operator = "󰆕",
+        TypeParameter = "󰊄",
+        Copilot = "",
+      },
     },
 
-    -- Default list of enabled providers defined so that you can extend it
-    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    -- 补全行为
+    completion = {
+      -- 自动显示文档
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 200,
+      },
+      -- 菜单外观
+      menu = {
+        auto_show = true,
+        border = "rounded",
+        draw = {
+          columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+          treesitter = { "lsp" },
+        },
+      },
+      -- 幽灵文本
+      ghost_text = {
+        enabled = false,
+      },
+      -- 触发设置
+      trigger = {
+        show_in_snippet = true,
+        show_on_keyword = true,
+        show_on_trigger_character = true,
+      },
+    },
+
+    -- 签名帮助
+    signature = {
+      enabled = true,
+      window = {
+        border = "rounded",
+        show_documentation = true,
+      },
+    },
+
+    -- 补全来源
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
+      -- 如果需要 copilot，取消下面注释并添加 "copilot"
+      -- default = { "lsp", "path", "snippets", "buffer", "copilot" },
+      providers = {
+        -- copilot = {
+        --   name = "copilot",
+        --   module = "blink-cmp-copilot",
+        --   score_offset = 100,
+        --   async = true,
+        -- },
+      },
+    },
+
+    -- 模糊匹配算法
+    fuzzy = {
+      use_typo_resistance = true,
+      use_proximity = true,
+      max_items = 200,
     },
   },
+
   opts_extend = { "sources.default" },
 }

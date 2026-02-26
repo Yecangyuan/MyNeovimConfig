@@ -124,17 +124,17 @@ M.ui = {
       {
         "  Find File",
         "Spc f",
-        "Telescope find_files",
+        "FzfLua files",
       },
       {
         "󰈚  Recent Files",
         "Spc s o",
-        "Telescope oldfiles",
+        "FzfLua oldfiles",
       },
       {
         "  Bookmarks",
         "Spc s m",
-        "Telescope marks",
+        "FzfLua marks",
       },
     },
   },
