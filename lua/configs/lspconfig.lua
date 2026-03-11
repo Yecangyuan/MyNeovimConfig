@@ -154,20 +154,22 @@ return {
           --disabled
           -- ["tsserver"] = function() end,
 
-          -- 配置 clangd 减少 stderr 日志输出
+          -- 配置 clangd 优化性能（禁用后台索引）
           ["clangd"] = function()
             vim.lsp.config("clangd", {
               on_attach = on_attach,
               capabilities = capabilities,
               cmd = {
                 "clangd",
-                "--log=error",  -- 只记录错误级别日志，减少 stderr 输出
-                "--background-index",
+                "--log=error",              -- 只记录错误级别日志
+                "--background-index=false", -- ❌ 禁用后台索引（卡顿来源）
                 "--clang-tidy",
                 "--header-insertion=iwyu",
                 "--completion-style=detailed",
                 "--function-arg-placeholders",
                 "--fallback-style=llvm",
+                "--pch-storage=memory",     -- 预编译头存内存，加快响应
+                "--cross-file-rename",
               },
             })
           end,
