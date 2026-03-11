@@ -17,7 +17,7 @@ return {
     keymap = {
       preset = "default",
       -- 自定义按键
-      -- Tab: 只在菜单可见时选择，否则尝试 snippet，否则插入 Tab
+      -- Tab: 只在菜单可见时选择，否则直接插入 Tab
       ["<Tab>"] = {
         function(cmp)
           if cmp.is_menu_visible() then
@@ -25,8 +25,7 @@ return {
             return true
           end
         end,
-        "snippet_forward",
-        "fallback",
+        "fallback", -- 直接 fallback 到插入 Tab
       },
       ["<S-Tab>"] = {
         function(cmp)
@@ -35,7 +34,6 @@ return {
             return true
           end
         end,
-        "snippet_backward",
         "fallback",
       },
       ["<CR>"] = { "accept", "fallback" },
@@ -80,10 +78,10 @@ return {
 
     -- 补全行为
     completion = {
-      -- 自动显示文档
+      -- ❌ 禁用文档自动显示（解决焦点跳转问题）
       documentation = {
-        auto_show = true,
-        auto_show_delay_ms = 200,
+        auto_show = false,
+        -- 手动按 C-space 才显示
       },
       -- 菜单外观
       menu = {
@@ -100,9 +98,11 @@ return {
       },
       -- 触发设置
       trigger = {
-        show_in_snippet = true,
+        show_in_snippet = false,  -- 在 snippet 中不显示补全
         show_on_keyword = true,
         show_on_trigger_character = true,
+        -- ❌ 禁用空格触发补全
+        show_on_blocked_trigger_characters = { " ", "\n", "\t" },
       },
     },
 
@@ -111,7 +111,7 @@ return {
       enabled = true,
       window = {
         border = "rounded",
-        show_documentation = true,
+        show_documentation = false, -- 禁用签名文档避免焦点问题
       },
     },
 
