@@ -17,8 +17,25 @@ return {
     keymap = {
       preset = "default",
       -- 自定义按键
-      ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-      ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+      -- Tab 只在菜单可见时选择，否则直接插入 Tab（缩进）
+      ["<Tab>"] = {
+        function(cmp)
+          if cmp.is_menu_visible() then
+            return cmp.select_next()
+          end
+        end,
+        "snippet_forward",
+        "fallback",
+      },
+      ["<S-Tab>"] = {
+        function(cmp)
+          if cmp.is_menu_visible() then
+            return cmp.select_prev()
+          end
+        end,
+        "snippet_backward",
+        "fallback",
+      },
       ["<CR>"] = { "accept", "fallback" },
       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
       ["<C-e>"] = { "hide", "fallback" },
