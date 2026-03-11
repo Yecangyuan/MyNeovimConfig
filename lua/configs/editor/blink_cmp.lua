@@ -17,11 +17,12 @@ return {
     keymap = {
       preset = "default",
       -- 自定义按键
-      -- Tab 只在菜单可见时选择，否则直接插入 Tab（缩进）
+      -- Tab: 只在菜单可见时选择，否则尝试 snippet，否则插入 Tab
       ["<Tab>"] = {
         function(cmp)
           if cmp.is_menu_visible() then
-            return cmp.select_next()
+            cmp.select_next()
+            return true
           end
         end,
         "snippet_forward",
@@ -30,7 +31,8 @@ return {
       ["<S-Tab>"] = {
         function(cmp)
           if cmp.is_menu_visible() then
-            return cmp.select_prev()
+            cmp.select_prev()
+            return true
           end
         end,
         "snippet_backward",
