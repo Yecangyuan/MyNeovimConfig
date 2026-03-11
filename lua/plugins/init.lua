@@ -11,6 +11,8 @@ if is_turbo then
   return {
     -- 核心
     { import = "nvchad.plugins" },
+    -- 禁用 NvChad 默认的 nvim-cmp，使用 blink.cmp
+    { "hrsh7th/nvim-cmp", enabled = false },
     { import = "configs.lspconfig" },
     { import = "configs.whichkey" },
     { "williamboman/mason-lspconfig.nvim" },
@@ -83,6 +85,8 @@ end
 return {
   -- NvChad 核心插件
   { import = "nvchad.plugins" },
+  -- 禁用 NvChad 默认的 nvim-cmp，使用 blink.cmp
+  { "hrsh7th/nvim-cmp", enabled = false },
 
   -- LSP 配置
   { import = "configs.lspconfig" },
