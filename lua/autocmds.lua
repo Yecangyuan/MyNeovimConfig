@@ -1,5 +1,20 @@
 local settings = require "settings"
 
+-- =============================================
+-- 打开目录时自动启动 nvim-tree
+-- =============================================
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    -- 检查是否有参数且参数是目录
+    if vim.fn.argc() > 0 and vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
+      -- 切换到该目录
+      vim.cmd("cd " .. vim.fn.argv(0))
+      -- 打开 nvim-tree
+      require("nvim-tree.api").tree.open()
+    end
+  end,
+})
+
 -- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
 -- if settings.editor.vim_gas then
