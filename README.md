@@ -1,102 +1,197 @@
 # Neovim 配置
 
-这是我的个人Neovim配置，基于NvChad框架，并添加了许多功能增强插件。
+这是我的个人 Neovim 配置，基于 NvChad 框架，并添加了许多功能增强插件。支持**正常模式**和**极速模式**两种运行模式。
+
+## 特性概览
+
+- 🚀 **双模式支持**: 正常模式（完整功能）和极速模式（最小延迟）
+- ⚡ **性能优化**: 针对大文件和快速编辑进行了专门优化
+- 🔧 **LSP 完整支持**: 多语言服务器配置，代码补全、诊断、格式化
+- 🎨 **现代化 UI**: 基于 NvChad 的美观界面，支持通知美化、状态栏定制
+- 📁 **智能文件管理**: 打开目录时自动启动文件树
+- 🔍 **快速搜索**: 使用 fzf-lua 替代 telescope，更快的模糊搜索
+- 🤖 **AI 辅助**: Copilot 和 Avante 配置支持
+
+## 运行模式
+
+### 正常模式（默认）
+平衡性能和功能，启用所有插件。
+
+### 极速模式 🏎️
+通过设置 `vim.g.turbo_mode = true` 启用，仅加载最小插件集：
+- 禁用大部分 UI 动画和视觉效果
+- 禁用文件系统监视器
+- 禁用 git 实时标记
+- 禁用缩进线和光标行
+- 最小化按键超时
+
+在 `init.lua` 中取消注释以下行启用：
+```lua
+vim.g.turbo_mode = true
+```
 
 ## 已安装插件
 
 ### 核心框架
-- **NvChad (v2.5)** - Neovim配置框架
-- **lazy.nvim** - 插件管理器
+- **[NvChad](https://github.com/NvChad/NvChad)** (v2.5) - Neovim 配置框架，提供主题和基础 UI
+- **[lazy.nvim](https://github.com/folke/lazy.nvim)** - 现代插件管理器
+- **[plenary.nvim](https://github.com/nvim-lua/plenary.nvim)** - Lua 工具库
 
 ### 编辑器增强
-#### LSP相关
-- **nvim-lspconfig**, **mason.nvim**, **mason-lspconfig.nvim** - LSP支持
-- **nvim-lint** - 代码静态分析
-- **workspace-diagnostics.nvim** - 工作区诊断
-- **lsp_lines.nvim** - LSP诊断可视化
-- **lsp_signature.nvim** - 函数签名提示
-- **goto-preview** - LSP定义预览
 
-#### 补全与代码提示
-- **nvim-cmp**及相关扩展 (buffer, path, nvim-lsp等)
-- **LuaSnip**, **friendly-snippets** - 代码片段
-- **copilot.vim** - GitHub Copilot
-- **copilot.lua** - GitHub Copilot (lua配置)
+#### LSP 与代码智能
+- **[nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)** - LSP 客户端配置
+- **[mason.nvim](https://github.com/williamboman/mason.nvim)** - LSP 服务器管理器
+- **[mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)** - Mason 与 lspconfig 桥接
+- **[nvim-lint](https://github.com/mfussenegger/nvim-lint)** - 代码静态分析（按需启用）
+- **[aerial.nvim](https://github.com/stevearc/aerial.nvim)** - 代码大纲导航
+- **[lsp_lines.nvim](https://github.com/ErichDonGubler/lsp_lines.nvim)** - LSP 诊断可视化
+- **[goto-preview](https://github.com/rmagatti/goto-preview)** - 定义/引用预览窗口
+
+#### 补全与代码片段
+- **[blink.cmp](https://github.com/Saghen/blink.cmp)** - 极速代码补全引擎
+- **[LuaSnip](https://github.com/L3MON4D3/LuaSnip)** - 代码片段引擎
+- **[friendly-snippets](https://github.com/rafamadriz/friendly-snippets)** - 常用代码片段集合
+- **[nvim-autopairs](https://github.com/windwp/nvim-autopairs)** - 自动括号配对
+
+#### 搜索与导航
+- **[fzf-lua](https://github.com/ibhagwan/fzf-lua)** - 基于 fzf 的模糊搜索（主搜索工具）
+  - 文件搜索、live grep、recent files
+  - LSP symbols、git commits
+  - 集成 zoxide 目录跳转
+- **[telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)** - 备用模糊搜索（NvChad 内置）
+- **[flash.nvim](https://github.com/folke/flash.nvim)** - 快速字符跳转
+- **[harpoon](https://github.com/ThePrimeagen/harpoon)** - 项目文件快速切换
+- **[marks.nvim](https://github.com/chentoast/marks.nvim)** - 标记管理增强
+- **[zoxide](https://github.com/ajeetdsouza/zoxide)** - 智能目录跳转
+- **[numb.nvim](https://github.com/nacro90/numb.nvim)** - 行号预览跳转
 
 #### 文件管理
-- **nvim-tree.lua** - 文件树浏览器
-- **oil.nvim** - 类似Finder的文件管理
-- **telescope.nvim** - 模糊搜索
-- **telescope-zoxide** - 目录跳转
-- **zoxide.vim** - 快速目录导航
+- **[nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua)** - 文件树浏览器
+  - 打开目录时自动启动
+  - 优化的性能设置（禁用文件监视）
+- **[oil.nvim](https://github.com/stevearc/oil.nvim)** - 类似 Finder 的文件管理器（可选）
 
-#### 代码格式化
-- **conform.nvim** - 代码格式化工具
+#### 编辑增强
+- **[mini.nvim](https://github.com/echasnovski/mini.nvim)** - 多种编辑功能集合
+- **[better-escape.nvim](https://github.com/max397574/better-escape.nvim)** - 更快的 ESC 键响应
+- **[nvim-toggler](https://github.com/nguyenvukhang/nvim-toggler)** - 布尔值快速切换
+- **[inc-rename.nvim](https://github.com/smjonas/inc-rename.nvim)** - 增量重命名
+- **[todo-comments.nvim](https://github.com/folke/todo-comments.nvim)** - TODO 注释高亮
+- **[comment-box.nvim](https://github.com/LudoPinelli/comment-box.nvim)** - 美化注释框
+- **[undotree](https://github.com/mbbill/undotree)** - 撤销历史可视化
 
 ### 界面优化
-#### 美化与UI
-- **base46**, **ui** - NvChad主题
-- **dressing.nvim** - 输入框美化
-- **noice.nvim** - 通知美化
-- **nvim-notify** - 通知系统
-- **nvim-web-devicons** - 图标支持
-- **edgy.nvim** - 边栏管理
-- **windows.nvim** - 窗口管理
-- **smart-splits.nvim** - 智能分屏
-- **trouble.nvim** - 问题列表
-- **nvim-bqf** - Quickfix列表增强
 
-#### 终端
-- **toggleterm.nvim** - 终端管理
+#### 美化与 UI
+- **[base46](https://github.com/NvChad/base46)** - NvChad 主题系统
+- **[NvChad/ui](https://github.com/NvChad/ui)** - 状态栏、标签页等 UI 组件
+- **[dressing.nvim](https://github.com/stevearc/dressing.nvim)** - 输入框和选择框美化
+- **[noice.nvim](https://github.com/folke/noice.nvim)** - 命令行、消息、通知美化
+- **[nvim-notify](https://github.com/rcarriga/nvim-notify)** - 通知系统（修复了 max_line_width 错误）
+- **[nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons)** - 文件图标
+- **[indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)** - 缩进线（极速模式禁用）
+- **[nvim-colorizer.lua](https://github.com/NvChad/nvim-colorizer.lua)** - 颜色代码高亮
 
-#### 状态显示
-- **gitsigns.nvim** - Git状态显示
-- **which-key.nvim** - 快捷键提示
-- **nvim-hlslens** - 搜索高亮增强
-- **indent-blankline.nvim** - 缩进线
-- **vim-illuminate** - 高亮相同单词
+#### 窗口与布局
+- **[edgy.nvim](https://github.com/folke/edgy.nvim)** - 边栏布局管理
+- **[windows.nvim](https://github.com/anuvyklack/windows.nvim)** - 窗口自动调整大小
+- **[smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim)** - 智能分屏导航
+- **[toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)** - 终端管理
+
+#### 信息展示
+- **[trouble.nvim](https://github.com/folke/trouble.nvim)** - 诊断列表
+- **[nvim-bqf](https://github.com/kevinhwang91/nvim-bqf)** - Quickfix 列表增强
+- **[nvim-hlslens](https://github.com/kevinhwang91/nvim-hlslens)** - 搜索结果计数
+- **[which-key.nvim](https://github.com/folke/which-key.nvim)** - 快捷键提示
 
 ### 语言支持
-#### 编程语言支持
-- **nvim-treesitter** - 语法高亮和代码分析
-- **go.nvim** - Go语言支持
-- **typescript-tools.nvim**, **tsc.nvim** - TypeScript支持
-- **tree-sitter-hyprlang** - Hyprland配置语言支持
-- **vim-gas** - GAS汇编支持
 
-#### Markdown支持
-- **glow.nvim** - Markdown预览
-- **peek.nvim**, **render-markdown.nvim** - Markdown渲染
-- **img-clip.nvim** - 图片粘贴
+#### 语法与解析
+- **[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)** - 语法树解析，代码高亮
 
-### 工具类插件
-#### Git相关
-- **lazygit.nvim** - Git客户端集成
+#### 语言特定
+- **[typescript-tools.nvim](https://github.com/pmizio/typescript-tools.nvim)** - TypeScript 支持
+- **[go.nvim](https://github.com/ray-x/go.nvim)** - Go 语言支持
+- **[tree-sitter-hyprlang](https://github.com/luckasRanarison/tree-sitter-hyprlang)** - Hyprland 配置语言
+- **[vim-gas](https://github.com/Shirk/vim-gas)** - GAS 汇编支持
+- **[markdown 支持](lua/configs/lang/markdown.lua)** - Markdown 预览和渲染
 
-#### 开发工具
-- **nvim-dap**及相关 - 调试支持
-- **aerial.nvim** - 代码大纲
-- **inc-rename.nvim** - 重命名工具
-- **todo-comments.nvim** - TODO注释高亮
-- **neovim-session-manager**, **workspaces.nvim** - 会话管理
-- **garbage-day.nvim** - 旧文件清理
+### Git 集成
+- **[gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)** - Git 状态标记（极速模式禁用）
+- **[lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)** - Lazygit 集成（可选）
 
-#### 导航与移动
-- **hop.nvim** - 快速跳转
-- **marks.nvim** - 标记管理
-- **harpoon** - 项目导航
-- **neoscroll.nvim** - 平滑滚动
+### 实用工具
+- **[neovim-session-manager](https://github.com/Shatur/neovim-session-manager)** - 会话管理
+- **[workspaces.nvim](https://github.com/natecraddock/workspaces.nvim)** - 工作区管理
+- **[hawtkeys.nvim](https://github.com/tris203/hawtkeys.nvim)** - 快捷键查找
+- **[leetcode.nvim](https://github.com/kawre/leetcode.nvim)** - LeetCode 刷题
+- **[pomo.nvim](https://github.com/ncpa0cpl/pomo.nvim)** - 番茄钟计时器
+- **[garbage-day.nvim](https://github.com/Zeioth/garbage-day.nvim)** - 自动清理内存
+- **[conform.nvim](https://github.com/stevearc/conform.nvim)** - 代码格式化（可选）
 
-#### 实用工具
-- **pomo.nvim** - 番茄工作法计时器
-- **flote.nvim** - 笔记管理
-- **undotree** - 撤销历史树
-- **nerdy.nvim** - nerd符号支持
-- **comment-box.nvim** - 注释框
-- **nvim-toggler** - 布尔值切换
-- **avante.nvim** - AI插件(基于deepseek)
-- **leetcode.nvim** - LeetCode刷题
-- **hawtkeys.nvim** - 热键管理
+### 开发工具
+- **[nvim-dap](https://github.com/mfussenegger/nvim-dap)** - 调试适配器协议
+- **[mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim)** - DAP 服务器管理
+- **[nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls)** - Java 语言支持
+
+## 快捷键速查
+
+### 文件操作
+| 快捷键 | 功能 |
+|--------|------|
+| `<leader>e` | 打开/关闭文件树 |
+| `<leader>f` | 查找文件 (fzf) |
+| `<leader>/` | 全局搜索 (live grep) |
+| `<leader>so` | 最近文件 |
+| `<leader>sb` | 缓冲区列表 |
+
+### 代码导航
+| 快捷键 | 功能 |
+|--------|------|
+| `gd` | 跳转到定义 |
+| `gr` | 查找引用 |
+| `<leader>ss` | 文档符号 |
+| `s` | Flash 跳转 |
+| `S` | Flash 选择 |
+
+### LSP 操作
+| 快捷键 | 功能 |
+|--------|------|
+| `K` | 显示文档 |
+| `<leader>ca` | 代码操作 |
+| `<leader>rn` | 重命名 |
+| `<leader>cd` | 显示诊断 |
+
+### 其他
+| 快捷键 | 功能 |
+|--------|------|
+| `<leader>q` | 会话管理 |
+| `<leader>z` | Zoxide 目录跳转 |
+| `<leader>lg` | 打开 Lazygit |
+| `<leader>tt` | 打开终端 |
+
+## 配置结构
+
+```
+~/.config/nvim/
+├── init.lua              # 入口文件，模式切换
+├── lua/
+│   ├── autocmds.lua      # 自动命令（含目录自动打开 nvim-tree）
+│   ├── mappings.lua      # 键位映射
+│   ├── options.lua       # 性能优化选项
+│   ├── chadrc.lua        # NvChad 配置
+│   ├── settings.lua      # 功能开关配置
+│   ├── plugins/
+│   │   └── init.lua      # 插件列表（含极速/正常模式）
+│   ├── configs/
+│   │   ├── editor/       # 编辑器插件配置
+│   │   ├── lang/         # 语言支持配置
+│   │   ├── motions/      # 移动导航配置
+│   │   ├── ui/           # 界面配置
+│   │   └── utility/      # 工具配置
+│   └── nvchad/           # NvChad 核心配置
+```
 
 ## 插件更新常见问题
 
