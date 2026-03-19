@@ -1,58 +1,42 @@
+-- Markdown 预览插件
 return {
+  -- 主流选择：iamcco/markdown-preview.nvim
+  -- 使用浏览器预览，效果最好，社区最流行
   {
-    "ellisonleao/glow.nvim",
-    cmd = "Glow",
-    keys = {
-      { "<leader>mp", ":Glow<CR>", mode = "n", desc = "Glow - Preview Markdown" },
-    },
-    enabled = true,
-    config = function()
-      require("glow").setup {
-        -- border = "shadow", -- floating window border config
-        -- style = "dark|light", -- filled automatically with your current editor background, you can override using glow json style
-        -- pager = false,
-        -- width = 80,
-        -- height = 100,
-        -- width_ratio = 0.7, -- maximum width of the Glow window compared to the nvim window size (overrides `width`)
-        -- height_ratio = 0.7,
-      }
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+      -- 配置选项
+      vim.g.mkdp_auto_start = 0        -- 不自动打开
+      vim.g.mkdp_auto_close = 1        -- 切换 buffer 时自动关闭
+      vim.g.mkdp_refresh_slow = 0      -- 实时刷新
+      vim.g.mkdp_command_for_global = 0 -- 只对 markdown 文件启用
+      vim.g.mkdp_open_to_the_world = 0 -- 只在本地打开
+      vim.g.mkdp_open_ip = ''
+      vim.g.mkdp_browser = ''          -- 使用默认浏览器
+      vim.g.mkdp_echo_preview_url = 0
+      vim.g.mkdp_page_title = '「${name}」'
     end,
+    keys = {
+      { "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", mode = "n", desc = "Markdown Preview - Toggle" },
+    },
+    ft = { "markdown" },
   },
+
+  -- 备选：渲染 markdown 到 nvim 内（不需要浏览器）
+  -- 如果你不想用浏览器预览，可以启用这个
   {
-    "toppair/peek.nvim",
-    enabled = true,
-    event = { "VeryLazy" },
-    build = "deno task --quiet build:fast",
-    keys = {
-      { "<leader>md", ":PeekOpen<CR>", mode = "n", desc = "Peek - Open Markdown Preview" },
-      { "<leader>mc", ":PeekClose<CR>", mode = "n", desc = "Peek - Close Markdown Preview" },
+    "MeanderingProgrammer/render-markdown.nvim",
+    enabled = false,  -- 默认禁用，需要时启用
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
     },
-    config = function()
-      -- default config:
-      require("peek").setup {
-        -- auto_load = true, -- whether to automatically load preview when
-        -- -- entering another markdown buffer
-        -- close_on_bdelete = true, -- close preview window on buffer delete
-        --
-        -- syntax = true, -- enable syntax highlighting, affects performance
-        --
-        -- theme = "dark", -- 'dark' or 'light'
-        --
-        -- update_on_change = true,
-        --
-        -- app = "browser", -- 'webview', 'browser', string or a table of strings
-        -- -- explained below
-        --
-        -- filetype = { "markdown" }, -- list of filetypes to recognize as markdown
-        --
-        -- -- relevant if update_on_change is true
-        -- throttle_at = 200000, -- start throttling when file exceeds this
-        -- -- amount of bytes in size
-        -- throttle_time = "auto", -- minimum amount of time in milliseconds
-        -- -- that has to pass before starting new render
-      }
-      vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
-      vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-    end,
+    ft = { "markdown", "codecompanion" },
+    opts = {
+      -- 在 nvim 内渲染 markdown，不打开浏览器
+    },
   },
 }
