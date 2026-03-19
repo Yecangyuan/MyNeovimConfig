@@ -14,7 +14,7 @@ return {
     },
     select = {
       enabled = true,
-      backend = { "telescope", "builtin" },
+      backend = { "builtin" },  -- telescope 已禁用
       builtin = {
         win_options = {
           winblend = 0,

@@ -16,8 +16,8 @@ return {
       "saghen/blink.cmp",
     },
     config = function()
-      local telescope = require "telescope"
-      vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { noremap = true, silent = true })
+      -- telescope 已禁用，使用 fzf-lua
+      vim.keymap.set("n", "gr", "<cmd>FzfLua lsp_references<CR>", { noremap = true, silent = true })
       local override = require "override.lspconfig"
       ---@diagnostic disable: undefined-global
       local on_attach = override.on_attach

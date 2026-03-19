@@ -44,7 +44,7 @@ if is_turbo then
     -- 动作（极简）
     { import = "configs.motions.hop", enabled = false },
     { import = "configs.motions.marks", enabled = false },
-    { import = "configs.motions.harpoon", enabled = s.motions.harpoon },
+    { import = "configs.motions.harpoon", enabled = false },  -- ❌ 依赖 telescope，已禁用
     { import = "configs.motions.smoothcursor", enabled = false },
 
     -- UI（几乎全部禁用）
@@ -106,8 +106,8 @@ return {
   { import = "configs.editor.inc_rename", enabled = s.editor.inc_rename },
   { import = "configs.editor.smart_splits", enabled = s.editor.smart_splits },
   { import = "configs.editor.session", enabled = s.editor.sessions },
-  { import = "configs.editor.workspaces", enabled = s.editor.sessions },
-  { import = "configs.editor.goto_preview", enabled = s.editor.lsp_preview },
+  { import = "configs.editor.workspaces", enabled = false },  -- ❌ 依赖 telescope，已禁用
+  { import = "configs.editor.goto_preview", enabled = false },  -- ❌ 依赖 telescope，已禁用
   { import = "configs.editor.flash", enabled = true },
 
   -- 语言支持
@@ -119,7 +119,7 @@ return {
   -- 动作增强
   { import = "configs.motions.hop", enabled = false },
   { import = "configs.motions.marks", enabled = s.motions.marks },
-  { import = "configs.motions.harpoon", enabled = s.motions.harpoon },
+  { import = "configs.motions.harpoon", enabled = false },  -- ❌ 依赖 telescope，已禁用
   { import = "configs.motions.smoothcursor", enabled = false },
 
   -- 界面优化
@@ -142,7 +142,7 @@ return {
   { import = "configs.utility.hawtkey", enabled = true },
   { import = "configs.utility.avante", enabled = false },
   { import = "configs.utility.toggler", enabled = true },
-  { import = "configs.utility.leetcode", enabled = true },
+  { import = "configs.utility.leetcode", enabled = false },  -- ❌ 依赖 telescope，已禁用
   { import = "configs.utility.better_escape", enabled = true },
   { import = "configs.utility.comment_box", enabled = s.utility.comment_box },
   { import = "configs.utility.lsplines", enabled = s.utility.lsplines },

@@ -60,19 +60,7 @@ return {
   config = function()
     -- dofile(vim.g.base46_cache .. "trouble")
     require("trouble").setup(setup)
-    local actions = require "telescope.actions"
-    local trouble = require "trouble.sources.telescope"
-
-    local telescope = require "telescope"
-
-    telescope.setup {
-      defaults = {
-        mappings = {
-          i = { ["<c-t>"] = trouble.open },
-          n = { ["<c-t>"] = trouble.open },
-        },
-      },
-    }
+    -- telescope 已禁用，相关配置移除
 
     local map = vim.keymap.set
     map("n", "<leader>tr", ":TroubleToggle<CR>", { desc = "Trouble - Toggle" })

@@ -119,7 +119,7 @@ M.ui = {
       {
         "  Zoxide",
         "Spc z x",
-        ":lua require('telescope').extensions.zoxide.list()",
+        "FzfLua zoxide",
       },
       {
         "  Find File",

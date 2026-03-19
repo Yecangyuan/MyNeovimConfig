@@ -199,23 +199,11 @@ return {
     end,
   },
 
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    cmd = "Telescope",
-    opts = function()
-      return require "nvchad.configs.telescope"
-    end,
-    config = function(_, opts)
-      local telescope = require "telescope"
-      telescope.setup(opts)
-
-      -- load extensions
-      for _, ext in ipairs(opts.extensions_list) do
-        telescope.load_extension(ext)
-      end
-    end,
-  },
+  -- telescope 已禁用，使用 fzf-lua 替代
+  -- {
+  --   "nvim-telescope/telescope.nvim",
+  --   enabled = false,
+  -- },
 
   {
     "NvChad/nvim-colorizer.lua",
