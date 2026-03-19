@@ -94,7 +94,7 @@ return {
   { "williamboman/mason-lspconfig.nvim" },
 
   -- 编辑器增强
-  { import = "configs.editor.garbage_day", enabled = true },
+  { import = "configs.editor.garbage_day", enabled = false },  -- ❌ 已禁用
   { import = "configs.editor.fzf", enabled = true },
   { import = "configs.editor.neotree", enabled = true },
   { import = "configs.editor.blink_cmp", enabled = true },
@@ -112,7 +112,7 @@ return {
 
   -- 语言支持
   { import = "configs.lang.typescript", enabled = s.lang.typescript },
-  { import = "configs.lang.hyprlang", enabled = s.lang.hyprlang },
+  { import = "configs.lang.hyprlang", enabled = false },  -- ❌ 已禁用
   { import = "configs.lang.markdown", enabled = s.lang.markdown },
   { import = "configs.lang.golang", enabled = s.lang.go },
 
