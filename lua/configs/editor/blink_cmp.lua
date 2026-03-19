@@ -92,6 +92,10 @@ return {
           treesitter = { "lsp" },
         },
       },
+      -- 列表限制
+      list = {
+        max_items = 200,
+      },
       -- 幽灵文本
       ghost_text = {
         enabled = false,
@@ -132,9 +136,10 @@ return {
 
     -- 模糊匹配算法
     fuzzy = {
-      use_typo_resistance = true,
+      implementation = "prefer_rust_with_warning",
+      max_typos = function(keyword) return math.floor(#keyword / 4) end,
       use_proximity = true,
-      max_items = 200,
+      sorts = { "score", "sort_text" },
     },
   },
 
