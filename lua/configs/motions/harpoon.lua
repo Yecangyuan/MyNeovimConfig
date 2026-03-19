@@ -54,29 +54,7 @@ return {
       harpoon:list():select(6)
     end, { desc = "Harpoon - 6" })
 
-    require("telescope").load_extension "harpoon"
-
-    local conf = require("telescope.config").values
-    local function toggle_telescope(harpoon_files)
-      local file_paths = {}
-      for _, item in ipairs(harpoon_files.items) do
-        table.insert(file_paths, item.value)
-      end
-
-      require("telescope.pickers")
-        .new({}, {
-          prompt_title = "Harpoon",
-          finder = require("telescope.finders").new_table {
-            results = file_paths,
-          },
-          previewer = conf.file_previewer {},
-          sorter = conf.generic_sorter {},
-        })
-        :find()
-    end
-
-    vim.keymap.set("n", "<leader>sh", function()
-      toggle_telescope(harpoon:list())
-    end, { desc = "Harpoon - Pick" })
+    -- telescope 已禁用，移除了 telescope 集成
+    -- 使用 <leader>hl 打开 harpoon 列表即可
   end,
 }
