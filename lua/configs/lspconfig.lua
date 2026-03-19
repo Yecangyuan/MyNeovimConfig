@@ -131,16 +131,16 @@ return {
       vim.keymap.set("n", "<F13>", dap.restart)
 
       dap.listeners.before.attach.dapui_config = function()
-        ui.open()
+        dapui.open()
       end
       dap.listeners.before.launch.dapui_config = function()
-        ui.open()
+        dapui.open()
       end
       dap.listeners.before.event_terminated.dapui_config = function()
-        ui.close()
+        dapui.close()
       end
       dap.listeners.before.event_exited.dapui_config = function()
-        ui.close()
+        dapui.close()
       end
 
       require("mason-lspconfig").setup {
