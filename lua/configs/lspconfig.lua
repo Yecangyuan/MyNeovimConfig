@@ -274,7 +274,7 @@ return {
               end,
               filetypes = { "java", "kotlin" },
               on_attach = on_attach,
-              capabilities = require("cmp_nvim_lsp").default_capabilities(),
+              capabilities = capabilities,  -- 使用 blink.cmp 的 capabilities
               settings = {
                 java = {
                   configuration = {
