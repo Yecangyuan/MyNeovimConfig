@@ -59,12 +59,15 @@ return {
       --     port = 5005,
       --   },
       -- }
-      dap.adapters.java = function(callback, config)
-        M.execute_command({ command = "vscode.java.startDebugSession" }, function(err0, port)
-          assert(not err0, vim.inspect(err0))
-          callback { type = "server", host = "127.0.0.1", port = port }
-        end)
-      end
+      -- Java DAP 适配器（需要 jdtls 支持）
+      -- dap.adapters.java = function(callback, config)
+      --   vim.lsp.buf_request(0, "workspace/executeCommand", 
+      --     { command = "vscode.java.startDebugSession" }, 
+      --     function(err0, port)
+      --       assert(not err0, vim.inspect(err0))
+      --       callback { type = "server", host = "127.0.0.1", port = port }
+      --     end)
+      -- end
 
       dap.adapters.python = {
         type = "executable",
