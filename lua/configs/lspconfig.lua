@@ -198,10 +198,10 @@ return {
                   },
                   workspace = {
                     library = {
-                      [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-                      [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-                      [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
-                      [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+                      vim.fn.expand "$VIMRUNTIME/lua",
+                      vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
+                      vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+                      vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
                     },
                     maxPreload = 100000,
                     preloadFileSize = 10000,
@@ -291,13 +291,6 @@ return {
           end,
         },
       }
-
-      for _, lsp in ipairs(servers) do
-        vim.lsp.config(lsp, {
-          on_attach = on_attach,
-          capabilities = capabilities,
-        })
-      end
 
       -- vim.lsp.handlers["textDocument/hover"] = require("noice").hover
       -- vim.lsp.handlers["textDocument/signatureHelp"] = require("noice").signature

@@ -46,7 +46,7 @@ return {
       "typescriptreact",
     },
     config = function()
-      vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "gr", "<cmd>FzfLua lsp_references<CR>", { noremap = true, silent = true })
       require("typescript-tools").setup {
         on_attach = on_attach,
         -- handlers = handlers,

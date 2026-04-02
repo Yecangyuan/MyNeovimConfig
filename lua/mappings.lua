@@ -149,7 +149,7 @@ map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
 map("n", "<leader>n", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<leader>p", ":bprev<CR>", { desc = "Previous buffer" })
-map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "List buffers" })
+map("n", "<leader>b", "<cmd>FzfLua buffers<cr>", { desc = "List buffers" })
 
 -- Jumplist navigation - 删除可能的冲突映射并重新设置
 pcall(vim.keymap.del, "n", "<Tab>")

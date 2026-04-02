@@ -12,7 +12,8 @@ return {
     local on_attach = require("override.lspconfig").on_attach
 
     require("go").setup {
-      lsp_on_attach = on_attach,
+      lsp_cfg = false,
+      lsp_on_attach = nil,
       lsp_codelens = true,
       lsp_inlay_hints = {
         enable = true,

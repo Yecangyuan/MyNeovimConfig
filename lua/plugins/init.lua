@@ -39,7 +39,7 @@ if is_turbo then
     { import = "configs.lang.typescript", enabled = s.lang.typescript },
     { import = "configs.lang.golang", enabled = s.lang.go },
     { import = "configs.lang.hyprlang", enabled = false },
-    { import = "configs.lang.markdown", enabled = false },
+    { import = "configs.lang.markdown", enabled = true },  -- ✅ Markdown 预览
 
     -- 动作（极简）
     { import = "configs.motions.hop", enabled = false },
@@ -113,7 +113,7 @@ return {
   -- 语言支持
   { import = "configs.lang.typescript", enabled = s.lang.typescript },
   { import = "configs.lang.hyprlang", enabled = false },  -- ❌ 已禁用
-  { import = "configs.lang.markdown", enabled = s.lang.markdown },
+  { import = "configs.lang.markdown", enabled = true },  -- ✅ Markdown 预览
   { import = "configs.lang.golang", enabled = s.lang.go },
 
   -- 动作增强
