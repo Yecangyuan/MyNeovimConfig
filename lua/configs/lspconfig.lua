@@ -2,18 +2,10 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "artemave/workspace-diagnostics.nvim",
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "leoluz/nvim-dap-go",
-      "theHamsta/nvim-dap-virtual-text",
-      "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio",
-      "rcarriga/nvim-dap-ui",
-      -- 补全和搜索工具已由 blink.cmp 和 fzf-lua 替代
       "saghen/blink.cmp",
       "rafamadriz/friendly-snippets",
-      "saghen/blink.cmp",
     },
     config = function()
       -- telescope 已禁用，使用 fzf-lua
@@ -23,13 +15,66 @@ return {
       local on_attach = override.on_attach
       local capabilities = override.capabilities
 
-      local dap = require "dap"
-      local dapui = require "dapui"
-      local dapgo = require "dap-go"
-      -- local cmp = require "cmp"
+      -- =============================================
+      -- DAP 延迟加载（不再在打开文件时就加载 6 个调试插件）
+      -- =============================================
+      local dap_initialized = false
+      local function ensure_dap()
+        if dap_initialized then return end
+        dap_initialized = true
 
-      -- Using new vim.lsp.config API instead of deprecated require('lspconfig')
+        local dap = require "dap"
+        local dapui = require "dapui"
+        local dapgo = require "dap-go"
 
+        dap.adapters.python = {
+          type = "executable",
+          command = os.getenv "HOME" .. "/.virtualenvs/tools/bin/python",
+          args = { "-m", "debugpy.adapter" },
+        }
+
+        local elixir_ls_debugger = vim.fn.exepath "elixir-ls-debugger"
+        if elixir_ls_debugger ~= "" then
+          dap.adapters.mix_task = {
+            type = "executable",
+            command = elixir_ls_debugger,
+          }
+          dap.configurations.elixir = {
+            {
+              type = "mix_task",
+              name = "phoenix server",
+              task = "phx.server",
+              request = "launch",
+              projectDir = "${workspaceFolder}",
+              exitAfterTaskReturns = false,
+              debugAutoInterpretAllModules = false,
+            },
+          }
+        end
+
+        dapui.setup()
+        dapgo.setup()
+
+        dap.listeners.before.attach.dapui_config = function() dapui.open() end
+        dap.listeners.before.launch.dapui_config = function() dapui.open() end
+        dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
+        dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
+      end
+
+      -- DAP 快捷键（首次使用时才加载 DAP）
+      vim.keymap.set("n", "<leader>bp", function() ensure_dap(); require("dap").toggle_breakpoint() end)
+      vim.keymap.set("n", "<leader>gb", function() ensure_dap(); require("dap").run_to_cursor() end)
+      vim.keymap.set("n", "<space>?", function() ensure_dap(); require("dapui").eval(nil, { enter = true }) end)
+      vim.keymap.set("n", "<F1>", function() ensure_dap(); require("dap").continue() end)
+      vim.keymap.set("n", "<F2>", function() ensure_dap(); require("dap").step_into() end)
+      vim.keymap.set("n", "<F3>", function() ensure_dap(); require("dap").step_over() end)
+      vim.keymap.set("n", "<F4>", function() ensure_dap(); require("dap").step_out() end)
+      vim.keymap.set("n", "<F5>", function() ensure_dap(); require("dap").step_back() end)
+      vim.keymap.set("n", "<F13>", function() ensure_dap(); require("dap").restart() end)
+
+      -- =============================================
+      -- LSP 服务器配置
+      -- =============================================
       local servers = {
         "vimls",
         "cssls",
@@ -49,99 +94,6 @@ return {
         "biome",
         "eslint",
       }
-      -- "rust_analyzer", "tsserver"
-      -- dap.configurations.java = {
-      --   {
-      --     type = "java",
-      --     request = "attach",
-      --     name = "Debug (Attach) - Remote",
-      --     hostName = "127.0.0.1",
-      --     port = 5005,
-      --   },
-      -- }
-      -- Java DAP 适配器（需要 jdtls 支持）
-      -- dap.adapters.java = function(callback, config)
-      --   vim.lsp.buf_request(0, "workspace/executeCommand", 
-      --     { command = "vscode.java.startDebugSession" }, 
-      --     function(err0, port)
-      --       assert(not err0, vim.inspect(err0))
-      --       callback { type = "server", host = "127.0.0.1", port = port }
-      --     end)
-      -- end
-
-      dap.adapters.python = {
-        type = "executable",
-        command = os.getenv "HOME" .. "/.virtualenvs/tools/bin/python",
-        args = { "-m", "debugpy.adapter" },
-      }
-
-      dapui.setup()
-      dapgo.setup()
-
-      -- require("nvim-dap-virtual-text").setup {
-      --   -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
-      --   display_callback = function(variable)
-      --     local name = string.lower(variable.name)
-      --     local value = string.lower(variable.value)
-      --     if name:match "secret" or name:match "api" or value:match "secret" or value:match "api" then
-      --       return "*****"
-      --     end
-
-      --     if #variable.value > 15 then
-      --       return " " .. string.sub(variable.value, 1, 15) .. "... "
-      --     end
-
-      --     return " " .. variable.value
-      --   end,
-      -- }
-
-      local elixir_ls_debugger = vim.fn.exepath "elixir-ls-debugger"
-      if elixir_ls_debugger ~= "" then
-        dap.adapters.mix_task = {
-          type = "executable",
-          command = elixir_ls_debugger,
-        }
-
-        dap.configurations.elixir = {
-          {
-            type = "mix_task",
-            name = "phoenix server",
-            task = "phx.server",
-            request = "launch",
-            projectDir = "${workspaceFolder}",
-            exitAfterTaskReturns = false,
-            debugAutoInterpretAllModules = false,
-          },
-        }
-      end
-
-      vim.keymap.set("n", "<leader>bp", dap.toggle_breakpoint)
-      vim.keymap.set("n", "<leader>gb", dap.run_to_cursor)
-
-      -- Eval var under cursor
-      vim.keymap.set("n", "<space>?", function()
-        require("dapui").eval(nil, { enter = true })
-      end)
-
-      vim.keymap.set("n", "<F1>", dap.continue)
-      vim.keymap.set("n", "<F2>", dap.step_into)
-      vim.keymap.set("n", "<F3>", dap.step_over)
-      vim.keymap.set("n", "<F4>", dap.step_out)
-      vim.keymap.set("n", "<F5>", dap.step_back)
-      vim.keymap.set("n", "<F13>", dap.restart)
-
-      dap.listeners.before.attach.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited.dapui_config = function()
-        dapui.close()
-      end
 
       require("mason-lspconfig").setup {
         ensure_installed = servers,
@@ -316,30 +268,13 @@ return {
       vim.diagnostic.config {
         virtual_lines = false,
         virtual_text = {
-          source = "always",
+          source = "if_many",
           prefix = "■",
+          spacing = 2,
         },
-        -- virtual_text = false,
         float = {
-          source = "always",
+          source = "if_many",
           border = "rounded",
-          format = function(diagnostic)
-            if diagnostic.source == "" then
-              return diagnostic.message
-            end
-            if diagnostic.source == "eslint" then
-              return string.format(
-                "%s [%s]",
-                diagnostic.message,
-                -- shows the name of the rule
-                diagnostic.user_data.lsp.code
-              )
-            end
-            return string.format("%s [%s]", diagnostic.message, diagnostic.source)
-          end,
-          suffix = function()
-            return ""
-          end,
           severity_sort = true,
           close_events = { "CursorMoved", "InsertEnter" },
         },
