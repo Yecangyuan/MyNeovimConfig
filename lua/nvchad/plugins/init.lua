@@ -234,7 +234,21 @@ return {
       return require "nvchad.configs.treesitter"
     end,
     config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+      -- New nvim-treesitter: highlight/indent are built into Neovim 0.12+
+      -- Defer ensure_installed to VimEnter so runtimepath is fully resolved
+      if opts.ensure_installed and #opts.ensure_installed > 0 then
+        vim.api.nvim_create_autocmd("VimEnter", {
+          once = true,
+          callback = function()
+            local to_install = vim.tbl_filter(function(lang)
+              return not pcall(vim.treesitter.language.add, lang)
+            end, opts.ensure_installed)
+            if #to_install > 0 then
+              vim.cmd("TSInstall " .. table.concat(to_install, " "))
+            end
+          end,
+        })
+      end
     end,
   },
 }

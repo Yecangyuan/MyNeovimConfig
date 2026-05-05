@@ -91,7 +91,7 @@ M.find_delay = function()
 
   -- 5. 检查 LSP
   print("\n🔌 5. LSP 状态")
-  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
   if #clients > 0 then
     print(string.format("   已连接 %d 个 LSP 服务器:", #clients))
     for _, client in ipairs(clients) do

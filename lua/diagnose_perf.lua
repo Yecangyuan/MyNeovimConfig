@@ -65,7 +65,7 @@ M.run = function()
 
   -- 5. 检查 LSP 客户端
   print("\n🔌 活动的 LSP 客户端:")
-  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
   for _, client in ipairs(clients) do
     print("  - " .. client.name)
   end

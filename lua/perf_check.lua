@@ -62,7 +62,7 @@ M.check = function()
 
   -- 检查 LSP
   print("\n🔌 LSP 客户端:")
-  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
   if #clients == 0 then
     print("  无")
   else

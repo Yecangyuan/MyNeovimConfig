@@ -1,0 +1,498 @@
+
+sourcing "nvim_exec2()"
+line 1:     amenu     PopUp.Open\ in\ web\ browser  gx
+line 2:     anoremenu PopUp.Inspect                 <Cmd>Inspect<CR>
+line 3:     anoremenu PopUp.Go\ to\ definition      <Cmd>lua vim.lsp.buf.definition()<CR>
+line 4:     anoremenu PopUp.Show\ Diagnostics       <Cmd>lua vim.diagnostic.open_float()<CR>
+line 5:     anoremenu PopUp.Show\ All\ Diagnostics  <Cmd>lua vim.diagnostic.setqflist()<CR>
+line 6:     anoremenu PopUp.Configure\ Diagnostics  <Cmd>help vim.diagnostic.config()<CR>
+line 7:     anoremenu PopUp.-1-                     <Nop>
+line 8:     vnoremenu PopUp.Cut                     "+x
+line 9:     vnoremenu PopUp.Copy                    "+y
+line 10:     anoremenu PopUp.Paste                   "+gP
+line 11:     vnoremenu PopUp.Paste                   "+P
+line 12:     vnoremenu PopUp.Delete                  "_x
+line 13:     nnoremenu PopUp.Select\ All             ggVG
+line 14:     vnoremenu PopUp.Select\ All             gg0oG$
+line 15:     inoremenu PopUp.Select\ All             <C-Home><C-O>VG
+line 16:     anoremenu PopUp.-2-                     <Nop>
+line 17:     anoremenu PopUp.How-to\ disable\ mouse  <Cmd>help disable-mouse<CR>
+line 18:   
+finished sourcing nvim_exec2()
+Searching for "ftplugin.vim" in runtime path
+Searching for "/Users/simley/.config/nvim/ftplugin.vim"
+Searching for "/Users/simley/.config/nvim/pack/github/start/copilot.vim/ftplugin.vim"
+Searching for "/Users/simley/.local/share/nvim/site/ftplugin.vim"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/ftplugin.vim"
+sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/ftplugin.vim"
+line 1: " Vim support file to switch on loading plugins for file types
+line 2: "
+line 3: " Maintainer:^IThe Vim Project <https://github.com/vim/vim>
+line 4: " Last change:^I2023 Aug 10
+line 5: " Former Maintainer:^IBram Moolenaar <Bram@vim.org>
+line 6: 
+line 7: if exists("did_load_ftplugin")
+line 8:   finish
+line 9: endif
+line 10: let did_load_ftplugin = 1
+line 11: 
+line 12: augroup filetypeplugin
+line 13:   au FileType * call s:LoadFTPlugin()
+line 14: 
+line 15:   func! s:LoadFTPlugin()
+line 39: augroup END
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/ftplugin.vim
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/lib/nvim/ftplugin.vim"
+Searching for "indent.vim" in runtime path
+Searching for "/Users/simley/.config/nvim/indent.vim"
+Searching for "/Users/simley/.config/nvim/pack/github/start/copilot.vim/indent.vim"
+Searching for "/Users/simley/.local/share/nvim/site/indent.vim"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/indent.vim"
+sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/indent.vim"
+line 1: " Vim support file to switch on loading indent files for file types
+line 2: "
+line 3: " Maintainer:^IThe Vim Project <https://github.com/vim/vim>
+line 4: " Last Change:^I2023 Aug 10
+line 5: " Former Maintainer:^IBram Moolenaar <Bram@vim.org>
+line 6: 
+line 7: if exists("did_indent_on")
+line 8:   finish
+line 9: endif
+line 10: let did_indent_on = 1
+line 11: 
+line 12: augroup filetypeindent
+line 13:   au FileType * call s:LoadIndent()
+line 14:   func! s:LoadIndent()
+line 33: augroup END
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/indent.vim
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/lib/nvim/indent.vim"
+could not source "/opt/homebrew/etc/xdg/nvim/sysinit.vim"
+could not source "/etc/xdg/nvim/sysinit.vim"
+could not source "$VIM/sysinit.vim"
+sourcing "/Users/simley/.config/nvim/init.lua"
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /Users/simley/.local/share/nvim/lazy/go.nvim/ftdetect/filetype.vim
+line 1: sourcing "/Users/simley/.local/share/nvim/lazy/go.nvim/ftdetect/filetype.vim"
+line 1: let s:cpo_save = &cpo
+line 2: set cpo&vim
+line 3: 
+line 4: au BufRead,BufNewFile *.go setfiletype go
+line 5: au BufRead,BufNewFile *.s setfiletype asm
+line 6: au BufRead,BufNewFile *.tmpl set filetype=gotexttmpl
+line 7: au BufRead,BufNewFile *.gotext set filetype=gotexttmpl
+line 8: au BufRead,BufNewFile *.gohtml set filetype=gohtmltmpl
+line 9: au BufRead,BufNewFile go.sum set filetype=gosum
+line 10: au BufRead,BufNewFile go.work.sum set filetype=gosum
+line 11: au BufRead,BufNewFile go.work set filetype=gowork
+line 12: 
+line 13: au! BufRead,BufNewFile *.mod,*.MOD
+line 14: au BufRead,BufNewFile *.mod,*.MOD set filetype=gomod
+line 15: 
+line 16: 
+line 17: let &cpo = s:cpo_save
+line 18: unlet s:cpo_save
+line 19: 
+line 20: " vim: sw=2 ts=2 et
+finished sourcing /Users/simley/.local/share/nvim/lazy/go.nvim/ftdetect/filetype.vim
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua"
+line 0: sourcing "nvim_exec2() called at /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua:0"
+line 1:   augroup filetypedetect
+line 2:   runtime! ftdetect/*.{vim,lua}
+Searching for "ftdetect/*.{vim,lua}" in runtime path
+Searching for "/Users/simley/.config/nvim/ftdetect/*.{vim,lua}"
+Searching for "/Users/simley/.local/share/nvim/site/ftdetect/*.{vim,lua}"
+Searching for "/Users/simley/.local/share/nvim/lazy/lazy.nvim/ftdetect/*.{vim,lua}"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/ftdetect/*.{vim,lua}"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/lib/nvim/ftdetect/*.{vim,lua}"
+Searching for "/Users/simley/.local/state/nvim/lazy/readme/ftdetect/*.{vim,lua}"
+not found in runtime path: "ftdetect/*.{vim,lua}"
+line 3:   augroup END
+finished sourcing nvim_exec2() called at /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua:0
+continuing in /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /Users/simley/.local/share/nvim/lazy/blink.cmp/plugin/blink-cmp.lua
+line 1: sourcing "/Users/simley/.local/share/nvim/lazy/blink.cmp/plugin/blink-cmp.lua"
+finished sourcing /Users/simley/.local/share/nvim/lazy/blink.cmp/plugin/blink-cmp.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /Users/simley/.local/share/nvim/lazy/which-key.nvim/plugin/which-key.lua
+line 1: sourcing "/Users/simley/.local/share/nvim/lazy/which-key.nvim/plugin/which-key.lua"
+finished sourcing /Users/simley/.local/share/nvim/lazy/which-key.nvim/plugin/which-key.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /Users/simley/.local/share/nvim/lazy/dressing.nvim/plugin/dressing.lua
+line 1: sourcing "/Users/simley/.local/share/nvim/lazy/dressing.nvim/plugin/dressing.lua"
+finished sourcing /Users/simley/.local/share/nvim/lazy/dressing.nvim/plugin/dressing.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup filetypedetect
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: augroup END
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/editorconfig.lua
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/editorconfig.lua"
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/editorconfig.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/man.lua
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/man.lua"
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/man.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/matchparen.vim
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/matchparen.vim"
+line 1: " Vim plugin for showing matching parens
+line 2: " Maintainer:^IThe Vim Project <https://github.com/vim/vim>
+line 3: " Last Change:^I2025 Apr 08
+line 4: " Former Maintainer:^IBram Moolenaar <Bram@vim.org>
+line 5: 
+line 6: " Exit quickly when:
+line 7: " - this plugin was already loaded (or disabled)
+line 8: " - when 'compatible' is set
+line 9: " - Vim has no support for :defer
+line 10: if exists("g:loaded_matchparen") || &cp || exists(":defer") != 2
+line 12:   finish
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/matchparen.vim
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/net.lua
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/net.lua"
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/net.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/osc52.lua
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/osc52.lua"
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/osc52.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/shada.lua
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/shada.lua"
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/shada.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+line 0: sourcing "nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0"
+line 1: source /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/spellfile.lua
+line 1: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/spellfile.lua"
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/plugin/spellfile.lua
+continuing in nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+finished sourcing nvim_exec2() called at /Users/simley/.config/nvim/init.lua:0
+continuing in /Users/simley/.config/nvim/init.lua
+Executing User Autocommands for "LazyDone"
+autocommand <Lua 82: ~/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/util.lua:183>
+
+Executing: 
+finished sourcing /Users/simley/.config/nvim/init.lua
+Searching for "filetype.lua filetype.vim" in runtime path
+Searching for "/Users/simley/.config/nvim/filetype.lua"
+Searching for "/Users/simley/.config/nvim/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/site/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/site/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/lazy.nvim/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/lazy.nvim/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/dressing.nvim/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/dressing.nvim/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/ui/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/ui/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/mini.icons/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/mini.icons/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/which-key.nvim/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/which-key.nvim/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/NvChad/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/NvChad/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/base46/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/base46/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/friendly-snippets/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/friendly-snippets/filetype.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/blink.cmp/filetype.lua"
+Searching for "/Users/simley/.local/share/nvim/lazy/blink.cmp/filetype.vim"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua"
+sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua"
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.vim"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/lib/nvim/filetype.lua"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/lib/nvim/filetype.vim"
+Searching for "/Users/simley/.local/state/nvim/lazy/readme/filetype.lua"
+Searching for "/Users/simley/.local/state/nvim/lazy/readme/filetype.vim"
+sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/syntax/syntax.vim"
+line 1: " Vim syntax support file
+line 2: " Maintainer:^IThe Vim Project <https://github.com/vim/vim>
+line 3: " Last Change:^I2023 Aug 10
+line 4: " Former Maintainer:^IBram Moolenaar <Bram@vim.org>
+line 5: 
+line 6: " This file is used for ":syntax on".
+line 7: " It installs the autocommands and starts highlighting for all buffers.
+line 8: 
+line 9: if !has("syntax")
+line 10:   finish
+line 11: endif
+line 12: 
+line 13: " If Syntax highlighting appears to be on already, turn it off first, so that
+line 14: " any leftovers are cleared.
+line 15: if exists("syntax_on") || exists("syntax_manual")
+line 16:   so <sfile>:p:h/nosyntax.vim
+line 17: endif
+line 18: 
+line 19: " Load the Syntax autocommands and set the default methods for highlighting.
+line 20: runtime syntax/synload.vim
+Searching for "syntax/synload.vim" in runtime path
+Searching for "/Users/simley/.config/nvim/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/site/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/lazy.nvim/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/dressing.nvim/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/ui/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/mini.icons/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/which-key.nvim/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/NvChad/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/base46/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/friendly-snippets/syntax/synload.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/blink.cmp/syntax/synload.vim"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/syntax/synload.vim"
+line 20: sourcing "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/syntax/synload.vim"
+line 1: " Vim syntax support file
+line 2: " Maintainer:^IThe Vim Project <https://github.com/vim/vim>
+line 3: " Last Change:^I2023 Aug 10
+line 4: " Former Maintainer:^IBram Moolenaar <Bram@vim.org>
+line 5: 
+line 6: " This file sets up for syntax highlighting.
+line 7: " It is loaded from "syntax.vim" and "manual.vim".
+line 8: " 1. Set the default highlight groups.
+line 9: " 2. Install Syntax autocommands for all the available syntax files.
+line 10: 
+line 11: if !has("syntax")
+line 12:   finish
+line 13: endif
+line 14: 
+line 15: " let others know that syntax has been switched on
+line 16: let syntax_on = 1
+line 17: 
+line 18: " Line continuation is used here, remove 'C' from 'cpoptions'
+line 19: let s:cpo_save = &cpo
+line 20: set cpo&vim
+line 21: 
+line 22: " First remove all old syntax autocommands.
+line 23: au! Syntax
+line 24: 
+line 25: au Syntax *^I^Icall s:SynSet()
+line 26: 
+line 27: fun! s:SynSet()
+line 58: 
+line 59: 
+line 60: " Handle adding doxygen to other languages (C, C++, C#, IDL, java, php, DataScript)
+line 61: au Syntax c,cpp,cs,idl,java,php,datascript if (exists('b:load_doxygen_syntax') && b:load_doxygen_syntax)^I|| (exists('g:load_doxygen_syntax') && g:load_doxygen_syntax)   | runtime! syntax/doxygen.vim | endif
+line 66: 
+line 67: 
+line 68: " Source the user-specified syntax highlighting file
+line 69: if exists("mysyntaxfile")
+line 70:   let s:fname = expand(mysyntaxfile)
+line 71:   if filereadable(s:fname)
+line 72:     execute "source " . fnameescape(s:fname)
+line 73:   endif
+line 74: endif
+line 75: 
+line 76: " Restore 'cpoptions'
+line 77: let &cpo = s:cpo_save
+line 78: unlet s:cpo_save
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/syntax/synload.vim
+continuing in /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/syntax/syntax.vim
+line 21: 
+line 22: " Load the FileType autocommands if not done yet.
+line 23: if exists("did_load_filetypes")
+line 24:   let s:did_ft = 1
+line 25: else
+line 26:   filetype on
+line 27:   let s:did_ft = 0
+line 28: endif
+line 29: 
+line 30: " Set up the connection between FileType and Syntax autocommands.
+line 31: " This makes the syntax automatically set when the file type is detected
+line 32: " unless treesitter highlighting is enabled.
+line 33: " Avoid an error when 'verbose' is set and <amatch> expansion fails.
+line 34: augroup syntaxset
+line 35:   au! FileType *^Iif !exists('b:ts_highlight') | 0verbose exe "set syntax=" . expand("<amatch>") | endif
+line 36: augroup END
+line 37: 
+line 38: " Execute the syntax autocommands for the each buffer.
+line 39: " If the filetype wasn't detected yet, do that now.
+line 40: " Always do the syntaxset autocommands, for buffers where the 'filetype'
+line 41: " already was set manually (e.g., help buffers).
+line 42: doautoall syntaxset FileType
+Executing FileType Autocommands for "*"
+autocommand if !exists('b:ts_highlight') | 0verbose exe "set syntax=" . expand("<amatch>") | endif
+
+Executing: if !exists('b:ts_highlight') | 0verbose exe "set syntax=" . expand("<amatch>") | endif
+Executing:  0verbose exe "set syntax=" . expand("<amatch>") | endif
+Executing:  endif
+line 43: if !s:did_ft
+line 44:   doautoall filetypedetect BufRead
+line 45: endif
+finished sourcing /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/syntax/syntax.vim
+Reading ShaDa file "/Users/simley/.local/state/nvim/shada/main.shada" info marks oldfiles
+Executing StdinReadPost Autocommands for "*"
+autocommand <Lua 267: /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/filetype.lua:10>
+
+Executing: 
+autocommand if !did_filetype() | runtime! scripts.vim | endif
+
+Executing: if !did_filetype() | runtime! scripts.vim | endif
+Executing:  runtime! scripts.vim | endif
+Searching for "scripts.vim" in runtime path
+Searching for "/Users/simley/.config/nvim/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/site/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/lazy.nvim/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/dressing.nvim/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/ui/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/mini.icons/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/which-key.nvim/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/NvChad/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/base46/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/friendly-snippets/scripts.vim"
+Searching for "/Users/simley/.local/share/nvim/lazy/blink.cmp/scripts.vim"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/scripts.vim"
+Searching for "/opt/homebrew/Cellar/neovim/0.12.1/lib/nvim/scripts.vim"
+Searching for "/Users/simley/.local/state/nvim/lazy/readme/scripts.vim"
+not found in runtime path: "scripts.vim"
+Executing:  endif
+Executing BufEnter Autocommands for "*"
+autocommand <Lua 341: ~/.config/nvim/lua/nvchad/autocmds.lua:32>
+
+Executing: 
+Executing BufEnter Autocommands for "*"
+autocommand <Lua 341: ~/.config/nvim/lua/nvchad/autocmds.lua:32>
+
+Executing: 
+Executing: qa
+Executing VimLeavePre Autocommands for "*"
+autocommand <Lua 102: /opt/homebrew/Cellar/neovim/0.12.1/share/nvim/runtime/lua/vim/lsp.lua:1205>
+
+Executing: 
+Writing ShaDa file "/Users/simley/.local/state/nvim/shada/main.shada"
+line 0: sourcing "nvim_exec2() called at command line:0"
+line 1: autocmd! TermOpen term://* lua set_terminal_keymaps()
+finished sourcing nvim_exec2() called at command line:0
+continuing in command line

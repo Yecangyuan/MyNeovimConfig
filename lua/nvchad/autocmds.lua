@@ -36,7 +36,7 @@ autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufEnter", "TabNewEntered" }, {
 
     local bufnr = args.buf
     
-    -- ÑéÖ¤»º³åÇøÊÇ·ñÓĞĞ§
+    -- éªŒè¯ç¼“å†²åŒºæ˜¯å¦æœ‰æ•ˆ
     if not vim.api.nvim_buf_is_valid(bufnr) then
       return
     end
@@ -45,9 +45,9 @@ autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufEnter", "TabNewEntered" }, {
     local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufnr })
     local buflisted = vim.api.nvim_get_option_value("buflisted", { buf = bufnr })
 
-    -- Ö»Ìí¼ÓÆÕÍ¨µÄ¡¢¿ÉÁĞ³öµÄ»º³åÇø
+    -- åªæ·»åŠ æ™®é€šçš„ã€å¯åˆ—å‡ºçš„ç¼“å†²åŒº
     if buflisted and (buftype == "" or buftype == "acwrite") and bufname ~= "" then
-      -- ¼ì²é»º³åÇøÊÇ·ñÒÑ¾­ÔÚÁĞ±íÖĞ
+      -- æ£€æŸ¥ç¼“å†²åŒºæ˜¯å¦å·²åœ¨åˆ—è¡¨ä¸­
       local exists = false
       for _, v in ipairs(vim.t.bufs) do
         if v == bufnr then
@@ -56,13 +56,13 @@ autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufEnter", "TabNewEntered" }, {
         end
       end
 
-      -- Èç¹û»º³åÇø²»´æÔÚ£¬Ìí¼Óµ½ÁĞ±í
+      -- å¦‚æœç¼“å†²åŒºä¸å­˜åœ¨ï¼Œæ·»åŠ åˆ°åˆ—è¡¨
       if not exists then
         table.insert(vim.t.bufs, bufnr)
       end
     end
     
-    -- ÇåÀíÎŞĞ§µÄ»º³åÇø
+    -- æ¸…ç†æ— æ•ˆçš„ç¼“å†²åŒº
     local valid_bufs = {}
     for _, buf_id in ipairs(vim.t.bufs) do
       if vim.api.nvim_buf_is_valid(buf_id) and vim.api.nvim_get_option_value("buflisted", { buf = buf_id }) then

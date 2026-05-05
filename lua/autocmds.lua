@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
     if vim.bo.filetype == "S" then
-      local clients = vim.lsp.get_active_clients()
+      local clients = vim.lsp.get_clients()
       for _, client in ipairs(clients) do
         if client.server_capabilities.signatureHelpProvider then
           client.server_capabilities.signatureHelpProvider = false
@@ -49,3 +49,4 @@ if settings.editor.linter then
     end,
   })
 end
+
