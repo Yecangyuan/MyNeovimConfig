@@ -8,6 +8,37 @@ local opt = vim.opt
 local o = vim.o
 local uv = vim.uv or vim.loop
 
+vim.lsp.log.set_level "OFF"
+vim.diagnostic.config {
+  virtual_text = false,
+  virtual_lines = false,
+  signs = false,
+  underline = false,
+  update_in_insert = false,
+  severity_sort = false,
+}
+
+local no_lsp_group = vim.api.nvim_create_augroup("NoLspPerf", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  group = no_lsp_group,
+  callback = function(args)
+    local ok = pcall(vim.diagnostic.enable, false, { bufnr = args.buf })
+    if not ok then
+      pcall(vim.diagnostic.disable, args.buf)
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = no_lsp_group,
+  callback = function(args)
+    for _, client in ipairs(vim.lsp.get_clients { bufnr = args.buf }) do
+      vim.lsp.stop_client(client.id, true)
+    end
+  end,
+})
+
 -- ⌨️  关键：按键超时设置（解决 hjkl 延迟的核心）
 o.timeout = true           -- 启用映射超时
 o.ttimeout = true          -- 启用键码超时
@@ -93,6 +124,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     -- ── 禁用 mini 模块（hjkl 卡顿的主因）──
     vim.b[buf].minicursorword_disable = true
     vim.b[buf].miniindentscope_disable = true
+
+    -- ── 禁用 treesitter 高亮（Neovim 0.12 默认启用）──
+    vim.treesitter.stop(buf)
 
     -- ── 延迟禁用其他插件（等插件附加后再禁用）──
     vim.schedule(function()

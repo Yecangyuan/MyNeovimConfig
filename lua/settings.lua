@@ -22,32 +22,34 @@ M.lang = {
 }
 
 M.editor = {
+  lsp = false,
+  completion = false,
   formatter = "confrom", -- "null-ls" or "confrom"
-  linter = true,
-  copilot = true,
+  linter = false,
+  copilot = false,
   vim_gas = true,
-  copilot_chat = true,
+  copilot_chat = false,
   dap = true,
   compiler = true,
-  aerial = true,
-  inc_rename = true,
+  aerial = false,
+  inc_rename = false,
   hover = false,
-  lsp_preview = true,
+  lsp_preview = false,
   oil = true,
   sessions = true,
 }
 
 M.ui = {
-  trouble = true,
-  code_actions = true,
+  trouble = false,
+  code_actions = false,
   smooth_scroll = true,
-  lens = true,
+  lens = false,
   mode_indicator = true,
   notify = true,
   noice = true,
   split_animation = true,
   illuminate = true,
-  ufo = true,
+  ufo = false,
   hlslens = true,
 }
 
@@ -59,7 +61,7 @@ M.motions = {
 M.multiplexer = true
 
 M.utility = {
-  lsplines = true,
+  lsplines = false,
   nerdy = true,
   persist = true,
   git = true,

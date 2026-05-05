@@ -77,7 +77,7 @@ M.ui = {
       end,
     },
 
-    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "pomo", "cwd", "cursor" },
+    order = { "mode", "file", "git", "%=", "pomo", "cwd", "cursor" },
   },
 
   nvdash = {
@@ -141,7 +141,7 @@ M.ui = {
 
   lsp = {
     -- show function signatures i.e args as you type
-    signature = true,
+    signature = false,
     semantic_tokens = false,
   },
 

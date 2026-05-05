@@ -11,14 +11,17 @@ if is_turbo then
   return {
     -- 核心
     { import = "nvchad.plugins" },
+    { "neovim/nvim-lspconfig", enabled = false },
+    { "williamboman/mason.nvim", enabled = false },
+    { "williamboman/mason-lspconfig.nvim", enabled = false },
+    { "mfussenegger/nvim-jdtls", enabled = false },
+    { "saghen/blink.cmp", enabled = false },
+    { "rafamadriz/friendly-snippets", enabled = false },
     -- 禁用 NvChad 默认的 nvim-cmp，使用 blink.cmp
     { "hrsh7th/nvim-cmp", enabled = false },
-    { import = "configs.lspconfig" },
     { import = "configs.whichkey" },
-    { "williamboman/mason-lspconfig.nvim" },
 
     -- 编辑核心
-    { import = "configs.editor.blink_cmp", enabled = true },
     { import = "configs.editor.fzf", enabled = true },
     { import = "configs.editor.neotree", enabled = true },
     { import = "configs.editor.flash", enabled = true },
@@ -36,8 +39,8 @@ if is_turbo then
     { import = "configs.editor.goto_preview", enabled = false },
 
     -- 语言（仅保留最常用的）
-    { import = "configs.lang.typescript", enabled = s.lang.typescript },
-    { import = "configs.lang.golang", enabled = s.lang.go },
+    { import = "configs.lang.typescript", enabled = false },
+    { import = "configs.lang.golang", enabled = false },
     { import = "configs.lang.hyprlang", enabled = false },
     { import = "configs.lang.markdown", enabled = true },  -- ✅ Markdown 预览
 
@@ -85,19 +88,21 @@ end
 return {
   -- NvChad 核心插件
   { import = "nvchad.plugins" },
+  { "neovim/nvim-lspconfig", enabled = false },
+  { "williamboman/mason.nvim", enabled = false },
+  { "williamboman/mason-lspconfig.nvim", enabled = false },
+  { "mfussenegger/nvim-jdtls", enabled = false },
+  { "saghen/blink.cmp", enabled = false },
+  { "rafamadriz/friendly-snippets", enabled = false },
   -- 禁用 NvChad 默认的 nvim-cmp，使用 blink.cmp
   { "hrsh7th/nvim-cmp", enabled = false },
 
-  -- LSP 配置
-  { import = "configs.lspconfig" },
   { import = "configs.whichkey" },
-  { "williamboman/mason-lspconfig.nvim" },
 
   -- 编辑器增强
   { import = "configs.editor.garbage_day", enabled = false },  -- ❌ 已禁用
   { import = "configs.editor.fzf", enabled = true },
   { import = "configs.editor.neotree", enabled = true },
-  { import = "configs.editor.blink_cmp", enabled = true },
   { import = "configs.editor.mini", enabled = true },
   { import = "configs.editor.conform", enabled = false },
   { import = "configs.editor.lint", enabled = s.editor.linter },
@@ -111,10 +116,10 @@ return {
   { import = "configs.editor.flash", enabled = true },
 
   -- 语言支持
-  { import = "configs.lang.typescript", enabled = s.lang.typescript },
+  { import = "configs.lang.typescript", enabled = false },
   { import = "configs.lang.hyprlang", enabled = false },  -- ❌ 已禁用
   { import = "configs.lang.markdown", enabled = true },  -- ✅ Markdown 预览
-  { import = "configs.lang.golang", enabled = s.lang.go },
+  { import = "configs.lang.golang", enabled = false },
 
   -- 动作增强
   { import = "configs.motions.hop", enabled = false },

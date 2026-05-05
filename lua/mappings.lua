@@ -3,6 +3,7 @@ local settings = require "settings"
 local map = vim.keymap.set
 local nomap = vim.keymap.del
 local o = vim.opt
+local lsp_enabled = settings.editor.lsp ~= false
 
 -- ── unmap ─────────────────────────────────────────────────────
 -- nomap("t", "<A-h>")
@@ -88,28 +89,30 @@ map("n", "<S-H>", function()
 end, { desc = "Buffer - Goto previous" })
 
 -- ── Code ──────────────────────────────────────────────────────
-map("v", "<leader>ca", function()
-  vim.lsp.buf.code_action()
-end, { desc = "Code Action" })
-map("n", "<leader>ca", function()
-  vim.lsp.buf.code_action()
-end, { desc = "Code Action" })
+if lsp_enabled then
+  map("v", "<leader>ca", function()
+    vim.lsp.buf.code_action()
+  end, { desc = "Code Action" })
+  map("n", "<leader>ca", function()
+    vim.lsp.buf.code_action()
+  end, { desc = "Code Action" })
 
-if settings.ui.inc_rename then
-  map("n", "<leader>cr", ":IncRename ", { desc = "IncRename" })
-else
-  map("n", "<leader>cr", function()
-    vim.lsp.buf.rename()
-  end, { desc = "LSP rename" })
+  if settings.editor.inc_rename then
+    map("n", "<leader>cr", ":IncRename ", { desc = "IncRename" })
+  else
+    map("n", "<leader>cr", function()
+      vim.lsp.buf.rename()
+    end, { desc = "LSP rename" })
+  end
+
+  map("n", "<leader>cd", function()
+    vim.diagnostic.open_float { border = "rounded" }
+  end, { desc = "Diagnostic - Open float" })
+
+  map("n", "<leader>cp", function()
+    require("actions-preview").code_actions()
+  end, { desc = "Code Action Preview" })
 end
-
-map("n", "<leader>cd", function()
-  vim.diagnostic.open_float { border = "rounded" }
-end, { desc = "Diagnostic - Open float" })
-
-map("n", "<leader>cp", function()
-  require("actions-preview").code_actions()
-end, { desc = "Code Action Preview" })
 
 -- ── Dashboard ─────────────────────────────────────────────────
 map("n", "<leader>;", function()
@@ -120,7 +123,9 @@ end, { desc = "Dashboard" })
 map("n", "<leader>pl", ":Lazy<CR>", { desc = "Lazy - Open Plugin Manager" })
 
 -- ── mason ─────────────────────────────────────────────────────
-map("n", "<leader>om", ":Mason<CR>", { desc = "Mason" })
+if lsp_enabled then
+  map("n", "<leader>om", ":Mason<CR>", { desc = "Mason" })
+end
 
 -- ── NvimTree ──────────────────────────────────────────────────
 map("n", "<leader>e", "<cmd> NvimTreeToggle <CR>", { desc = "NvimTree - Toggle" })
@@ -145,7 +150,9 @@ map("n", "<leader>sc", ":FzfLua builtin<CR>", { desc = "Fzf - Editor Commands" }
 map("n", "<leader>st", ":FzfLua<CR>", { desc = "Fzf - All Commands" })
 map("n", "<leader>sa", "<cmd>FzfLua files follow=true no_ignore=true hidden=true<CR>", { desc = "Fzf - Find all files" })
 
-map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
+if lsp_enabled then
+  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
+end
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
 map("n", "<leader>n", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<leader>p", ":bprev<CR>", { desc = "Previous buffer" })

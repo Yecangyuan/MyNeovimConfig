@@ -10,14 +10,16 @@ return {
 
   -- NvChad 核心
   { import = "nvchad.plugins" },
+  { "neovim/nvim-lspconfig", enabled = false },
+  { "williamboman/mason.nvim", enabled = false },
+  { "williamboman/mason-lspconfig.nvim", enabled = false },
+  { "mfussenegger/nvim-jdtls", enabled = false },
+  { "saghen/blink.cmp", enabled = false },
+  { "rafamadriz/friendly-snippets", enabled = false },
 
-  -- LSP 配置
-  { import = "configs.lspconfig" },
   { import = "configs.whichkey" },
-  { "williamboman/mason-lspconfig.nvim" },
 
   -- 核心编辑功能
-  { import = "configs.editor.blink_cmp", enabled = true },      -- 补全（Rust，很快）
   { import = "configs.editor.fzf", enabled = true },            -- 搜索（原生 fzf，很快）
   { import = "configs.editor.neotree", enabled = true },        -- 文件树
   { import = "configs.editor.flash", enabled = true },          -- 跳转（按需，不影响正常移动）
@@ -72,8 +74,8 @@ return {
   { import = "configs.editor.aerial", enabled = false },        -- ❌ 禁用大纲
 
   -- 语言支持（按需）
-  { import = "configs.lang.typescript", enabled = s.lang.typescript },
-  { import = "configs.lang.golang", enabled = s.lang.go },
+  { import = "configs.lang.typescript", enabled = false },
+  { import = "configs.lang.golang", enabled = false },
   { import = "configs.lang.markdown", enabled = false },        -- ❌ 禁用 Markdown 增强
   { import = "configs.lang.hyprlang", enabled = false },        -- ❌ 禁用 Hyprland 语法
 
