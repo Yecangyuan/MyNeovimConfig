@@ -8,8 +8,6 @@ return {
       "rafamadriz/friendly-snippets",
     },
     config = function()
-      -- telescope 已禁用，使用 fzf-lua
-      vim.keymap.set("n", "gr", "<cmd>FzfLua lsp_references<CR>", { noremap = true, silent = true })
       local override = require "override.lspconfig"
       ---@diagnostic disable: undefined-global
       local on_attach = override.on_attach
@@ -27,9 +25,13 @@ return {
         local dapui = require "dapui"
         local dapgo = require "dap-go"
 
+        local python_path = vim.fn.exepath("python3") ~= "" and vim.fn.exepath("python3") or vim.fn.exepath("python")
+        if python_path == "" then
+          python_path = os.getenv("HOME") .. "/.virtualenvs/tools/bin/python"
+        end
         dap.adapters.python = {
           type = "executable",
-          command = os.getenv "HOME" .. "/.virtualenvs/tools/bin/python",
+          command = python_path,
           args = { "-m", "debugpy.adapter" },
         }
 
@@ -104,6 +106,7 @@ return {
               on_attach = on_attach,
               capabilities = capabilities,
             })
+            vim.lsp.enable(server_name)
           end,
 
           --disabled
@@ -127,6 +130,7 @@ return {
                 "--cross-file-rename",
               },
             })
+            vim.lsp.enable("clangd")
           end,
 
           ["lua_ls"] = function()
@@ -161,6 +165,7 @@ return {
                 },
               },
             })
+            vim.lsp.enable("lua_ls")
           end,
 
           ["gopls"] = function()
@@ -207,26 +212,27 @@ return {
                 },
               },
             })
+            vim.lsp.enable("gopls")
           end,
 
           -- Vue LSP 配置已移除，建议手动安装和配置 @vue/language-server
           -- 或使用 typescript-tools.nvim 插件来支持 Vue 文件
 
           ["jdtls"] = function()
+            local function find_root(fname)
+              local markers = { "gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml" }
+              local found = vim.fs.find(markers, { path = fname, upward = true })[1]
+              return found and vim.fn.fnamemodify(found, ":h") or vim.fn.getcwd()
+            end
+
             vim.lsp.config("jdtls", {
               cmd = { "jdtls" },
               root_dir = function(fname)
-                return vim.fs.find({"gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml"}, {
-                  path = fname,
-                  upward = true
-                })[1] and vim.fn.fnamemodify(vim.fs.find({"gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml"}, {
-                  path = fname,
-                  upward = true
-                })[1], ":h") or vim.fn.getcwd()
+                return find_root(fname)
               end,
               filetypes = { "java", "kotlin" },
               on_attach = on_attach,
-              capabilities = capabilities,  -- 使用 blink.cmp 的 capabilities
+              capabilities = capabilities,
               settings = {
                 java = {
                   configuration = {
@@ -240,6 +246,7 @@ return {
                 },
               },
             })
+            vim.lsp.enable("jdtls")
           end,
         },
       }
@@ -254,7 +261,7 @@ return {
         end
 
         -- If the buffer hasn't been modified before the formatting has finished, update the buffer
-        if not vim.api.nvim_buf_get_option(ctx.bufnr, "modified") then
+        if not vim.api.nvim_get_option_value("modified", { bufnr = ctx.bufnr }) then
           local view = vim.fn.winsaveview()
           local client = vim.lsp.get_client_by_id(ctx.client_id)
           vim.lsp.util.apply_text_edits(result, ctx.bufnr, client.offset_encoding)

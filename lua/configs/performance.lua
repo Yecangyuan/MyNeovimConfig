@@ -5,27 +5,23 @@ local M = {}
 
 -- 禁用 Treesitter 大文件解析
 M.setup_treesitter_perf = function()
-  local ok, ts = pcall(require, "nvim-treesitter.configs")
-  if not ok then
-    return
-  end
-
   -- 大文件检测：超过 100KB 或 1000 行的文件
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
     callback = function(args)
       local bufnr = args.buf
       local lines = vim.api.nvim_buf_line_count(bufnr)
-      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+      local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
       local size = ok and stats and stats.size or 0
 
       -- 大文件禁用 Treesitter 和 LSP
       if lines > 1000 or size > 100 * 1024 then
         vim.opt_local.foldmethod = "manual"
         vim.b[bufnr].large_file = true
-        -- 禁用 Treesitter 高亮
-        vim.cmd("TSBufDisable highlight")
-        vim.cmd("TSBufDisable indent")
+        -- 禁用 Treesitter 高亮 (nvim-treesitter v1.0+)
+        vim.treesitter.stop(bufnr)
+        -- 回退到普通 indent
+        vim.bo[bufnr].indentexpr = ""
         print("Large file detected: Treesitter disabled for performance")
       end
     end,
@@ -60,9 +56,12 @@ M.setup_scroll_perf = function()
   vim.opt.sidescrolloff = 5
 
   -- 减少 syntax 同步范围（老版本语法高亮优化）
-  vim.cmd([[
-    autocmd BufEnter * syntax sync minlines=100 maxlines=200
-  ]])
+  local perf_augroup = vim.api.nvim_create_augroup("PerfSyntaxSync", { clear = true })
+  vim.api.nvim_create_autocmd("BufEnter", {
+    group = perf_augroup,
+    pattern = "*",
+    command = "syntax sync minlines=100 maxlines=200",
+  })
 end
 
 -- 减少自动命令触发频率
@@ -75,52 +74,9 @@ M.setup_autocmd_perf = function()
   vim.opt.ttimeoutlen = 0
 end
 
--- 禁用重型功能
-M.disable_heavy_features = function()
-  -- 关闭 matchparen（Neovim 内置的括号匹配，可能卡）
-  vim.g.loaded_matchparen = 1
-
-  -- 关闭 2html
-  vim.g.loaded_2html_plugin = 1
-
-  -- 关闭 vimball
-  vim.g.loaded_vimball = 1
-  vim.g.loaded_vimballPlugin = 1
-
-  -- 关闭 getscript
-  vim.g.loaded_getscript = 1
-  vim.g.loaded_getscriptPlugin = 1
-
-  -- 关闭 logipat
-  vim.g.loaded_logipat = 1
-
-  -- 关闭 rrhelper
-  vim.g.loaded_rrhelper = 1
-
-  -- 关闭 spellfile
-  vim.g.loaded_spellfile_plugin = 1
-
-  -- 关闭 tar
-  vim.g.loaded_tar = 1
-  vim.g.loaded_tarPlugin = 1
-
-  -- 关闭 zip
-  vim.g.loaded_zip = 1
-  vim.g.loaded_zipPlugin = 1
-
-  -- 关闭 tutor
-  vim.g.loaded_tutor = 1
-
-  -- 关闭 netrw（你使用 nvim-tree）
-  vim.g.loaded_netrw = 1
-  vim.g.loaded_netrwPlugin = 1
-  vim.g.loaded_netrwSettings = 1
-  vim.g.loaded_netrwFileHandlers = 1
-end
-
 -- 主入口
 M.setup = function()
-  M.disable_heavy_features()
+  -- disable_heavy_features 已迁移到 core/bootstrap.lua
   M.setup_autocmd_perf()
   M.setup_scroll_perf()
   M.setup_cursor_perf()

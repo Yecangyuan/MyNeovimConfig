@@ -4,56 +4,23 @@ local options = require "nvchad.options"
 -- 🚀 原生 Vim 性能优化 - 解决 hjkl 延迟
 -- =============================================
 
-local opt = vim.opt
 local o = vim.o
-local uv = vim.uv or vim.loop
-
-vim.lsp.log.set_level "OFF"
-vim.diagnostic.config {
-  virtual_text = false,
-  virtual_lines = false,
-  signs = false,
-  underline = false,
-  update_in_insert = false,
-  severity_sort = false,
-}
-
-local no_lsp_group = vim.api.nvim_create_augroup("NoLspPerf", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-  group = no_lsp_group,
-  callback = function(args)
-    local ok = pcall(vim.diagnostic.enable, false, { bufnr = args.buf })
-    if not ok then
-      pcall(vim.diagnostic.disable, args.buf)
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = no_lsp_group,
-  callback = function(args)
-    for _, client in ipairs(vim.lsp.get_clients { bufnr = args.buf }) do
-      vim.lsp.stop_client(client.id, true)
-    end
-  end,
-})
 
 -- ⌨️  关键：按键超时设置（解决 hjkl 延迟的核心）
-o.timeout = true           -- 启用映射超时
-o.ttimeout = true          -- 启用键码超时
-o.timeoutlen = 100         -- 映射序列等待 100ms
-o.ttimeoutlen = 0          -- ⚡ 键码序列无等待！
+-- 注意：基础 timeoutlen/updatetime 由 core/bootstrap.lua 统一设置
+o.timeout = true
+o.ttimeout = true
+-- 继承 bootstrap 已设置的值，避免重复定义导致冲突
+o.timeoutlen = vim.o.timeoutlen
+o.ttimeoutlen = vim.o.ttimeoutlen
 
--- 👁️ 视觉优化 - 禁用所有可能导致重绘的功能
-o.cursorline = false       -- ❌ 禁用光标行（大大减少重绘）
-o.cursorlineopt = "number" -- 即使启用也只高亮行号
-opt.relativenumber = false -- ❌ 禁用相对行号（实时计算行号差）
-o.number = true            -- 只保留绝对行号
+-- 👁️ 视觉优化
+cursorlineopt = "number" -- 即使启用 cursorline 也只高亮行号
+o.number = true
 
 -- 🎨 语法高亮优化
-o.synmaxcol = 128          -- 超过 128 列不再语法高亮（从 200 降低）
-o.redrawtime = 500         -- 语法高亮超时（从 1000 降低）
+o.synmaxcol = 128          -- 超过 128 列不再语法高亮
+o.redrawtime = 500         -- 语法高亮超时
 o.maxmempattern = 1000     -- 限制模式匹配内存
 o.regexpengine = 0         -- 自动选择最快正则引擎
 
@@ -61,12 +28,12 @@ o.regexpengine = 0         -- 自动选择最快正则引擎
 o.hlsearch = false         -- 禁用搜索高亮（避免搜索后卡顿）
 
 -- 📁 文件优化
-opt.swapfile = false       -- 禁用交换文件
-opt.backup = false
-opt.writebackup = false
+o.swapfile = false
+o.backup = false
+o.writebackup = false
 
 -- 🖱️ 输入优化
-opt.mouse = ""             -- 禁用鼠标（减少事件处理）
+o.mouse = ""               -- 禁用鼠标（减少事件处理）
 
 -- 🔔 提示优化
 o.showcmd = false          -- 禁用右下角命令显示
@@ -91,7 +58,7 @@ local big_file_group = vim.api.nvim_create_augroup("BigFilePerf", { clear = true
 vim.api.nvim_create_autocmd("BufReadPre", {
   group = big_file_group,
   callback = function(args)
-    local ok, stats = pcall(uv.fs_stat, vim.api.nvim_buf_get_name(args.buf))
+    local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(args.buf))
     if ok and stats and stats.size > 100 * 1024 then -- 100KB
       vim.b[args.buf].big_file = true
     end
@@ -124,9 +91,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     -- ── 禁用 mini 模块（hjkl 卡顿的主因）──
     vim.b[buf].minicursorword_disable = true
     vim.b[buf].miniindentscope_disable = true
-
-    -- ── 禁用 treesitter 高亮（Neovim 0.12 默认启用）──
-    vim.treesitter.stop(buf)
 
     -- ── 延迟禁用其他插件（等插件附加后再禁用）──
     vim.schedule(function()

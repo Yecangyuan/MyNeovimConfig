@@ -1,159 +1,49 @@
 local s = require "settings"
-
--- 检测是否启用极速模式
-local is_turbo = vim.g.turbo_mode
-
--- 根据模式返回不同的插件列表
-if is_turbo then
-  -- =============================================
-  -- 🏎️ 极速模式 - 最小插件集
-  -- =============================================
-  return {
-    -- 核心
-    { import = "nvchad.plugins" },
-    { "neovim/nvim-lspconfig", enabled = false },
-    { "williamboman/mason.nvim", enabled = false },
-    { "williamboman/mason-lspconfig.nvim", enabled = false },
-    { "mfussenegger/nvim-jdtls", enabled = false },
-    { "saghen/blink.cmp", enabled = false },
-    { "rafamadriz/friendly-snippets", enabled = false },
-    -- 禁用 NvChad 默认的 nvim-cmp，使用 blink.cmp
-    { "hrsh7th/nvim-cmp", enabled = false },
-    { import = "configs.whichkey" },
-
-    -- 编辑核心
-    { import = "configs.editor.fzf", enabled = true },
-    { import = "configs.editor.neotree", enabled = true },
-    { import = "configs.editor.flash", enabled = true },
-
-    -- 全部禁用或按需
-    { import = "configs.editor.mini", enabled = false },
-    { import = "configs.editor.garbage_day", enabled = false },
-    { import = "configs.editor.lint", enabled = false },
-    { import = "configs.editor.aerial", enabled = false },
-    { import = "configs.editor.vim_gas", enabled = false },
-    { import = "configs.editor.inc_rename", enabled = false },
-    { import = "configs.editor.smart_splits", enabled = false },
-    { import = "configs.editor.session", enabled = false },
-    { import = "configs.editor.workspaces", enabled = false },
-    { import = "configs.editor.goto_preview", enabled = false },
-
-    -- 语言（仅保留最常用的）
-    { import = "configs.lang.typescript", enabled = false },
-    { import = "configs.lang.golang", enabled = false },
-    { import = "configs.lang.hyprlang", enabled = false },
-    { import = "configs.lang.markdown", enabled = true },  -- ✅ Markdown 预览
-
-    -- 动作（极简）
-    { import = "configs.motions.hop", enabled = false },
-    { import = "configs.motions.marks", enabled = false },
-    { import = "configs.motions.harpoon", enabled = false },  -- ❌ 依赖 telescope，已禁用
-    { import = "configs.motions.smoothcursor", enabled = false },
-
-    -- UI（几乎全部禁用）
-    { import = "configs.ui.mini_animate", enabled = false },
-    { import = "configs.ui.dressing", enabled = false },
-    { import = "configs.ui.toggleterm", enabled = false },
-    { import = "configs.ui.bqf", enabled = false },
-    { import = "configs.ui.edgy", enabled = false },
-    { import = "configs.ui.illuminate", enabled = false },
-    { import = "configs.ui.neoscroll", enabled = false },
-    { import = "configs.ui.noice", enabled = false },
-    { import = "configs.ui.trouble", enabled = false },
-    { import = "configs.ui.windows", enabled = false },
-    { import = "configs.ui.hlslens", enabled = false },
-
-    -- 工具（几乎全部禁用）
-    { import = "configs.utility.lazygit", enabled = false },
-    { import = "configs.utility.numb", enabled = false },
-    { import = "configs.utility.zoxide", enabled = false },
-    { import = "configs.utility.hawtkey", enabled = false },
-    { import = "configs.utility.avante", enabled = false },
-    { import = "configs.utility.toggler", enabled = false },
-    { import = "configs.utility.leetcode", enabled = false },
-    { import = "configs.utility.better_escape", enabled = true },
-    { import = "configs.utility.comment_box", enabled = false },
-    { import = "configs.utility.lsplines", enabled = false },
-    { import = "configs.utility.nerdy", enabled = false },
-    { import = "configs.utility.pomo", enabled = false },
-    { import = "configs.utility.todo_comments", enabled = false },
-    { import = "configs.utility.flote", enabled = false },
-    { import = "configs.utility.undotree", enabled = false },
-  }
-end
+local base = require "plugins.base"
 
 -- =============================================
 -- 正常模式 - 完整插件集
+-- 从 base.lua 加载，按需覆盖 enabled
 -- =============================================
-return {
-  -- NvChad 核心插件
-  { import = "nvchad.plugins" },
-  { "neovim/nvim-lspconfig", enabled = false },
-  { "williamboman/mason.nvim", enabled = false },
-  { "williamboman/mason-lspconfig.nvim", enabled = false },
-  { "mfussenegger/nvim-jdtls", enabled = false },
-  { "saghen/blink.cmp", enabled = false },
-  { "rafamadriz/friendly-snippets", enabled = false },
-  -- 禁用 NvChad 默认的 nvim-cmp，使用 blink.cmp
-  { "hrsh7th/nvim-cmp", enabled = false },
 
-  { import = "configs.whichkey" },
-
-  -- 编辑器增强
-  { import = "configs.editor.garbage_day", enabled = false },  -- ❌ 已禁用
-  { import = "configs.editor.fzf", enabled = true },
-  { import = "configs.editor.neotree", enabled = true },
-  { import = "configs.editor.mini", enabled = true },
-  { import = "configs.editor.conform", enabled = false },
-  { import = "configs.editor.lint", enabled = s.editor.linter },
-  { import = "configs.editor.aerial", enabled = s.editor.aerial },
-  { import = "configs.editor.vim_gas", enabled = s.editor.vim_gas },
-  { import = "configs.editor.inc_rename", enabled = s.editor.inc_rename },
-  { import = "configs.editor.smart_splits", enabled = s.editor.smart_splits },
-  { import = "configs.editor.session", enabled = s.editor.sessions },
-  { import = "configs.editor.workspaces", enabled = false },  -- ❌ 依赖 telescope，已禁用
-  { import = "configs.editor.goto_preview", enabled = false },  -- ❌ 依赖 telescope，已禁用
-  { import = "configs.editor.flash", enabled = true },
-
-  -- 语言支持
-  { import = "configs.lang.typescript", enabled = false },
-  { import = "configs.lang.hyprlang", enabled = false },  -- ❌ 已禁用
-  { import = "configs.lang.markdown", enabled = true },  -- ✅ Markdown 预览
-  { import = "configs.lang.golang", enabled = false },
-
-  -- 动作增强
-  { import = "configs.motions.hop", enabled = false },
-  { import = "configs.motions.marks", enabled = s.motions.marks },
-  { import = "configs.motions.harpoon", enabled = false },  -- ❌ 依赖 telescope，已禁用
-  { import = "configs.motions.smoothcursor", enabled = false },
-
-  -- 界面优化
-  { import = "configs.ui.mini_animate", enabled = false },
-  { import = "configs.ui.dressing", enabled = true },
-  { import = "configs.ui.toggleterm", enabled = true },
-  { import = "configs.ui.bqf", enabled = true },
-  { import = "configs.ui.edgy", enabled = true },
-  { import = "configs.ui.illuminate", enabled = false },
-  { import = "configs.ui.neoscroll", enabled = false },
-  { import = "configs.ui.noice", enabled = s.ui.noice },
-  { import = "configs.ui.trouble", enabled = s.ui.trouble },
-  { import = "configs.ui.windows", enabled = s.ui.windows },
-  { import = "configs.ui.hlslens", enabled = s.ui.hlslens },
-
-  -- 实用工具
-  { import = "configs.utility.lazygit", enabled = false },
-  { import = "configs.utility.numb", enabled = true },
-  { import = "configs.utility.zoxide", enabled = true },
-  { import = "configs.utility.hawtkey", enabled = true },
-  { import = "configs.utility.avante", enabled = false },
-  { import = "configs.utility.toggler", enabled = true },
-  { import = "configs.utility.leetcode", enabled = false },  -- ❌ 依赖 telescope，已禁用
-  { import = "configs.utility.better_escape", enabled = true },
-  { import = "configs.utility.comment_box", enabled = s.utility.comment_box },
-  { import = "configs.utility.lsplines", enabled = s.utility.lsplines },
-  { import = "configs.utility.nerdy", enabled = false },
-  { import = "configs.utility.pomo", enabled = false },
-  { import = "configs.utility.todo_comments", enabled = s.utility.todo_comments },
-  { import = "configs.utility.flote", enabled = false },
-  { import = "configs.utility.undotree", enabled = s.utility.undotree },
+local overrides = {
+  ["configs.editor.mini"] = true,
+  ["configs.editor.lint"] = s.editor.linter,
+  ["configs.editor.aerial"] = s.editor.aerial,
+  ["configs.editor.vim_gas"] = s.editor.vim_gas,
+  ["configs.editor.inc_rename"] = s.editor.inc_rename,
+  ["configs.editor.smart_splits"] = s.editor.smart_splits,
+  ["configs.editor.session"] = s.editor.sessions,
+  ["configs.motions.marks"] = s.motions.marks,
+  ["configs.ui.dressing"] = true,
+  ["configs.ui.toggleterm"] = true,
+  ["configs.ui.bqf"] = true,
+  ["configs.ui.edgy"] = true,
+  ["configs.ui.noice"] = s.ui.noice,
+  ["configs.ui.trouble"] = s.ui.trouble,
+  ["configs.ui.windows"] = false,
+  ["configs.ui.hlslens"] = s.ui.hlslens,
+  ["configs.utility.numb"] = true,
+  ["configs.utility.zoxide"] = true,
+  ["configs.utility.hawtkey"] = true,
+  ["configs.utility.toggler"] = true,
+  ["configs.utility.comment_box"] = s.utility.comment_box,
+  ["configs.utility.lsplines"] = s.utility.lsplines,
+  ["configs.utility.todo_comments"] = s.utility.todo_comments,
+  ["configs.utility.undotree"] = s.utility.undotree,
 }
+
+-- 应用覆盖
+local result = {}
+for _, spec in ipairs(base) do
+  local key = type(spec) == "table" and spec.import
+  if key and overrides[key] ~= nil then
+    local copy = vim.deepcopy(spec)
+    copy.enabled = overrides[key]
+    table.insert(result, copy)
+  else
+    table.insert(result, spec)
+  end
+end
+
+return result

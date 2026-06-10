@@ -5,12 +5,12 @@ local settings = require "settings"
 -- =============================================
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    -- 检查是否有参数且参数是目录
     if vim.fn.argc() > 0 and vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
-      -- 切换到该目录
       vim.cmd("cd " .. vim.fn.argv(0))
-      -- 打开 nvim-tree
-      require("nvim-tree.api").tree.open()
+      local ok, api = pcall(require, "nvim-tree.api")
+      if ok then
+        api.tree.open()
+      end
     end
   end,
 })
@@ -29,16 +29,22 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- Disable LSP signature help for .S files
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
-  callback = function()
-    if vim.bo.filetype == "S" then
-      local clients = vim.lsp.get_clients()
-      for _, client in ipairs(clients) do
-        if client.server_capabilities.signatureHelpProvider then
-          client.server_capabilities.signatureHelpProvider = false
-        end
-      end
+  callback = function(args)
+    -- 只在非汇编文件时移除自动注释延续
+    if vim.bo[args.buf].filetype ~= "S" and vim.bo[args.buf].filetype ~= "asm" then
+      vim.opt_local.formatoptions:remove { "c", "r", "o" }
     end
-    vim.opt_local.formatoptions:remove { "c", "r", "o" }
+  end,
+})
+
+-- .S 文件禁用 LSP signature help（仅影响当前 buffer）
+vim.api.nvim_create_autocmd("LspAttach", {
+  pattern = "*.S",
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.server_capabilities.signatureHelpProvider then
+      client.server_capabilities.signatureHelpProvider = false
+    end
   end,
 })
 
@@ -49,4 +55,3 @@ if settings.editor.linter then
     end,
   })
 end
-
