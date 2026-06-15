@@ -4,6 +4,9 @@ local map = vim.keymap.set
 local nomap = vim.keymap.del
 local o = vim.opt
 
+-- 恢复 <C-i> 跳转前进：NvChad 把 <Tab> 映射到 buffer next，但终端里 <Tab> 和 <C-i> 是同一个 keycode
+nomap("n", "<tab>")
+
 map("i", "jk", "<ESC>")
 
 map({ "n" }, "<leader>qq", "<CMD>ccl<CR>", { desc = "Quickfix - Close all" })

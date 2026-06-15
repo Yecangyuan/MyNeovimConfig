@@ -112,7 +112,7 @@ return {
           --disabled
           -- ["tsserver"] = function() end,
 
-          -- 配置 clangd 优化性能（禁用后台索引）
+          -- 配置 clangd（启用后台索引以支持跨文件补全）
           ["clangd"] = function()
             vim.lsp.config("clangd", {
               on_attach = on_attach,
@@ -120,7 +120,7 @@ return {
               cmd = {
                 "clangd",
                 "--log=error",              -- 只记录错误级别日志
-                "--background-index=false", -- ❌ 禁用后台索引（卡顿来源）
+                "--background-index",       -- ✅ 启用项目级后台索引（提升跨文件补全）
                 "--clang-tidy",
                 "--header-insertion=iwyu",
                 "--completion-style=detailed",
