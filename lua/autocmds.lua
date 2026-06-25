@@ -15,6 +15,16 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
+-- =============================================
+-- 在 dressing.nvim 输入框（新建/重命名文件）中禁用补全下拉框
+-- =============================================
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "DressingInput",
+  callback = function(args)
+    vim.b[args.buf].completion = false -- blink.cmp 尊重该变量
+  end,
+})
+
 -- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
 -- if settings.editor.vim_gas then
