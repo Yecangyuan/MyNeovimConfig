@@ -123,11 +123,15 @@ return {
                 "--background-index",       -- ✅ 启用项目级后台索引（提升跨文件补全）
                 "--clang-tidy",
                 "--header-insertion=iwyu",
+                "--header-insertion-decorators=0", -- 补全项里不显示 include 装饰符
                 "--completion-style=detailed",
+                "--all-scopes-completion",  -- 可补全非当前作用域符号
                 "--function-arg-placeholders",
                 "--fallback-style=llvm",
                 "--pch-storage=memory",     -- 预编译头存内存，加快响应
                 "--cross-file-rename",
+                "--enable-config",          -- 读取项目根目录的 .clangd 配置
+                "--ranking-model=decision_forest", -- 决策森林排序补全结果
               },
             })
             vim.lsp.enable("clangd")

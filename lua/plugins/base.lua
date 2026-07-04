@@ -47,6 +47,7 @@ return {
   { import = "configs.lang.hyprlang", enabled = false },
   { import = "configs.lang.markdown", enabled = true },
   { import = "configs.lang.golang", enabled = s.lang.go },
+  { import = "configs.lang.c", enabled = s.lang.c or s.lang.cpp },
 
   -- 动作增强
   { import = "configs.motions.hop", enabled = false },
