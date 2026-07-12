@@ -41,6 +41,11 @@ return {
           ["ctrl-d"] = "preview-page-down",
           ["ctrl-u"] = "preview-page-up",
           ["ctrl-q"] = "select-all+accept",
+          -- fzf 默认 `tab:toggle+down`，而 files picker 启用了 `--multi`。
+          -- 这会导致按 Tab 时先标记第一项再下移，回车反而打开被标记的第一项。
+          ["tab"] = "down",
+          ["shift-tab"] = "up",
+          ["alt-t"] = "toggle",
         },
       },
       fzf_opts = {

@@ -64,6 +64,7 @@ return {
   { import = "configs.ui.illuminate", enabled = false },
   { import = "configs.ui.neoscroll", enabled = false },
   { import = "configs.ui.noice", enabled = s.ui.noice },
+  { import = "configs.ui.fidget", enabled = true },
   { import = "configs.ui.trouble", enabled = s.ui.trouble },
   { import = "configs.ui.windows", enabled = false },
   { import = "configs.ui.hlslens", enabled = s.ui.hlslens },
