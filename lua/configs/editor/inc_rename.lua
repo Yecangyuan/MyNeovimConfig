@@ -10,8 +10,5 @@ return {
         input_buffer_type = "dressing",
       }
     end
-    vim.keymap.set("n", "<leader>rn", ":IncRename ", { silent = true, noremap = true })
-    -- vim.keymap.set("n", "<leader>cr", ":IncRename ", { desc = "IncRename" })
-    -- vim.keymap.del("n", "<leader>cr")
   end,
 }

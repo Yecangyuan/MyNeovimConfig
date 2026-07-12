@@ -25,17 +25,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-
--- if settings.editor.vim_gas then
---   vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
---     pattern = "*.S",
---     callback = function()
---       vim.bo.filetype = "asm"
---     end,
---   })
--- end
-
 -- Disable LSP signature help for .S files
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",

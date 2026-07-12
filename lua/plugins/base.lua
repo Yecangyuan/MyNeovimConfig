@@ -33,6 +33,8 @@ return {
   { import = "configs.editor.mini", enabled = true },
   { import = "configs.editor.conform", enabled = true },
   { import = "configs.editor.lint", enabled = s.editor.linter },
+  { import = "configs.editor.copilot_chat", enabled = s.editor.copilot_chat },
+  { import = "configs.editor.oil", enabled = s.editor.oil },
   { import = "configs.editor.aerial", enabled = s.editor.aerial },
   { import = "configs.editor.vim_gas", enabled = s.editor.vim_gas },
   { import = "configs.editor.inc_rename", enabled = s.editor.inc_rename },
@@ -44,15 +46,15 @@ return {
 
   -- 语言支持
   { import = "configs.lang.typescript", enabled = s.lang.typescript },
-  { import = "configs.lang.hyprlang", enabled = false },
-  { import = "configs.lang.markdown", enabled = true },
+  { import = "configs.lang.hyprlang", enabled = s.lang.hyprland },
+  { import = "configs.lang.markdown", enabled = s.lang.markdown },
   { import = "configs.lang.golang", enabled = s.lang.go },
   { import = "configs.lang.c", enabled = s.lang.c or s.lang.cpp },
 
   -- 动作增强
-  { import = "configs.motions.hop", enabled = false },
+  { import = "configs.motions.hop", enabled = s.motions.hop },
   { import = "configs.motions.marks", enabled = s.motions.marks },
-  { import = "configs.motions.harpoon", enabled = false },
+  { import = "configs.motions.harpoon", enabled = s.motions.harpoon },
   { import = "configs.motions.smoothcursor", enabled = false },
 
   -- 界面优化
@@ -80,8 +82,8 @@ return {
   { import = "configs.utility.better_escape", enabled = true },
   { import = "configs.utility.comment_box", enabled = s.utility.comment_box },
   { import = "configs.utility.lsplines", enabled = s.utility.lsplines },
-  { import = "configs.utility.nerdy", enabled = false },
-  { import = "configs.utility.pomo", enabled = false },
+  { import = "configs.utility.nerdy", enabled = s.utility.nerdy },
+  { import = "configs.utility.pomo", enabled = s.utility.pomodoro },
   { import = "configs.utility.todo_comments", enabled = s.utility.todo_comments },
   { import = "configs.utility.flote", enabled = false },
   { import = "configs.utility.undotree", enabled = s.utility.undotree },

@@ -6,11 +6,8 @@ local base = require "plugins.base"
 -- =============================================
 
 local fast_disabled = {
-  ["configs.editor.mini"] = false,
-  ["configs.editor.lint"] = false,
-  ["configs.editor.aerial"] = false,
-  ["configs.editor.vim_gas"] = false,
-  ["configs.editor.inc_rename"] = s.editor.inc_rename,
+  ["configs.editor.copilot_chat"] = false,
+  ["configs.editor.oil"] = false,
   ["configs.editor.goto_preview"] = false,
   ["configs.editor.session"] = false,
   ["configs.editor.workspaces"] = false,
@@ -40,7 +37,7 @@ local fast_disabled = {
   ["configs.utility.undotree"] = false,
   ["configs.utility.nerdy"] = false,
   ["configs.utility.pomo"] = false,
-  ["configs.editor.vim_gas"] = false,
+  ["configs.lang.hyprlang"] = false,
   ["configs.editor.smart_splits"] = false,
 }
 

@@ -1,48 +1,44 @@
 local options = require "nvchad.options"
 
 -- =============================================
--- 🚀 原生 Vim 性能优化 - 解决 hjkl 延迟
+-- 原生 Vim 性能优化 - 与模式无关的选项
+-- 模式相关选项（timeoutlen/updatetime/cursorline 等）由 core/mode.lua 统一管理
 -- =============================================
 
 local o = vim.o
 
--- ⌨️  关键：按键超时设置（解决 hjkl 延迟的核心）
--- 注意：基础 timeoutlen/updatetime 由 core/bootstrap.lua 统一设置
+-- 按键超时总开关（具体值由 core/mode.lua 设置）
 o.timeout = true
 o.ttimeout = true
--- 继承 bootstrap 已设置的值，避免重复定义导致冲突
-o.timeoutlen = vim.o.timeoutlen
-o.ttimeoutlen = vim.o.ttimeoutlen
 
--- 👁️ 视觉优化
-cursorlineopt = "number" -- 即使启用 cursorline 也只高亮行号
+-- 视觉优化
+o.cursorlineopt = "number" -- 即使启用 cursorline 也只高亮行号
 o.number = true
 
--- 🎨 语法高亮优化
-o.synmaxcol = 128          -- 超过 128 列不再语法高亮
+-- 语法高亮优化
 o.redrawtime = 500         -- 语法高亮超时
 o.maxmempattern = 1000     -- 限制模式匹配内存
 o.regexpengine = 0         -- 自动选择最快正则引擎
 
--- 🔍 搜索优化
+-- 搜索优化
 o.hlsearch = false         -- 禁用搜索高亮（避免搜索后卡顿）
 
--- 📁 文件优化
+-- 文件优化
 o.swapfile = false
 o.backup = false
 o.writebackup = false
 
--- 🖱️ 输入优化
+-- 输入优化
 o.mouse = ""               -- 禁用鼠标（减少事件处理）
 
--- 🔔 提示优化
+-- 提示优化
 o.showcmd = false          -- 禁用右下角命令显示
 
--- 📐 折叠优化
+-- 折叠优化
 o.foldenable = false       -- 默认禁用折叠
 
 -- =============================================
--- 🚀 大文件自动优化系统（核心性能优化）
+-- 大文件自动优化系统（核心性能优化）
 -- =============================================
 -- hjkl 卡顿的主要原因：
 --   1. mini.cursorword 每次光标移动都在全 buffer 搜索高亮
@@ -78,7 +74,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
     vim.b[buf].big_file = true
 
-    -- ── 禁用昂贵的 buffer 本地选项 ──
+    -- 禁用昂贵的 buffer 本地选项
     vim.opt_local.cursorline = false
     vim.opt_local.cursorcolumn = false
     vim.opt_local.relativenumber = false
@@ -88,18 +84,18 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     vim.opt_local.undolevels = 100
     vim.opt_local.synmaxcol = 80
 
-    -- ── 禁用 mini 模块（hjkl 卡顿的主因）──
+    -- 禁用 mini 模块（hjkl 卡顿的主因）
     vim.b[buf].minicursorword_disable = true
     vim.b[buf].miniindentscope_disable = true
 
-    -- ── 延迟禁用其他插件（等插件附加后再禁用）──
+    -- 延迟禁用其他插件（等插件附加后再禁用）
     vim.schedule(function()
       if not vim.api.nvim_buf_is_valid(buf) then return end
       pcall(function() require("ibl").setup_buffer(buf, { enabled = false }) end)
       pcall(function() require("colorizer").detach_from_buffer(buf) end)
     end)
 
-    -- ── 超大文件（3000+行）：禁用更多功能 ──
+    -- 超大文件（3000+行）：禁用更多功能
     if lines > 3000 then
       vim.bo[buf].syntax = ""
       vim.opt_local.signcolumn = "yes:1" -- 固定宽度，避免重算

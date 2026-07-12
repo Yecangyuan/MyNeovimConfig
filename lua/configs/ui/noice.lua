@@ -246,7 +246,5 @@ return {
         inc_rename = settings.editor.inc_rename,
       },
     }
-
-    vim.keymap.set("n", "<leader>nd", "<cmd> NoiceDismiss <CR>", { desc = "Noice - Dismiss Notifications" })
   end,
 }

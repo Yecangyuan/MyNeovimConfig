@@ -1,9 +1,8 @@
 return {
   defaults = { lazy = true },
   install = { colorscheme = { "nvchad" } },
-  -- Git 代理配置（使用 ghfast.top 加速）
   git = {
-    url_format = "https://ghfast.top/https://github.com/%s.git",
+    url_format = "https://github.com/%s.git",
   },
 
   ui = {

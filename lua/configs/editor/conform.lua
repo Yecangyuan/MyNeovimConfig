@@ -23,10 +23,5 @@ return {
       -- want to format manually.
       format_on_save = false,
     }
-
-    local map = vim.keymap.set
-    map("n", "<leader>cf", function()
-      require("conform").format()
-    end, { desc = "Conform - Fromat Buffer", noremap = true, silent = true })
   end,
 }

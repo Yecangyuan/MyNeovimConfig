@@ -1,7 +1,7 @@
 return {
   "echasnovski/mini.nvim",
   version = "*",
-  event = "BufRead",
+  event = "VeryLazy",
   config = function()
     require("mini.indentscope").setup {
       draw = {

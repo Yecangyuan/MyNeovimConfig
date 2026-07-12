@@ -7,7 +7,6 @@ return {
     require("marks").setup(opts)
     -- This plugin enables by default
     -- So we toggle it to reanable it (because we only have a toggling function)
-    -- vim.cmd [[MarksToggleSigns]]
   end,
   opts = {
     -- whether to map keybinds or not. default true

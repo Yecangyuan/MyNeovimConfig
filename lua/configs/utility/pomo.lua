@@ -31,24 +31,5 @@ return {
         },
       },
     }
-    local ok, pomo = pcall(require, "pomo")
-    if not ok then
-      return
-    end
-    local map = vim.keymap.set
-    local function start_new_timer()
-      local timer = pomo.get_first_to_finish()
-      if timer then
-        vim.notify("a Timer is already running", vim.log.levels.INFO)
-        return
-      end
-      pomo.start_timer(25 * 60, "work")
-    end
-    map("n", "<leader>pm", function()
-      start_new_timer()
-    end, { desc = "Pomo - Start new Timer", noremap = true, silent = true })
-    map("n", "<leader>ps", function()
-      pomo.stop_timer()
-    end, { desc = "Pomo - Stop Timer", noremap = true, silent = true })
   end,
 }

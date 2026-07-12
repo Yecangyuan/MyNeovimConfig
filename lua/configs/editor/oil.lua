@@ -150,9 +150,4 @@ return {
       },
     }
   end,
-  keys = {
-    { "<leader>to", ':lua require("oil").toggle_float()<CR>', mode = { "n" }, desc = "Oil - Open Float" },
-    { "<leader>oi", ":Oil<CR>", mode = { "n" }, desc = "Oil - Open" },
-    -- { "<C-o>", ':lua require("oil").toggle_float()<CR>', mode = { "n" }, desc = "Oil - Open Float" },
-  },
 }

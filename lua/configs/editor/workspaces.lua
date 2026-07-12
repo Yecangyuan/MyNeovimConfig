@@ -57,10 +57,5 @@ return {
         end,
       },
     }
-    local telescope = require "telescope"
-    telescope.load_extension "workspaces"
   end,
-  keys = {
-    { "<leader>wk", "<CMD>Telescope workspaces<CR>", mode = { "n" }, desc = "Workspaces - List" },
-  },
 }

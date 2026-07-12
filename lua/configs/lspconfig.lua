@@ -99,7 +99,7 @@ return {
 
       require("mason-lspconfig").setup {
         ensure_installed = servers,
-        automatic_installation = true,
+        automatic_installation = false,
         handlers = {
           function(server_name)
             vim.lsp.config(server_name, {
@@ -255,26 +255,8 @@ return {
         },
       }
 
-      -- vim.lsp.handlers["textDocument/hover"] = require("noice").hover
-      -- vim.lsp.handlers["textDocument/signatureHelp"] = require("noice").signature
-
       -- If the buffer has been edited before formatting has completed, do not try to apply the changes
-      vim.lsp.handlers["textDocument/formatting"] = function(err, result, ctx, _)
-        if err ~= nil or result == nil then
-          return
-        end
-
-        -- If the buffer hasn't been modified before the formatting has finished, update the buffer
-        if not vim.api.nvim_get_option_value("modified", { bufnr = ctx.bufnr }) then
-          local view = vim.fn.winsaveview()
-          local client = vim.lsp.get_client_by_id(ctx.client_id)
-          vim.lsp.util.apply_text_edits(result, ctx.bufnr, client.offset_encoding)
-          vim.fn.winrestview(view)
-          if ctx.bufnr == vim.api.nvim_get_current_buf() or not ctx.bufnr then
-            vim.api.nvim_command "noautocmd :update"
-          end
-        end
-      end
+      -- 已迁移到 conform.nvim 处理；LSP 原生格式化请使用 vim.lsp.buf.format()
 
       vim.diagnostic.config {
         virtual_lines = false,

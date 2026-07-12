@@ -32,7 +32,6 @@ M.on_attach = function(client, bufnr)
   end
 
   -- workspace-diagnostics 会导致大项目卡顿，已禁用
-  -- require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
 end
 
 -- disable semanticTokens
@@ -44,8 +43,6 @@ end
 
 -- 使用 blink.cmp 的 capabilities（比 nvim-cmp 更快）
 M.capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
--- 旧版 nvim-cmp 的 capabilities（已弃用）
--- M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
 M.capabilities.textDocument.completion.completionItem = {
   documentationFormat = { "markdown", "plaintext" },

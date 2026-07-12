@@ -60,28 +60,5 @@ return {
       test_efm = false, -- errorfomat for quickfix, default mix mode, set to true will be efm only
       luasnip = true, -- enable included luasnip snippets
     }
-
-    local map = vim.keymap.set
-    map("n", "<leader>lst", "<CMD>GoFillStruct<CR>", { desc = "Go - FillStruct", noremap = true, silent = true })
-    map("n", "<leader>lsw", "<CMD>GoFillSwitch<CR>", { desc = "Go - FillSwitch", noremap = true, silent = true })
-    map("n", "<leader>lif", "<CMD>GoIfErr<CR>", { desc = "Go - IfErr", noremap = true, silent = true })
-    map("n", "<leader>lm", "<CMD>GoMake<CR>", { desc = "Go - Async Make", noremap = true, silent = true })
-    map("n", "<leader>lr", "<CMD>GoRun<CR>", { desc = "Go - Run", noremap = true, silent = true })
-    map("n", "<leader>lt", "<CMD>GoTest<CR>", { desc = "Go - Test", noremap = true, silent = true })
-    map("n", "<leader>lw", "<CMD>GoTestSum -w<CR>", { desc = "Go - Test Watch", noremap = true, silent = true })
-    map("n", "<leader>lx", "<CMD>GoTermClose<CR>", { desc = "Go - Close Term", noremap = true, silent = true })
-    map("n", "<leader>lk", "<CMD>GoDoc<CR>", { desc = "Go - Doc", noremap = true, silent = true })
-    map("n", "<leader>lat", "<CMD>GoAddTag<CR>", { desc = "Go - Add Tag", noremap = true, silent = true })
-    map("n", "<leader>ldt", "<CMD>GoRmTag<CR>", { desc = "Go - Remove Tag", noremap = true, silent = true })
-    map("n", "<leader>lc", function()
-      require("go.comment").gen()
-    end, { desc = "Go - Comment", noremap = true, silent = true })
-    map("n", "<leader>ll", "<CMD>GoRmTag<CR>", { desc = "Go - Remove Tag", noremap = true, silent = true })
-    map(
-      "n",
-      "<leader>li",
-      "<CMD>GoToggleInlay<CR>",
-      { desc = "Go - Toggle Inlay Hints", noremap = true, silent = true }
-    )
   end,
 }

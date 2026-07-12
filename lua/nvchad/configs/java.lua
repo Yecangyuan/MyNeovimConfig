@@ -64,13 +64,6 @@ local settings = {
   },
 }
 
--- local init_options = {
---   bundles = {
---     vim.fn.expand "~/.local/share/java-debug-adapter/com.microsoft.java.debug.plugin.jar",
---     unpack(vim.split(vim.fn.glob "~/.local/share/java-test/*.jar", "\n")),
---   },
--- }
-
 local handlers = {
   ["$/progress"] = function() end, -- 禁用进度更新
 }
@@ -79,7 +72,6 @@ local config = {
   cmd = cmd,
   root_dir = root_dir,
   settings = settings,
-  -- init_options = init_options,
   handlers = handlers,
 }
 

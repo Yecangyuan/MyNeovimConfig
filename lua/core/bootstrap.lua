@@ -1,6 +1,5 @@
 -- =============================================
 -- 统一启动配置
--- 合并 init.lua 和 performance.lua 的重复逻辑
 -- 作为所有设置的唯一真实来源
 -- =============================================
 
@@ -39,25 +38,5 @@ vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- =============================================
--- turbo_mode 基础选项（唯一真实来源）
--- =============================================
-if vim.g.turbo_mode then
-  -- 极速模式：最小延迟，最少特效
-  vim.opt.updatetime = 100
-  vim.opt.timeoutlen = 150
-  vim.opt.ttimeoutlen = 0
-  vim.opt.cursorline = false
-  vim.opt.relativenumber = false
-  vim.opt.foldenable = false
-  vim.opt.mouse = ""
-  vim.opt.scrolloff = 0
-  vim.opt.synmaxcol = 200
-else
-  -- 正常模式：平衡性能和功能
-  vim.opt.updatetime = 250
-  vim.opt.timeoutlen = 200
-  vim.opt.ttimeoutlen = 1
-  vim.opt.cursorline = true
-  vim.opt.relativenumber = true
-end
+-- 应用当前模式选项
+require("core.mode").apply(require("core.mode").current())
