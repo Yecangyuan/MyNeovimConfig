@@ -84,7 +84,7 @@ return {
         -- "vls", -- Vue Language Server (已弃用，使用 volar)
         "prismals",
         "gopls",
-        "jdtls",
+        -- "jdtls", -- jdtls 由 nvim-jdtls（nvchad.configs.java）接管，避免双重启动
         "emmet_ls",
         -- "java-language-server",
         -- "grammarly", -- 已禁用：grammarly-languageserver 存在 tree-sitter.wasm 加载问题
@@ -97,163 +97,122 @@ return {
         "eslint",
       }
 
+      -- =============================================
+      -- mason-lspconfig v2：handlers 选项已被移除，
+      -- 改用 vim.lsp.config 预置配置 + automatic_enable 自动启用
+      -- =============================================
+      for _, server in ipairs(servers) do
+        vim.lsp.config(server, {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+      end
+
+      -- 配置 clangd（启用后台索引以支持跨文件补全）
+      vim.lsp.config("clangd", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        cmd = {
+          "clangd",
+          "--log=error",              -- 只记录错误级别日志
+          "--background-index",       -- ✅ 启用项目级后台索引（提升跨文件补全）
+          "--clang-tidy",
+          "--header-insertion=iwyu",
+          "--header-insertion-decorators=0", -- 补全项里不显示 include 装饰符
+          "--completion-style=detailed",
+          "--all-scopes-completion",  -- 可补全非当前作用域符号
+          "--function-arg-placeholders",
+          "--fallback-style=llvm",
+          "--pch-storage=memory",     -- 预编译头存内存，加快响应
+          "--cross-file-rename",
+          "--enable-config",          -- 读取项目根目录的 .clangd 配置
+          "--ranking-model=decision_forest", -- 决策森林排序补全结果
+        },
+      })
+
+      vim.lsp.config("lua_ls", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          Lua = {
+            runtime = {
+              version = "LuaJIT",
+            },
+            diagnostics = {
+              globals = { "vim", "use" },
+            },
+            hint = {
+              enable = true,
+              setType = true,
+            },
+            telemetry = {
+              enable = false,
+            },
+            workspace = {
+              library = {
+                vim.fn.expand "$VIMRUNTIME/lua",
+                vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
+                vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+                vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+              },
+              maxPreload = 100000,
+              preloadFileSize = 10000,
+            },
+          },
+        },
+      })
+
+      vim.lsp.config("gopls", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { "go", "gomod", "gowork", "gosum", "goimpl" },
+        settings = {
+          gopls = {
+            buildFlags = { "-tags=wireinject" },
+            usePlaceholders = true,
+            completeUnimported = true,
+            vulncheck = "Imports",
+            gofumpt = true,
+            staticcheck = true,
+            analyses = {
+              nilness = true,
+              shadow = true,
+              unusedparams = true,
+              unusewrites = true,
+              fieldalignment = true,
+              useany = true,
+            },
+            codelenses = {
+              references = true,
+              test = true,
+              tidy = true,
+              upgrade_dependency = true,
+              regenerate_cgo = true,
+              generate = true,
+              gc_details = false,
+              run_govulncheck = true,
+              vendor = true,
+            },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+          },
+        },
+      })
+
       require("mason-lspconfig").setup {
         ensure_installed = servers,
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            vim.lsp.config(server_name, {
-              on_attach = on_attach,
-              capabilities = capabilities,
-            })
-            vim.lsp.enable(server_name)
-          end,
-
-          --disabled
-          -- ["tsserver"] = function() end,
-
-          -- 配置 clangd（启用后台索引以支持跨文件补全）
-          ["clangd"] = function()
-            vim.lsp.config("clangd", {
-              on_attach = on_attach,
-              capabilities = capabilities,
-              cmd = {
-                "clangd",
-                "--log=error",              -- 只记录错误级别日志
-                "--background-index",       -- ✅ 启用项目级后台索引（提升跨文件补全）
-                "--clang-tidy",
-                "--header-insertion=iwyu",
-                "--header-insertion-decorators=0", -- 补全项里不显示 include 装饰符
-                "--completion-style=detailed",
-                "--all-scopes-completion",  -- 可补全非当前作用域符号
-                "--function-arg-placeholders",
-                "--fallback-style=llvm",
-                "--pch-storage=memory",     -- 预编译头存内存，加快响应
-                "--cross-file-rename",
-                "--enable-config",          -- 读取项目根目录的 .clangd 配置
-                "--ranking-model=decision_forest", -- 决策森林排序补全结果
-              },
-            })
-            vim.lsp.enable("clangd")
-          end,
-
-          ["lua_ls"] = function()
-            vim.lsp.config("lua_ls", {
-              on_attach = on_attach,
-              capabilities = capabilities,
-              settings = {
-                Lua = {
-                  runtime = {
-                    version = "LuaJIT",
-                  },
-                  diagnostics = {
-                    globals = { "vim", "use" },
-                  },
-                  hint = {
-                    enable = true,
-                    setType = true,
-                  },
-                  telemetry = {
-                    enable = false,
-                  },
-                  workspace = {
-                    library = {
-                      vim.fn.expand "$VIMRUNTIME/lua",
-                      vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
-                      vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
-                      vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
-                    },
-                    maxPreload = 100000,
-                    preloadFileSize = 10000,
-                  },
-                },
-              },
-            })
-            vim.lsp.enable("lua_ls")
-          end,
-
-          ["gopls"] = function()
-            vim.lsp.config("gopls", {
-              on_attach = on_attach,
-              capabilities = capabilities,
-              filetypes = { "go", "gomod", "gowork", "gosum", "goimpl" },
-              settings = {
-                gopls = {
-                  buildFlags = { "-tags=wireinject" },
-                  usePlaceholders = true,
-                  completeUnimported = true,
-                  vulncheck = "Imports",
-                  gofumpt = true,
-                  staticcheck = true,
-                  analyses = {
-                    nilness = true,
-                    shadow = true,
-                    unusedparams = true,
-                    unusewrites = true,
-                    fieldalignment = true,
-                    useany = true,
-                  },
-                  codelenses = {
-                    references = true,
-                    test = true,
-                    tidy = true,
-                    upgrade_dependency = true,
-                    regenerate_cgo = true,
-                    generate = true,
-                    gc_details = false,
-                    run_govulncheck = true,
-                    vendor = true,
-                  },
-                  hints = {
-                    assignVariableTypes = true,
-                    compositeLiteralFields = true,
-                    compositeLiteralTypes = true,
-                    constantValues = true,
-                    functionTypeParameters = true,
-                    parameterNames = true,
-                    rangeVariableTypes = true,
-                  },
-                },
-              },
-            })
-            vim.lsp.enable("gopls")
-          end,
-
-          -- Vue LSP 配置已移除，建议手动安装和配置 @vue/language-server
-          -- 或使用 typescript-tools.nvim 插件来支持 Vue 文件
-
-          ["jdtls"] = function()
-            local function find_root(fname)
-              local markers = { "gradlew", ".git", "mvnw", "build.gradle", "build.gradle.kts", "pom.xml" }
-              local found = vim.fs.find(markers, { path = fname, upward = true })[1]
-              return found and vim.fn.fnamemodify(found, ":h") or vim.fn.getcwd()
-            end
-
-            vim.lsp.config("jdtls", {
-              cmd = { "jdtls" },
-              root_dir = function(fname)
-                return find_root(fname)
-              end,
-              filetypes = { "java", "kotlin" },
-              on_attach = on_attach,
-              capabilities = capabilities,
-              settings = {
-                java = {
-                  configuration = {
-                    runtimes = {
-                      {
-                        name = "JavaSE-21",
-                        path = "/Users/simley/Library/Java/JavaVirtualMachines/azul-21.0.3/Contents/Home",
-                      },
-                    },
-                  },
-                },
-              },
-            })
-            vim.lsp.enable("jdtls")
-          end,
-        },
+        -- jdtls 由 nvim-jdtls 接管，排除自动启用避免双重启动
+        automatic_enable = { exclude = { "jdtls" } },
       }
+      -- Vue LSP 配置已移除，建议手动安装和配置 @vue/language-server
+      -- 或使用 typescript-tools.nvim 插件来支持 Vue 文件
 
       -- If the buffer has been edited before formatting has completed, do not try to apply the changes
       -- 已迁移到 conform.nvim 处理；LSP 原生格式化请使用 vim.lsp.buf.format()

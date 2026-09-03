@@ -1,11 +1,19 @@
--- 定义项目根目录标记
-local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle", ".project" }
-local root_dir = vim.fs.dirname(vim.fs.find(root_markers, { upward = true })[1])
+-- jdtls 配置（由 nvim-jdtls 在首次打开 java 文件时延迟加载）
+local override = require "override.lspconfig"
 
-local MASON = "~/.local/share/nvim/mason"
+-- 项目根目录标记：从当前文件向上查找，找不到则回退到 cwd
+local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts", ".project" }
+local fname = vim.api.nvim_buf_get_name(0)
+local start_path = fname ~= "" and vim.fs.dirname(fname) or vim.fn.getcwd()
+local root = vim.fs.find(root_markers, { upward = true, path = start_path })[1]
+local root_dir = root and vim.fn.fnamemodify(root, ":h") or vim.fn.getcwd()
+
+local MASON = vim.fn.stdpath "data" .. "/mason"
+-- jdtls 自身需要 Java 21+ 才能运行（默认 java 是 17，会被拒绝）
+local JAVA_HOME = "/Users/simley/Library/Java/JavaVirtualMachines/azul-21.0.3/Contents/Home"
 
 -- 计算工作区目录
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
 local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
 vim.fn.mkdir(workspace_dir, "p")
 
@@ -16,21 +24,21 @@ end
 
 -- 配置 jdtls 的 cmd 参数
 local cmd = {
-  "java",
+  JAVA_HOME .. "/bin/java",
   "-Declipse.application=org.eclipse.jdt.ls.core.id1",
   "-Dosgi.bundles.defaultStartLevel=4",
   "-Declipse.product=org.eclipse.jdt.ls.core.product",
   "-Dlog.protocol=true",
   "-Dlog.level=ALL",
-  "-javaagent:" .. vim.fn.expand "$MASON/packages/jdtls/lombok.jar",
+  "-javaagent:" .. MASON .. "/packages/jdtls/lombok.jar",
   "-Xms1g",
   "--add-modules=ALL-SYSTEM",
   "--add-opens=java.base/java.util=ALL-UNNAMED",
   "--add-opens=java.base/java.lang=ALL-UNNAMED",
   "-jar",
-  vim.fn.expand "$MASON/share/jdtls/plugins/org.eclipse.equinox.launcher.jar",
+  MASON .. "/share/jdtls/plugins/org.eclipse.equinox.launcher.jar",
   "-configuration",
-  vim.fn.expand "$MASON/share/jdtls/config",
+  MASON .. "/packages/jdtls/config_mac_arm",
   "-data",
   workspace_dir,
 }
@@ -38,7 +46,15 @@ local cmd = {
 local settings = {
   java = {
     eclipse = { downloadSources = true },
-    configuration = { updateBuildConfiguration = "interactive" },
+    configuration = {
+      updateBuildConfiguration = "interactive",
+      runtimes = {
+        {
+          name = "JavaSE-21",
+          path = "/Users/simley/Library/Java/JavaVirtualMachines/azul-21.0.3/Contents/Home",
+        },
+      },
+    },
     maven = { downloadSources = true },
     implementationsCodeLens = { enabled = true },
     referencesCodeLens = { enabled = true },
@@ -73,6 +89,8 @@ local config = {
   root_dir = root_dir,
   settings = settings,
   handlers = handlers,
+  on_attach = override.on_attach,
+  capabilities = override.capabilities,
 }
 
 require("jdtls").start_or_attach(config)
