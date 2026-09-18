@@ -7,7 +7,10 @@ return {
     -- 可选：如果你想用 copilot 补全
     -- "giuxtaposition/blink-cmp-copilot",
   },
-  lazy = false,
+  -- 延迟到首次进入插入模式/命令行时加载，避免占用启动时间。
+  -- capabilities 由 configs/lspconfig.lua 自行通过 vim.lsp.config("*") 兜底，
+  -- 因此不再依赖 blink 的加载时机。
+  event = { "InsertEnter", "CmdlineEnter" },
   version = "*",
 
   ---@module 'blink.cmp'

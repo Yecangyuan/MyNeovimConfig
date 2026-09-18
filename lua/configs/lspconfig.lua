@@ -4,7 +4,6 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "saghen/blink.cmp",
       "rafamadriz/friendly-snippets",
     },
     config = function()
@@ -12,6 +11,12 @@ return {
       ---@diagnostic disable: undefined-global
       local on_attach = override.on_attach
       local capabilities = override.capabilities
+
+      -- 全局兜底：未显式配置 capabilities 的 server（如 stylua、typescript-tools）
+      -- 取这份。显式设置可让 capabilities 不再依赖 blink.cmp 的加载时机（blink 已
+      -- 延迟到 InsertEnter 加载，而它自带的 plugin/blink-cmp.lua 也会写
+      -- vim.lsp.config("*")，届时会以本表为基础再合并，同值幂等）。
+      vim.lsp.config("*", { capabilities = override.global_capabilities })
 
       -- =============================================
       -- DAP 延迟加载（不再在打开文件时就加载 6 个调试插件）

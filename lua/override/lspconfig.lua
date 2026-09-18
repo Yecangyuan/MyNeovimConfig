@@ -75,6 +75,15 @@ local blink_lsp_capabilities = {
   },
 }
 
+-- 全局兜底：等价于 blink.cmp 自带的 plugin/blink-cmp.lua 注入到 vim.lsp.config("*") 的值，
+-- 即不带 nvim 默认值的纯静态表。Neovim 在创建 client 时才把
+-- make_client_capabilities() 叠在它下面（client.lua），所以这里保持"纯附加"语义。
+-- 未显式配置 capabilities 的 server（stylua、typescript-tools 等）取这份。
+M.global_capabilities = vim.deepcopy(blink_lsp_capabilities)
+
+-- 各 server 显式使用的 capabilities：在静态表之上叠 nvim 默认值，再按本仓库偏好
+-- 覆盖 completionItem（blink 的静态表把 preselectSupport/commitCharactersSupport
+-- 设为 false，本仓库要 true）。与本次改动前的构造方式保持一致。
 M.capabilities = vim.tbl_deep_extend("force", blink_lsp_capabilities, vim.lsp.protocol.make_client_capabilities())
 
 M.capabilities.textDocument.completion.completionItem = {
