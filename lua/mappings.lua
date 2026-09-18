@@ -275,19 +275,28 @@ map("n", "<leader><leader>l", function()
 end, { desc = "SmartSplits - Swap Buffer Right" })
 
 -- ── IncRename ─────────────────────────────────────────────────
-map("n", "<leader>rn", ":IncRename ", { silent = true, noremap = true, desc = "IncRename" })
+if settings.editor.inc_rename then
+  map("n", "<leader>rn", ":IncRename ", { silent = true, noremap = true, desc = "IncRename" })
+else
+  map("n", "<leader>rn", function()
+    vim.lsp.buf.rename()
+  end, { desc = "LSP rename" })
+end
 
 -- ── Noice ─────────────────────────────────────────────────────
 map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Noice - Dismiss Notifications" })
 
 -- ── Trouble ───────────────────────────────────────────────────
-map("n", "<leader>tr", ":TroubleToggle<CR>", { desc = "Trouble - Toggle" })
-map("n", "<leader>wd", ":TroubleToggle workspace_diagnostics<CR>", { desc = "Trouble - Workspace Diagnostics" })
-map("n", "<leader>cq", "<CMD>TroubleToggle quickfix<CR>", { desc = "Trouble - Quickfix" })
-map("n", "<leader>td", "<CMD>TodoTrouble<CR>", { desc = "Trouble - Todo" })
-map("n", "gd", "<CMD>Trouble lsp_definitions<CR>", { desc = "Trouble - Definition" })
-map("n", "gi", "<CMD>Trouble lsp_implementations<CR>", { desc = "Trouble - Implementations" })
-map("n", "gD", "<CMD>Trouble lsp_type_definitions<CR>", { desc = "Trouble - Type Definition" })
+-- Trouble 关闭时不注册：gd/gi/gD 交还 override/lspconfig.lua 的 buffer-local LSP 映射
+if settings.ui.trouble then
+  map("n", "<leader>tr", ":TroubleToggle<CR>", { desc = "Trouble - Toggle" })
+  map("n", "<leader>wd", ":TroubleToggle workspace_diagnostics<CR>", { desc = "Trouble - Workspace Diagnostics" })
+  map("n", "<leader>cq", "<CMD>TroubleToggle quickfix<CR>", { desc = "Trouble - Quickfix" })
+  map("n", "<leader>td", "<CMD>TodoTrouble<CR>", { desc = "Trouble - Todo" })
+  map("n", "gd", "<CMD>Trouble lsp_definitions<CR>", { desc = "Trouble - Definition" })
+  map("n", "gi", "<CMD>Trouble lsp_implementations<CR>", { desc = "Trouble - Implementations" })
+  map("n", "gD", "<CMD>Trouble lsp_type_definitions<CR>", { desc = "Trouble - Type Definition" })
+end
 
 -- ── Goto Preview ──────────────────────────────────────────────
 map("n", "<leader>pd", function()
@@ -350,31 +359,33 @@ map({ "n", "v" }, "<leader>hs", "<Cmd>HopChar2<cr>", { desc = "Hop - 2 Character
 map({ "n", "v" }, "<M-f>", "<Cmd>HopChar1<cr>", { desc = "Hop - Character" })
 
 -- ── CopilotChat ───────────────────────────────────────────────
-map("n", "<A-c>", "<cmd>CopilotChat<CR>", { desc = "CopilotChat - Enable" })
-map({ "n", "v" }, "<leader>ae", "<cmd>CopilotChatExplain<cr>", { desc = "CopilotChat - Explain code" })
-map({ "n", "v" }, "<leader>at", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
-map({ "n", "v" }, "<leader>af", "<cmd>CopilotChatFix<cr>", { desc = "CopilotChat - Fix code" })
-map({ "n", "v" }, "<leader>ar", "<cmd>CopilotChatRefactor<cr>", { desc = "CopilotChat - Refactor code" })
-map({ "n", "v" }, "<leader>ao", "<cmd>CopilotChatOptimize<cr>", { desc = "CopilotChat - Optimize code" })
-map({ "n", "v" }, "<leader>ad", "<cmd>CopilotChatDocs<cr>", { desc = "CopilotChat - Generate Docs" })
-map({ "n", "v" }, "<leader>av", "<cmd>CopilotChatToggle<cr>", { desc = "CopilotChat - Toggle Vsplit" })
-map({ "n", "v" }, "<leader>ax", ":CopilotChatInline<cr>", { desc = "CopilotChat - Inline chat" })
-map({ "n", "v" }, "<leader>ai", function()
-  local input = vim.fn.input "Ask Copilot: "
-  if input ~= "" then
-    vim.cmd("CopilotChat " .. input)
-  end
-end, { desc = "CopilotChat - Ask input" })
-map({ "n", "v" }, "<leader>aq", function()
-  local input = vim.fn.input "Quick Chat: "
-  if input ~= "" then
-    vim.cmd("CopilotChatBuffer " .. input)
-  end
-end, { desc = "CopilotChat - Quick chat" })
-map({ "n", "v" }, "<leader>ac", "<cmd>CopilotChatCommit<cr>", { desc = "CopilotChat - Commit Message" })
-map({ "n", "v" }, "<leader>as", "<cmd>CopilotChatCommitStaged<cr>", { desc = "CopilotChat - Commit Message Staged" })
-map({ "n", "v" }, "<leader>aF", "<cmd>CopilotChatFixDiagnostic<cr>", { desc = "CopilotChat - Fix Diagnostic" })
-map({ "n", "v" }, "<leader>aR", "<cmd>CopilotChatReset<cr>", { desc = "CopilotChat - Clear buffer and chat history" })
+if settings.editor.copilot_chat then
+  map("n", "<A-c>", "<cmd>CopilotChat<CR>", { desc = "CopilotChat - Enable" })
+  map({ "n", "v" }, "<leader>ae", "<cmd>CopilotChatExplain<cr>", { desc = "CopilotChat - Explain code" })
+  map({ "n", "v" }, "<leader>at", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
+  map({ "n", "v" }, "<leader>af", "<cmd>CopilotChatFix<cr>", { desc = "CopilotChat - Fix code" })
+  map({ "n", "v" }, "<leader>ar", "<cmd>CopilotChatRefactor<cr>", { desc = "CopilotChat - Refactor code" })
+  map({ "n", "v" }, "<leader>ao", "<cmd>CopilotChatOptimize<cr>", { desc = "CopilotChat - Optimize code" })
+  map({ "n", "v" }, "<leader>ad", "<cmd>CopilotChatDocs<cr>", { desc = "CopilotChat - Generate Docs" })
+  map({ "n", "v" }, "<leader>av", "<cmd>CopilotChatToggle<cr>", { desc = "CopilotChat - Toggle Vsplit" })
+  map({ "n", "v" }, "<leader>ax", ":CopilotChatInline<cr>", { desc = "CopilotChat - Inline chat" })
+  map({ "n", "v" }, "<leader>ai", function()
+    local input = vim.fn.input "Ask Copilot: "
+    if input ~= "" then
+      vim.cmd("CopilotChat " .. input)
+    end
+  end, { desc = "CopilotChat - Ask input" })
+  map({ "n", "v" }, "<leader>aq", function()
+    local input = vim.fn.input "Quick Chat: "
+    if input ~= "" then
+      vim.cmd("CopilotChatBuffer " .. input)
+    end
+  end, { desc = "CopilotChat - Quick chat" })
+  map({ "n", "v" }, "<leader>ac", "<cmd>CopilotChatCommit<cr>", { desc = "CopilotChat - Commit Message" })
+  map({ "n", "v" }, "<leader>as", "<cmd>CopilotChatCommitStaged<cr>", { desc = "CopilotChat - Commit Message Staged" })
+  map({ "n", "v" }, "<leader>aF", "<cmd>CopilotChatFixDiagnostic<cr>", { desc = "CopilotChat - Fix Diagnostic" })
+  map({ "n", "v" }, "<leader>aR", "<cmd>CopilotChatReset<cr>", { desc = "CopilotChat - Clear buffer and chat history" })
+end
 
 -- ── Go ────────────────────────────────────────────────────────
 map("n", "<leader>lst", "<CMD>GoFillStruct<CR>", { desc = "Go - FillStruct", noremap = true, silent = true })

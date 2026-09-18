@@ -11,3 +11,7 @@ openspec/
 .codex/
 .cursor/
 docs/superpowers/
+
+# 运行时产物
+nvim.log
+.DS_Store

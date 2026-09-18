@@ -42,7 +42,40 @@ M.on_init = function(client, _)
 end
 
 -- 使用 blink.cmp 的 capabilities（比 nvim-cmp 更快）
-M.capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- 这里是 blink.cmp 的 get_lsp_capabilities() 的静态等价表。
+-- 不直接调用它的原因：该方法 require "blink.cmp.sources.lib"，会把 blink 的整个
+-- config/sources 提前拉进启动期，而它返回的只是一张不含运行时状态的常量表。
+-- 若 blink 升级后需要同步，用以下断言比对：
+--   local b = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+--   b.textDocument.completion.completionItem = M.capabilities.textDocument.completion.completionItem
+--   assert(vim.deep_equal(M.capabilities, b))
+local blink_lsp_capabilities = {
+  textDocument = {
+    completion = {
+      completionItem = {
+        snippetSupport = true,
+        commitCharactersSupport = false,
+        documentationFormat = { "markdown", "plaintext" },
+        deprecatedSupport = true,
+        preselectSupport = false,
+        tagSupport = { valueSet = { 1 } },
+        insertReplaceSupport = true,
+        resolveSupport = {
+          properties = { "documentation", "detail", "additionalTextEdits", "command", "data" },
+        },
+        insertTextModeSupport = { valueSet = { 1 } },
+        labelDetailsSupport = true,
+      },
+      completionList = {
+        itemDefaults = { "commitCharacters", "editRange", "insertTextFormat", "insertTextMode", "data" },
+      },
+      contextSupport = true,
+      insertTextMode = 1,
+    },
+  },
+}
+
+M.capabilities = vim.tbl_deep_extend("force", blink_lsp_capabilities, vim.lsp.protocol.make_client_capabilities())
 
 M.capabilities.textDocument.completion.completionItem = {
   documentationFormat = { "markdown", "plaintext" },
@@ -62,32 +95,4 @@ M.capabilities.textDocument.completion.completionItem = {
   },
 }
 
-M.defaults = function()
-  dofile(vim.g.base46_cache .. "lsp")
-  require "nvchad.lsp"
-
-  vim.lsp.config("lua_ls", {
-    on_attach = M.on_attach,
-    capabilities = M.capabilities,
-    on_init = M.on_init,
-
-    settings = {
-      Lua = {
-        diagnostics = {
-          globals = { "vim" },
-        },
-        workspace = {
-          library = {
-            vim.fn.expand "$VIMRUNTIME/lua",
-            vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
-            vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
-            vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
-          },
-          maxPreload = 100000,
-          preloadFileSize = 10000,
-        },
-      },
-    },
-  })
-end
 return M
