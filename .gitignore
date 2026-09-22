@@ -10,6 +10,7 @@ openspec/
 .claude/
 .codex/
 .cursor/
+.codebuddy/
 docs/superpowers/
 
 # 运行时产物
