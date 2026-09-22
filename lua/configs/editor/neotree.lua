@@ -2,6 +2,8 @@ local HEIGHT_RATIO = 0.8 -- You can change this
 local WIDTH_RATIO = 0.5 -- You can change this too
 return {
   "nvim-tree/nvim-tree.lua",
+  -- 保留 NvChad 默认的懒加载触发方式（原先在 nvchad/plugins/init.lua 里声明）
+  cmd = { "NvimTreeToggle", "NvimTreeFocus" },
   opts = function()
     local function on_attach(bufnr)
       local api = require "nvim-tree.api"
@@ -12,7 +14,9 @@ return {
       vim.keymap.set("n", "l", api.node.open.edit, opts "Open")
       vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts "Up")
     end
-    return {
+
+    ---@type table
+    local user_opts = {
       on_attach = on_attach,
       diagnostics = {
         enable = false,
@@ -37,9 +41,18 @@ return {
         timeout = 5000,
       },
       view = {
-        adaptive_size = false,
         side = "left",
-        width = 30,
+        -- 宽度自适应：跟随最长行伸缩，上限为屏幕的 20%，且不低于 20 列。
+        -- width 用表形式即为 nvim-tree 的自适应宽度（等价于旧的
+        -- adaptive_size = true，见 nvim-tree view-state.configure_width），
+        -- max 用函数是为了让「下限 20 列」在窄屏/大字体下依然成立
+        -- （纯字符串 "20%" 会被 nvim-tree 的 clamp 逻辑压到下限之下）。
+        width = {
+          min = 20,
+          max = function()
+            return math.max(20, math.floor(vim.o.columns * 0.2))
+          end,
+        },
         preserve_window_proportions = true,
         cursorline = false,
         float = {
@@ -104,5 +117,11 @@ return {
         },
       },
     }
+
+    -- 与 NvChad 的「极速优化」默认值显式合并，用户显式设置的项优先。
+    -- 此前 nvim-tree 在 nvchad/plugins/init.lua 和这里各声明一份 opts，
+    -- 二者相互遮蔽，导致 lua/nvchad/configs/nvimtree.lua 里的优化项
+    -- （例如 filesystem_watchers 关闭）被静默丢弃。
+    return vim.tbl_deep_extend("force", require("nvchad.configs.nvimtree"), user_opts)
   end,
 }

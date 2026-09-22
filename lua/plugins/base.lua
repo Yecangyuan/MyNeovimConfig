@@ -14,6 +14,24 @@ return {
     "nvim-treesitter/nvim-treesitter",
     config = function(_, opts)
       require("nvim-treesitter").setup(opts)
+
+      -- New nvim-treesitter: highlight/indent are built into Neovim 0.12+
+      -- Defer ensure_installed to VimEnter so runtimepath is fully resolved
+      -- （这段原在 nvchad/plugins/init.lua 的 config 里，被本 config 遮蔽、从未执行，
+      -- 现收敛到这里；opts 仍是 nvchad.configs.treesitter 提供的那份）
+      if opts.ensure_installed and #opts.ensure_installed > 0 then
+        vim.api.nvim_create_autocmd("VimEnter", {
+          once = true,
+          callback = function()
+            local to_install = vim.tbl_filter(function(lang)
+              return not pcall(vim.treesitter.language.add, lang)
+            end, opts.ensure_installed)
+            if #to_install > 0 then
+              vim.cmd("TSInstall " .. table.concat(to_install, " "))
+            end
+          end,
+        })
+      end
     end,
   },
 
@@ -63,7 +81,7 @@ return {
   { import = "configs.ui.toggleterm", enabled = true },
   { import = "configs.ui.bqf", enabled = true },
   { import = "configs.ui.edgy", enabled = true },
-  { import = "configs.ui.illuminate", enabled = false },
+  { import = "configs.ui.illuminate", enabled = s.ui.illuminate },
   { import = "configs.ui.neoscroll", enabled = false },
   { import = "configs.ui.noice", enabled = s.ui.noice },
   { import = "configs.ui.fidget", enabled = true },

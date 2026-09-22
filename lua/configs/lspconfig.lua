@@ -1,6 +1,9 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    -- 原先挂在 nvchad/plugins/init.lua 的那份声明上（那份 config 被本文件的 config
+    -- 遮蔽、从未执行），现收敛到唯一来源，保留同样的懒加载触发方式。
+    event = "User FilePost",
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -16,7 +19,15 @@ return {
       -- 取这份。显式设置可让 capabilities 不再依赖 blink.cmp 的加载时机（blink 已
       -- 延迟到 InsertEnter 加载，而它自带的 plugin/blink-cmp.lua 也会写
       -- vim.lsp.config("*")，届时会以本表为基础再合并，同值幂等）。
-      vim.lsp.config("*", { capabilities = override.global_capabilities })
+      --
+      -- on_init 来自 override.lspconfig：chadrc.lua 里 lsp.semantic_tokens = false，
+      -- 语义高亮需在 client 初始化时关掉。NvChad 原本把它挂在被遮蔽的
+      -- nvchad.configs.lspconfig.defaults() 里，故从未生效；放在 "*" 上对所有
+      -- server 兜底（vim.lsp.config 是深合并，blink 之后写 "*" 不会覆盖它）。
+      vim.lsp.config("*", {
+        capabilities = override.global_capabilities,
+        on_init = override.on_init,
+      })
 
       -- =============================================
       -- DAP 延迟加载（不再在打开文件时就加载 6 个调试插件）

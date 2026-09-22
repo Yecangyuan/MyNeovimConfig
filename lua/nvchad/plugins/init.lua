@@ -45,39 +45,15 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
+    -- mason.nvim 的声明保留在下方（带 cmd/opts 的那一份），此处不重复声明
     "mfussenegger/nvim-dap",
     "jay-babu/mason-nvim-dap.nvim",
   },
 
-  -- file managing , picker etc
-  {
-    "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    opts = function()
-      return require "nvchad.configs.nvimtree"
-    end,
-  },
-
-  {
-    "folke/which-key.nvim",
-    keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
-    cmd = "WhichKey",
-    config = function(_, opts)
-      dofile(vim.g.base46_cache .. "whichkey")
-      require("which-key").setup(opts)
-    end,
-  },
-
-  -- formatting!
-  {
-    "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        lua = { "stylua" },
-      },
-    },
-  },
+  -- 说明：nvim-tree / which-key / conform 的插件声明已统一收敛到
+  -- lua/plugins/base.lua 引入的 configs/* 中（见 configs/editor/neotree.lua、
+  -- configs/whichkey.lua、configs/editor/conform.lua），此处不再重复声明，
+  -- 避免同一插件的两份 opts/config 相互遮蔽。
 
   {
     "mfussenegger/nvim-jdtls",
@@ -107,13 +83,9 @@ return {
     end,
   },
 
-  {
-    "neovim/nvim-lspconfig",
-    event = "User FilePost",
-    config = function()
-      require("nvchad.configs.lspconfig").defaults()
-    end,
-  },
+  -- 说明：neovim/nvim-lspconfig 的声明同样已收敛到 configs/lspconfig.lua
+  -- （原此处那份 config = nvchad.configs.lspconfig.defaults() 被它完全遮蔽、
+  -- 从未执行，event = "User FilePost" 的懒加载触发方式已随之迁移过去）。
 
   -- load luasnips + cmp related in insert mode only
   {
@@ -232,25 +204,10 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
+    -- opts 仍是本仓库唯一来源；原先这里还有一份 config，被 lua/plugins/base.lua
+    -- 的 config 遮蔽、从未执行（ensure_installed 的延迟补装逻辑已迁移过去）。
     opts = function()
       return require "nvchad.configs.treesitter"
-    end,
-    config = function(_, opts)
-      -- New nvim-treesitter: highlight/indent are built into Neovim 0.12+
-      -- Defer ensure_installed to VimEnter so runtimepath is fully resolved
-      if opts.ensure_installed and #opts.ensure_installed > 0 then
-        vim.api.nvim_create_autocmd("VimEnter", {
-          once = true,
-          callback = function()
-            local to_install = vim.tbl_filter(function(lang)
-              return not pcall(vim.treesitter.language.add, lang)
-            end, opts.ensure_installed)
-            if #to_install > 0 then
-              vim.cmd("TSInstall " .. table.concat(to_install, " "))
-            end
-          end,
-        })
-      end
     end,
   },
 }

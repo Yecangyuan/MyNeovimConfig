@@ -26,7 +26,9 @@ M.ui = {
   trouble = false,
   notify = true,
   noice = true,
-  illuminate = true,
+  -- 「高亮光标下单词」已由 configs/editor/mini.lua 的 mini.cursorword 承担，
+  -- 故 illuminate 保持关闭；此开关现在真实生效（原先被 base.lua 硬编码 false 覆盖）。
+  illuminate = false,
   hlslens = true,
 }
 

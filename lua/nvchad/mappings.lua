@@ -48,8 +48,9 @@ map("n", "<leader>/", "gcc", { desc = "comment toggle", remap = true })
 map("v", "<leader>/", "gc", { desc = "comment toggle", remap = true })
 
 -- nvimtree
+-- 仅保留 <C-n>；<leader>e 由 lua/mappings.lua 统一接管（Toggle）。
+-- 原先这里还有一条 <leader>e = NvimTreeFocus，会在 lua/mappings.lua 里被覆盖成死映射，故移除。
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
-map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "nvimtree focus window" })
 
 -- fzf-lua (替代 telescope)
 map("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "fzf live grep" })
