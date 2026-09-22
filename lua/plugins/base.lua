@@ -50,6 +50,7 @@ return {
   { import = "configs.editor.blink_cmp", enabled = true },
   { import = "configs.editor.mini", enabled = true },
   { import = "configs.editor.conform", enabled = true },
+  { import = "configs.editor.grug_far", enabled = true },
   { import = "configs.editor.lint", enabled = s.editor.linter },
   { import = "configs.editor.copilot_chat", enabled = s.editor.copilot_chat },
   { import = "configs.editor.oil", enabled = s.editor.oil },
@@ -88,6 +89,8 @@ return {
   { import = "configs.ui.trouble", enabled = s.ui.trouble },
   { import = "configs.ui.windows", enabled = false },
   { import = "configs.ui.hlslens", enabled = s.ui.hlslens },
+  { import = "configs.ui.treesitter_context", enabled = true },
+  { import = "configs.ui.neodim", enabled = true },
 
   -- 实用工具
   { import = "configs.utility.lazygit", enabled = false },

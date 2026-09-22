@@ -63,5 +63,8 @@ return {
     require("mini.cursorword").setup {
       delay = 200,  -- 增加延迟，避免频繁重绘
     }
+    -- 自动配对：nvim-autopairs 曾作为 nvim-cmp 的依赖，cmp 被禁用后依赖树一起被丢弃，
+    -- 导致括号/引号不再自动闭合。用已在装的 mini.nvim 补回，不再引入新插件。
+    require("mini.pairs").setup {}
   end,
 }

@@ -45,10 +45,17 @@ return {
   },
 
   {
-    -- mason.nvim 的声明保留在下方（带 cmd/opts 的那一份），此处不重复声明
     "mfussenegger/nvim-dap",
-    "jay-babu/mason-nvim-dap.nvim",
+    -- dapui / dap-go 是 configs/lspconfig.lua 的 ensure_dap() 直接 require 的模块，
+    -- 此前没有任何地方声明，导致 F1–F5、<leader>bp 等键位一按就 module not found。
+    dependencies = {
+      "rcarriga/nvim-dap-ui",
+      "nvim-neotest/nvim-nio", -- nvim-dap-ui 运行时硬依赖，缺失时 require 直接报错
+      "leoluz/nvim-dap-go",
+    },
   },
+
+  "jay-babu/mason-nvim-dap.nvim",
 
   -- 说明：nvim-tree / which-key / conform 的插件声明已统一收敛到
   -- lua/plugins/base.lua 引入的 configs/* 中（见 configs/editor/neotree.lua、
