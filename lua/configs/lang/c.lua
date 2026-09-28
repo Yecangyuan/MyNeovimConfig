@@ -21,6 +21,11 @@ local function clangd_on_attach(args)
   map("v", "<leader>la", ":ClangdAST<CR>", opts "C/C++ - AST 范围")
   map("n", "<leader>lm", "<CMD>ClangdMemoryUsage<CR>", opts "C/C++ - 内存占用")
 
+  -- compile_commands.json 重新生成后必须重启 clangd 才会生效
+  -- （clangd 缓存了 db 查找结果，且不向客户端注册文件监听，实测覆盖 db 后诊断不刷新）
+  -- 注意：nvim 0.12 内置 :lsp 命令后，lspconfig 不再定义 :LspRestart，须用 :lsp restart
+  map("n", "<leader>lr", "<CMD>lsp restart clangd<CR>", opts "C/C++ - 重启 clangd（compile db 更新后）")
+
   -- 默认开启 inlay hints（只在 clangd 支持时）
   if client and client.server_capabilities.inlayHintProvider then
     local ok = pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
