@@ -104,6 +104,7 @@ return {
   { import = "configs.utility.comment_box", enabled = s.utility.comment_box },
   { import = "configs.utility.lsplines", enabled = s.utility.lsplines },
   { import = "configs.utility.nerdy", enabled = s.utility.nerdy },
+  { import = "configs.utility.kd_translate", enabled = true },
   { import = "configs.utility.pomo", enabled = s.utility.pomodoro },
   { import = "configs.utility.todo_comments", enabled = s.utility.todo_comments },
   { import = "configs.utility.flote", enabled = false },
