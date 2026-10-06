@@ -99,7 +99,7 @@ map("n", "<leader>om", ":Mason<CR>", { desc = "Mason" })
 -- ── NvimTree / Oil ────────────────────────────────────────────
 map("n", "<leader>e", "<cmd> NvimTreeToggle <CR>", { desc = "NvimTree - Toggle" })
 map("n", "<leader>oi", ":Oil<CR>", { desc = "Oil - Open" })
-map("n", "<leader>to", function()
+map("n", "<leader>of", function()
   local ok, oil = pcall(require, "oil")
   if ok then
     oil.toggle_float()
@@ -424,8 +424,8 @@ map("n", "<leader>ps", function()
   end
 end, { desc = "Pomo - Stop Timer", noremap = true, silent = true })
 
--- ── Term ──────────────────────────────────────────────────────
-map("n", "<leader>t", "<cmd>split | terminal<CR>", { desc = "Open terminal" })
+-- 终端：原先 <leader>t = split | terminal，现已移除（终端统一走 toggleterm 的 <C-\>），
+-- <leader>t 让给 kd 翻译插件。
 
 -- whichkey
 map("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "Whichkey - all keymaps" })

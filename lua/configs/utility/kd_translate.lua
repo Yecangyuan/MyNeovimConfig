@@ -2,11 +2,10 @@ return {
   "SilverofLight/kd_translate.nvim",
   cmd = { "TranslateNormal", "TranslateVisual" },
   keys = {
-    -- 用 <leader>d 而不是 <leader>t：<leader>t 本身是终端（mappings.lua 里的 split|terminal），
-    -- 单键映射会在停顿后先触发，<leader>tt 连打稍慢就会误开终端。
-    -- <leader>d 下只有 dw/ds 两个双键映射，按下 d 不会立即触发任何东西。
-    { mode = { "n" }, "<leader>dk", "<cmd>TranslateNormal<CR>", desc = "kd - 翻译光标下的单词" },
-    { mode = { "v" }, "<leader>dk", "<cmd>TranslateVisual<CR>", desc = "kd - 翻译选中的文本" },
+    -- <leader>t 原先是 split | terminal，已移除（终端统一走 toggleterm 的 <C-\>）。
+    -- 该前缀下已无其他映射，因此 <leader>t 是单键直达，不会出现停顿后误触别的东西。
+    { mode = { "n" }, "<leader>t", "<cmd>TranslateNormal<CR>", desc = "kd - 翻译光标下的单词" },
+    { mode = { "v" }, "<leader>t", "<cmd>TranslateVisual<CR>", desc = "kd - 翻译选中的文本" },
   },
   config = function()
     -- 插件内部用 vim.system({"kd", ...}) 调用后端，不可配置路径。

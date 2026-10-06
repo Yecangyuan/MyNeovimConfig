@@ -19,7 +19,6 @@ return {
       { "<leader>b", group = "󰈔 Buffer" },
       { "<leader>c", group = "󰘦 Code" },
       { "<leader>co", group = " Copilot" },
-      { "<leader>d", group = "󱆖 Dictionary" },
       { "<leader>g", group = "󰊤 Git" },
       { "<leader>h", group = "󰛢 Harpoon/Hop" },
       { "<leader>l", group = "󱃕 Lists" },
@@ -29,7 +28,6 @@ return {
       { "<leader>q", group = "󰁯 Session" },
       { "<leader>r", group = " Refactor" },
       { "<leader>s", group = "󱦞 Search" },
-      { "<leader>t", group = "󰙨 Test" },
       { "<leader>w", group = "󰉋 Workspace" },
       { "<leader>z", group = "󰍻 Extras" },
     }
