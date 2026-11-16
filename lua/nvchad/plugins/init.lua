@@ -11,9 +11,9 @@ return {
   {
     "NvChad/ui",
     lazy = false,
-    build = function()
-      dofile(vim.fn.stdpath "data" .. "/lazy/ui/lua/nvchad_feedback.lua")()
-    end,
+    -- ui v3.0 移除了 nvchad_feedback.lua（匿名统计），旧的 build 会在升级时报
+    -- "cannot open .../nvchad_feedback.lua"。本配置未启用 NvChad 状态栏/tabufline，
+    -- 因此也不需要 config = function() require "nvchad" end。
   },
 
   {
@@ -30,8 +30,10 @@ return {
     event = "User FilePost",
     enabled = not vim.g.turbo_mode,  -- 极速模式下禁用
     opts = {
-      indent = { char = "│", highlight = "IblChar" },
-      scope = { char = "│", highlight = "IblScopeChar" },
+      -- base46 新版 blankline 集成只提供 IblIndent / IblScope（旧名 IblChar 已消失，
+      -- ibl v3.10 起缺少 highlight group 会直接报错）
+      indent = { char = "│", highlight = "IblIndent" },
+      scope = { char = "│", highlight = "IblScope" },
     },
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "blankline")
@@ -209,7 +211,8 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+    -- nvim-treesitter v1.0 只保留这些命令（TSBufEnable/TSBufDisable/TSModuleInfo 已移除）
+    cmd = { "TSInstall", "TSUpdate", "TSUninstall", "TSLog" },
     build = ":TSUpdate",
     -- opts 仍是本仓库唯一来源；原先这里还有一份 config，被 lua/plugins/base.lua
     -- 的 config 遮蔽、从未执行（ensure_installed 的延迟补装逻辑已迁移过去）。

@@ -4,6 +4,7 @@
 local mode = require "core.mode"
 
 local M = {}
+
 local original_settings = {}
 
 M.is_fast_mode = mode.is_turbo
@@ -16,17 +17,19 @@ M.toggle = function()
   end
 end
 
+-- nvim-treesitter v1.0 移除了 TSBufEnable/TSBufDisable（高亮已内置到
+-- Neovim 0.12），这里改用 vim.treesitter.start/stop。
 local function disable_plugins()
-  local ok_ts = pcall(require, "nvim-treesitter")
+  local buf = vim.api.nvim_get_current_buf()
+  local ok_ts = pcall(vim.treesitter.stop, buf)
   if ok_ts then
-    vim.cmd "TSBufDisable highlight"
-    vim.cmd "TSBufDisable indent"
     print "  ✓ Treesitter 高亮已禁用"
   end
 
   local ok_ibl, ibl = pcall(require, "ibl")
-  if ok_ibl then
-    ibl.setup_buffer(0, { enabled = false })
+  -- ibl 尚未 setup 时没有缩进线，直接跳过，避免 "without doing setup" 报错
+  if ok_ibl and ibl.initialized then
+    pcall(ibl.setup_buffer, buf, { enabled = false })
     print "  ✓ 缩进线已禁用"
   end
 
@@ -38,10 +41,8 @@ local function disable_plugins()
 end
 
 local function enable_plugins()
-  local ok_ts = pcall(require, "nvim-treesitter")
+  local ok_ts = pcall(vim.treesitter.start, vim.api.nvim_get_current_buf())
   if ok_ts then
-    vim.cmd "TSBufEnable highlight"
-    vim.cmd "TSBufEnable indent"
     print "  ✓ Treesitter 高亮已启用"
   end
 end

@@ -2,35 +2,12 @@ return {
   "mrjones2014/smart-splits.nvim",
   event = "VeryLazy",
   config = function()
+    -- smart-splits v3 移除了持久化 resize mode（原 resize_mode 整块），
+    -- 并把 log_level 改成 log.level；这里只保留仍然有效的忽略列表。
+    -- 旧配置把 NvimTree 当成 buftype 写了，它实际是 filetype。
     require("smart-splits").setup {
-      ignored_buftypes = { "NvimTree" },
-      resize_mode = {
-        -- key to exit persistent resize mode
-        quit_key = "<ESC>",
-        -- keys to use for moving in resize mode
-        -- in order of left, down, up' right
-        resize_keys = { "h", "j", "k", "l" },
-        -- set to true to silence the notifications
-        -- when entering/exiting persistent resize mode
-        silent = false,
-        -- must be functions, they will be executed when
-        -- entering or exiting the resize mode
-        hooks = {
-          on_enter = nil,
-          on_leave = nil,
-        },
-      },
-      -- enable or disable a multiplexer integration;
-      -- automatically determined, unless explicitly disabled or set,
-      -- by checking the $TERM_PROGRAM environment variable,
-      -- and the $KITTY_LISTEN_ON environment variable for Kitty
-      multiplexer_integration = nil,
-      -- Supply a Kitty remote control password if needed,
-      -- or you can also set vim.g.smart_splits_kitty_password
-      -- see https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.remote_control_password
-      kitty_password = nil,
-      -- default logging level, one of: 'trace'|'debug'|'info'|'warn'|'error'|'fatal'
-      log_level = "info",
+      ignored_buftypes = { "nofile", "quickfix", "prompt" },
+      ignored_filetypes = { "NvimTree" },
     }
   end,
 }

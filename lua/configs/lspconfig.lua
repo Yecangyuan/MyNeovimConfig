@@ -222,11 +222,15 @@ return {
         },
       })
 
+      -- 说明：mason-lspconfig v2 的 automatic_enable 默认会把【所有已安装】的
+      -- server 都启用（不只 servers 列表），本机装了 grammarly 等已弃用的 server，
+      -- 打开 markdown 就报 "RPC Error ... fetch failed"。这里关闭自动启用，
+      -- 只显式启用 servers 列表（jdtls 由 nvim-jdtls 接管，本就不在列表里）。
       require("mason-lspconfig").setup {
         ensure_installed = servers,
-        -- jdtls 由 nvim-jdtls 接管，排除自动启用避免双重启动
-        automatic_enable = { exclude = { "jdtls" } },
+        automatic_enable = false,
       }
+      vim.lsp.enable(servers)
       -- Vue LSP 配置已移除，建议手动安装和配置 @vue/language-server
       -- 或使用 typescript-tools.nvim 插件来支持 Vue 文件
 

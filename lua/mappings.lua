@@ -87,7 +87,8 @@ end, { desc = "Conform - Format Buffer", noremap = true, silent = true })
 
 -- ── Dashboard ─────────────────────────────────────────────────
 map("n", "<leader>;", function()
-  require("nvchad.dashboard").open()
+  -- ui v3.0 起 dashboard 模块已重命名为 nvdash
+  require("nvchad.nvdash").open()
 end, { desc = "Dashboard" })
 
 -- ── Lazy ──────────────────────────────────────────────────────

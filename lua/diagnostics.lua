@@ -99,7 +99,7 @@ M.check_perf = function()
     print("  1. 尝试极速模式: :FastMode")
   end
   if lines > BIG_FILE_LINES then
-    print("  " .. (is_turbo and "1" or "2") .. ". 大文件建议禁用 Treesitter: :TSBufDisable highlight")
+    print("  " .. (is_turbo and "1" or "2") .. ". 大文件建议禁用 Treesitter: :lua vim.treesitter.stop()")
   end
   if vim.o.cursorline then
     print("  " .. (is_turbo and (lines > BIG_FILE_LINES and "2" or "1") or (lines > BIG_FILE_LINES and "3" or "2")) .. ". 禁用光标行: :set nocursorline")
@@ -205,7 +205,7 @@ M.find_delay = function()
   print("\n" .. string.rep("=", 62))
   print("💡 快速测试建议:")
   print("1. 最简测试: nvim --clean")
-  print("2. 逐一排查: :set nocursorline, :set norelativenumber, :LspStop, :TSBufDisable highlight")
+  print("2. 逐一排查: :set nocursorline, :set norelativenumber, :LspStop, :lua vim.treesitter.stop()")
 end
 
 -- =============================================
