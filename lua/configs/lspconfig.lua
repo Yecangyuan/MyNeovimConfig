@@ -40,6 +40,7 @@ return {
         local dap = require "dap"
         local dapui = require "dapui"
         local dapgo = require "dap-go"
+        require("configs.dap.c")(dap)
 
         local python_path = vim.fn.exepath("python3") ~= "" and vim.fn.exepath("python3") or vim.fn.exepath("python")
         if python_path == "" then
@@ -80,10 +81,18 @@ return {
       end
 
       -- DAP 快捷键（首次使用时才加载 DAP）
-      vim.keymap.set("n", "<leader>bp", function() ensure_dap(); require("dap").toggle_breakpoint() end)
+      vim.keymap.set("n", "<leader>db", function()
+        ensure_dap()
+        require("dap").toggle_breakpoint()
+      end, { desc = "调试 - 设置或取消断点" })
+      local function continue()
+        ensure_dap()
+        require("dap").continue()
+      end
+      vim.keymap.set("n", "<leader>dc", continue, { desc = "调试 - 启动或继续" })
+      vim.keymap.set("n", "<F1>", continue, { desc = "调试 - 启动或继续" })
       vim.keymap.set("n", "<leader>gb", function() ensure_dap(); require("dap").run_to_cursor() end)
       vim.keymap.set("n", "<space>?", function() ensure_dap(); require("dapui").eval(nil, { enter = true }) end)
-      vim.keymap.set("n", "<F1>", function() ensure_dap(); require("dap").continue() end)
       vim.keymap.set("n", "<F2>", function() ensure_dap(); require("dap").step_into() end)
       vim.keymap.set("n", "<F3>", function() ensure_dap(); require("dap").step_over() end)
       vim.keymap.set("n", "<F4>", function() ensure_dap(); require("dap").step_out() end)
