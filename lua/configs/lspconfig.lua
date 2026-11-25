@@ -32,6 +32,11 @@ return {
       -- =============================================
       -- DAP 延迟加载（不再在打开文件时就加载 6 个调试插件）
       -- =============================================
+      local function close_debug_windows()
+        require("dapui").close()
+        require("dap").repl.close()
+      end
+
       local dap_initialized = false
       local function ensure_dap()
         if dap_initialized then return end
@@ -76,28 +81,33 @@ return {
 
         dap.listeners.before.attach.dapui_config = function() dapui.open() end
         dap.listeners.before.launch.dapui_config = function() dapui.open() end
-        dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
-        dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
+        dap.listeners.before.event_terminated.dapui_config = close_debug_windows
+        dap.listeners.before.event_exited.dapui_config = close_debug_windows
       end
 
       -- DAP 快捷键（首次使用时才加载 DAP）
-      vim.keymap.set("n", "<leader>db", function()
-        ensure_dap()
-        require("dap").toggle_breakpoint()
-      end, { desc = "调试 - 设置或取消断点" })
-      local function continue()
-        ensure_dap()
-        require("dap").continue()
+      local function map_dap(key, action, desc)
+        vim.keymap.set("n", key, function()
+          ensure_dap()
+          require("dap")[action]()
+        end, { desc = "调试 - " .. desc })
       end
-      vim.keymap.set("n", "<leader>dc", continue, { desc = "调试 - 启动或继续" })
-      vim.keymap.set("n", "<F1>", continue, { desc = "调试 - 启动或继续" })
-      vim.keymap.set("n", "<leader>gb", function() ensure_dap(); require("dap").run_to_cursor() end)
+
+      map_dap("<leader>db", "toggle_breakpoint", "设置或取消断点")
+      map_dap("<leader>dc", "continue", "启动或继续")
+      map_dap("<leader>dn", "step_over", "单步跳过")
+      map_dap("<leader>di", "step_into", "步入函数")
+      map_dap("<leader>do", "step_out", "步出函数")
+      map_dap("<leader>dp", "step_back", "反向单步")
+      map_dap("<leader>dr", "restart", "重启")
+      map_dap("<leader>gb", "run_to_cursor", "运行到光标处")
+
+      vim.keymap.set("n", "<leader>dq", function()
+        ensure_dap()
+        require("dap").terminate { all = true, hierarchy = true }
+        close_debug_windows()
+      end, { desc = "调试 - 结束并关闭面板" })
       vim.keymap.set("n", "<space>?", function() ensure_dap(); require("dapui").eval(nil, { enter = true }) end)
-      vim.keymap.set("n", "<F2>", function() ensure_dap(); require("dap").step_into() end)
-      vim.keymap.set("n", "<F3>", function() ensure_dap(); require("dap").step_over() end)
-      vim.keymap.set("n", "<F4>", function() ensure_dap(); require("dap").step_out() end)
-      vim.keymap.set("n", "<F5>", function() ensure_dap(); require("dap").step_back() end)
-      vim.keymap.set("n", "<F13>", function() ensure_dap(); require("dap").restart() end)
 
       -- =============================================
       -- LSP 服务器配置
