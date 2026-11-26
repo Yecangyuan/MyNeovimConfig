@@ -16,9 +16,8 @@ return {
       local capabilities = override.capabilities
 
       -- 全局兜底：未显式配置 capabilities 的 server（如 stylua、typescript-tools）
-      -- 取这份。显式设置可让 capabilities 不再依赖 blink.cmp 的加载时机（blink 已
-      -- 延迟到 InsertEnter 加载，而它自带的 plugin/blink-cmp.lua 也会写
-      -- vim.lsp.config("*")，届时会以本表为基础再合并，同值幂等）。
+      -- 取这份。Blink 的 plugin/blink-cmp.lua 也会写 vim.lsp.config("*")。
+      -- 显式设置 capabilities 可以避免依赖插件和 LSP 配置的加载顺序。
       --
       -- on_init 来自 override.lspconfig：chadrc.lua 里 lsp.semantic_tokens = false，
       -- 语义高亮需在 client 初始化时关掉。NvChad 原本把它挂在被遮蔽的

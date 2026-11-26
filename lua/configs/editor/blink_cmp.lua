@@ -7,10 +7,10 @@ return {
     -- 可选：如果你想用 copilot 补全
     -- "giuxtaposition/blink-cmp-copilot",
   },
-  -- 延迟到首次进入插入模式/命令行时加载，避免占用启动时间。
+  -- 界面启动后预热，给首次命令行输入留出初始化补全的时间。
   -- capabilities 由 configs/lspconfig.lua 自行通过 vim.lsp.config("*") 兜底，
   -- 因此不再依赖 blink 的加载时机。
-  event = { "InsertEnter", "CmdlineEnter" },
+  event = { "UIEnter", "InsertEnter", "CmdlineEnter" },
   version = "*",
 
   ---@module 'blink.cmp'
@@ -44,6 +44,23 @@ return {
       ["<C-e>"] = { "hide", "fallback" },
       ["<C-b>"] = { "scroll_documentation_up", "fallback" },
       ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+    },
+
+    cmdline = {
+      completion = {
+        list = {
+          selection = {
+            preselect = function()
+              return vim.fn.getcmdtype() ~= ":"
+            end,
+          },
+        },
+        menu = {
+          auto_show = function(ctx)
+            return ctx.mode == "cmdwin" or vim.fn.getcmdtype() == ":"
+          end,
+        },
+      },
     },
 
     appearance = {
