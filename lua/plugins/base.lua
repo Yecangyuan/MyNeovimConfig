@@ -71,6 +71,7 @@ return {
   { import = "configs.lang.c", enabled = s.lang.c or s.lang.cpp },
 
   -- 动作增强
+  { import = "configs.motions.treesitter_textobjects" },
   { import = "configs.motions.hop", enabled = s.motions.hop },
   { import = "configs.motions.marks", enabled = s.motions.marks },
   { import = "configs.motions.harpoon", enabled = s.motions.harpoon },
@@ -93,6 +94,7 @@ return {
   { import = "configs.ui.neodim", enabled = true },
 
   -- 实用工具
+  { import = "configs.utility.overseer" },
   { import = "configs.utility.lazygit", enabled = false },
   { import = "configs.utility.numb", enabled = true },
   { import = "configs.utility.zoxide", enabled = true },
