@@ -59,8 +59,8 @@ return {
   { import = "configs.editor.inc_rename", enabled = s.editor.inc_rename },
   { import = "configs.editor.smart_splits", enabled = s.editor.smart_splits },
   { import = "configs.editor.session", enabled = s.editor.sessions },
-  { import = "configs.editor.workspaces", enabled = false },
-  { import = "configs.editor.goto_preview", enabled = false },
+  { import = "configs.editor.workspaces" },
+  { import = "configs.editor.goto_preview" },
   { import = "configs.editor.flash", enabled = true },
 
   -- 语言支持
@@ -95,7 +95,7 @@ return {
 
   -- 实用工具
   { import = "configs.utility.overseer" },
-  { import = "configs.utility.lazygit", enabled = false },
+  { import = "configs.utility.lazygit" },
   { import = "configs.utility.numb", enabled = true },
   { import = "configs.utility.zoxide", enabled = true },
   { import = "configs.utility.hawtkey", enabled = true },

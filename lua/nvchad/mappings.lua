@@ -61,7 +61,6 @@ map("n", "<leader>fo", "<cmd>FzfLua oldfiles<CR>", { desc = "fzf find oldfiles" 
 map("n", "<leader>fz", "<cmd>FzfLua blines<CR>", { desc = "fzf find in current buffer" })
 map("n", "<leader>cm", "<cmd>FzfLua git_commits<CR>", { desc = "fzf git commits" })
 map("n", "<leader>gt", "<cmd>FzfLua git_status<CR>", { desc = "fzf git status" })
-map("n", "<leader>pt", "<cmd>FzfLua<CR>", { desc = "fzf pick" })
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "fzf find files" })
 map(
   "n",

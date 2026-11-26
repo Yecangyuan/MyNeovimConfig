@@ -56,7 +56,7 @@ return {
         -- can also set to a list of colors to define colors to choose from
         -- e.g {'#D8DEE9', '#5E81AC', '#88C0D0', '#EBCB8B', '#A3BE8C', '#B48EAD'}
       },
-      trouble = true, -- true: use trouble to open quickfix
+      trouble = not vim.g.turbo_mode and require("settings").ui.trouble,
       test_efm = false, -- errorfomat for quickfix, default mix mode, set to true will be efm only
       luasnip = true, -- enable included luasnip snippets
     }

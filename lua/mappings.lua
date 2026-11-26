@@ -157,10 +157,9 @@ map("n", "<leader>Ts", function()
   require("base46").toggle_transparency()
 end, { desc = "Nvchad - Toggle Transparency" })
 
--- ── Window / Workspaces ───────────────────────────────────────
+-- ── Window ────────────────────────────────────────────────────
 map("n", "<leader>|", "<CMD>vs <CR>", { desc = "Split - Vertical" })
 map("n", "<leader>-", "<CMD>sp <CR>", { desc = "Split - Horizontal" })
-map("n", "<leader>wo", "<CMD>WorkspacesOpen<CR>", { desc = "Workspaces - List" })
 
 -- Comment
 map("n", "<C-/>", function()
@@ -286,38 +285,6 @@ end
 
 -- ── Noice ─────────────────────────────────────────────────────
 map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Noice - Dismiss Notifications" })
-
--- ── Trouble ───────────────────────────────────────────────────
--- Trouble 关闭时不注册：gd/gi/gD 交还 override/lspconfig.lua 的 buffer-local LSP 映射
-if settings.ui.trouble then
-  map("n", "<leader>tr", ":TroubleToggle<CR>", { desc = "Trouble - Toggle" })
-  map("n", "<leader>wd", ":TroubleToggle workspace_diagnostics<CR>", { desc = "Trouble - Workspace Diagnostics" })
-  map("n", "<leader>cq", "<CMD>TroubleToggle quickfix<CR>", { desc = "Trouble - Quickfix" })
-  map("n", "<leader>td", "<CMD>TodoTrouble<CR>", { desc = "Trouble - Todo" })
-  map("n", "gd", "<CMD>Trouble lsp_definitions<CR>", { desc = "Trouble - Definition" })
-  map("n", "gi", "<CMD>Trouble lsp_implementations<CR>", { desc = "Trouble - Implementations" })
-  map("n", "gD", "<CMD>Trouble lsp_type_definitions<CR>", { desc = "Trouble - Type Definition" })
-end
-
--- ── Goto Preview ──────────────────────────────────────────────
-map("n", "<leader>pd", function()
-  require("goto-preview").goto_preview_definition()
-end, { desc = "GotoPreview - Definition" })
-map("n", "<leader>pt", function()
-  require("goto-preview").goto_preview_type_definition()
-end, { desc = "GotoPreview - Type Definition" })
-map("n", "<leader>pi", function()
-  require("goto-preview").goto_preview_implementation()
-end, { desc = "GotoPreview - Implementation" })
-map("n", "<leader>pD", function()
-  require("goto-preview").goto_preview_declaration()
-end, { desc = "GotoPreview - Declaration" })
-map("n", "<leader>px", function()
-  require("goto-preview").close_all_win()
-end, { desc = "GotoPreview - Close All" })
-map("n", "<leader>pr", function()
-  require("goto-preview").goto_preview_references()
-end, { desc = "GotoPreview - References" })
 
 -- ── Harpoon ───────────────────────────────────────────────────
 map("n", "<leader>ha", function()

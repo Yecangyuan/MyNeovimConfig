@@ -23,7 +23,7 @@ M.editor = {
 }
 
 M.ui = {
-  trouble = false,
+  trouble = true,
   notify = true,
   noice = true,
   -- 「高亮光标下单词」已由 configs/editor/mini.lua 的 mini.cursorword 承担，
